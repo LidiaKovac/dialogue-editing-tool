@@ -73,7 +73,7 @@ header {
 }
 main {
   height: calc(100vh - 40px);
-  $height: calc(100vh - 40px - 170px);
+  $height: calc(100vh - 40px - 250px);
   .editor {
     overflow-y: auto;
     min-height: 100%;
@@ -82,7 +82,11 @@ main {
     .ql-container {
       border-color: black;
     }
-
+    small {
+      span {
+        color: red;
+      }
+    }
     &__wrap {
       padding-right: 20px;
       :has(.ql-toolbar) {
