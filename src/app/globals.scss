@@ -1,0 +1,138 @@
+@use "tailwindcss";
+
+body {
+  font-family: var(--roboto_mono-font);
+  height: 100vh;
+  font-size: 10pt;
+  padding: 30px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h3,
+h4,
+h5 {
+  @apply font-bold;
+}
+
+h1 {
+  @apply text-4xl;
+  margin-block-end: 20px;
+}
+
+h2 {
+  @apply text-3xl;
+}
+
+h3 {
+  @apply text-2xl;
+  margin-block-end: 20px;
+}
+
+h4 {
+  @apply text-lg;
+}
+
+ul {
+  @apply list-disc;
+  padding-inline-start: 30px;
+  li .rule-description {
+    padding-block-end: 5px;
+  }
+  li .examples {
+    text-indent: 30px;
+    padding-block-end: 20px;
+  }
+}
+
+header {
+  padding-inline-start: 10px;
+  small {
+    display: block;
+    margin-block: 5px 15px;
+  }
+  .callout {
+    background-color: rgb(219, 219, 219);
+    padding: 20px;
+    width: fit-content;
+    blockquote {
+      border-left: 2px solid black;
+      padding-inline-start: 20px;
+      margin-block: 5px;
+      font-style: italic;
+      span {
+        background-color: yellow;
+      }
+    }
+  }
+}
+main {
+  height: calc(100vh - 40px);
+  $height: calc(100vh - 40px - 170px);
+  .editor {
+    overflow-y: auto;
+    min-height: 100%;
+    width: 75%;
+    .ql-toolbar,
+    .ql-container {
+      border-color: black;
+    }
+
+    &__wrap {
+      padding-right: 20px;
+      :has(.ql-toolbar) {
+        height: $height;
+        border-color: black;
+        font-family: var(--roboto_mono-font);
+
+        padding-inline: 10px 20px;
+        padding-block: 10px;
+        * {
+          white-space: pre-wrap;
+          tab-size: 5;
+        }
+        .ql-highlight {
+          background-color: yellow;
+        }
+      }
+    }
+    &__options {
+      width: 25%;
+      .textarea__wrap {
+        margin-block-end: 20px;
+
+        textarea {
+          width: 100%;
+          font-size: inherit;
+          padding: 5px;
+          background-color: white;
+        }
+      }
+      button {
+        width: 100%;
+        padding-block: 10px;
+        background-color: white;
+      }
+      .textarea__wrap,
+      button {
+        position: relative;
+        border: 2px solid black;
+        &::before {
+          content: "";
+          width: 100%;
+          height: 100%;
+          left: 5px;
+          top: 5px;
+          position: absolute;
+          background-color: black;
+          z-index: -1;
+        }
+      }
+    }
+  }
+}
