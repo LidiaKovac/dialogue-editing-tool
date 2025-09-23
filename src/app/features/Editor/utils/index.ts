@@ -21,7 +21,7 @@ export function applyHighlights(
         const newDelta = { ops: [] as Op[] }
 
         // First, remove all existing highlights by rebuilding the delta
-        currentContents.ops?.forEach((op: Op) => {
+        for (const op of currentContents.ops) {
             if (op.insert && typeof op.insert === "string") {
                 const attributes = { ...op.attributes }
                 delete attributes.highlight
@@ -33,14 +33,15 @@ export function applyHighlights(
             } else {
                 newDelta.ops.push(op)
             }
-        })
+        }
+
 
         // Set the content without highlights
         quill.setContents(newDelta.ops, "silent")
 
         // Now apply highlights
         const updatedText = quill.getText()
-        patterns.forEach(({ regex }) => {
+        for (const { regex } of patterns) {
             regex.lastIndex = 0
             let match
 
@@ -64,7 +65,8 @@ export function applyHighlights(
                     console.error("Error applying format:", error)
                 }
             }
-        })
+        }
+
 
         // Restore selection if it existed
         if (currentSelection) {

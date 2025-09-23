@@ -7,13 +7,18 @@ import "quill/dist/quill.snow.css"
 import Rules from "../../utils/regex.utils"
 import { applyHighlights } from "../../utils"
 import { useQuillSingleton } from "../../hooks/editor.hooks"
+import { registerBlot } from "../../utils/HighlightBlot.class"
 
 interface EditorProps {
-  readOnly?: boolean
-  defaultValue?: Delta | string
-  highlightPatterns?: { id: string; regex: RegExp }[]
-  onTextChange?: (delta: Delta, oldContents: Delta, source: Sources) => void
-  onSelectionChange?: (
+  readonly readOnly?: boolean
+  readonly defaultValue?: Delta | string
+  readonly highlightPatterns?: { id: string; regex: RegExp }[]
+  readonly onTextChange?: (
+    delta: Delta,
+    oldContents: Delta,
+    source: Sources
+  ) => void
+  readonly onSelectionChange?: (
     range: RangeStatic | null,
     oldRange: RangeStatic | null,
     source: Sources
@@ -41,39 +46,8 @@ export default function Editor({
       .then(({ default: Quill }) => {
         if (!isMounted || !editorRef.current) return
 
-        // Register HighlightBlot properly
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const Inline: any = Quill.import("blots/inline")
-
-        class HighlightBlot extends Inline {
-          static blotName = "highlight"
-          static tagName = "SPAN"
-          static className = "ql-highlight"
-
-          static create(value: boolean | string) {
-            const node = super.create()
-            if (value) {
-              node.setAttribute("data-highlight", "true")
-            }
-            return node
-          }
-
-          static formats(domNode: HTMLElement) {
-            return domNode.getAttribute("data-highlight") || true
-          }
-
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          format(name: string, value: any) {
-            if (name === this.constructor.blotName && value) {
-              this.domNode.setAttribute("data-highlight", "true")
-            } else {
-              super.format(name, value)
-            }
-          }
-        }
-
         // Register the format
-        Quill.register(HighlightBlot, true)
+        registerBlot(Quill)
 
         const quillOptions: QuillOptionsStatic = {
           theme: "snow",
@@ -84,7 +58,7 @@ export default function Editor({
           formats: ["bold", "italic", "underline", "strike", "highlight"],
         }
 
-        const quill = new Quill(editorRef.current!, quillOptions)
+        const quill = new Quill(editorRef.current, quillOptions)
         // 🔑 Register the quill instance with the singleton
         setQuill(quill)
         quillRef.current = quill
