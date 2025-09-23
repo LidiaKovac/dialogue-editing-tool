@@ -1,5 +1,48 @@
 import type QuillType from "quill"
 import type { Op } from "quill"
+
+/**
+ * Remove highlight attributes from an operation
+ */
+function removeHighlightFromOp(op: Op): Op {
+    if (op.insert && typeof op.insert === "string") {
+        const attributes = { ...op.attributes }
+        delete attributes.highlight
+        return {
+            insert: op.insert,
+            attributes: Object.keys(attributes).length > 0 ? attributes : undefined,
+        }
+    }
+    return op
+}
+
+/**
+ * Apply a single highlight pattern to the text
+ */
+function applyPattern(quill: QuillType, regex: RegExp, text: string): void {
+    regex.lastIndex = 0
+    let match
+    while ((match = regex.exec(text)) !== null) {
+        const start = match.index
+        const length = match[0].length
+
+        console.log(
+            `Highlighting "${match[0]}" at position ${start}-${start + length}`
+        )
+
+        if (length === 0) {
+            regex.lastIndex++
+            continue
+        }
+
+        try {
+            quill.formatText(start, length, "highlight", true, "silent")
+        } catch (error) {
+            console.error("Error applying format:", error)
+        }
+    }
+}
+
 /**
  * Apply highlights using a different approach - directly manipulating the Delta
  */
@@ -18,55 +61,18 @@ export function applyHighlights(
         console.log("Applying highlights...")
 
         // Create a new delta without highlights
-        const newDelta = { ops: [] as Op[] }
-
-        // First, remove all existing highlights by rebuilding the delta
-        for (const op of currentContents.ops) {
-            if (op.insert && typeof op.insert === "string") {
-                const attributes = { ...op.attributes }
-                delete attributes.highlight
-                newDelta.ops.push({
-                    insert: op.insert,
-                    attributes:
-                        Object.keys(attributes).length > 0 ? attributes : undefined,
-                })
-            } else {
-                newDelta.ops.push(op)
-            }
+        const newDelta = {
+            ops: currentContents.ops.map(removeHighlightFromOp)
         }
-
 
         // Set the content without highlights
         quill.setContents(newDelta.ops, "silent")
 
-        // Now apply highlights
+        // Apply all highlight patterns
         const updatedText = quill.getText()
-        for (const { regex } of patterns) {
-            regex.lastIndex = 0
-            let match
-
-            while ((match = regex.exec(updatedText)) !== null) {
-                const start = match.index
-                const length = match[0].length
-
-                console.log(
-                    `Highlighting "${match[0]}" at position ${start}-${start + length}`
-                )
-
-                if (length === 0) {
-                    regex.lastIndex++
-                    continue
-                }
-
-                // Apply the highlight format
-                try {
-                    quill.formatText(start, length, "highlight", true, "silent")
-                } catch (error) {
-                    console.error("Error applying format:", error)
-                }
-            }
-        }
-
+        patterns.forEach(({ regex }) => {
+            applyPattern(quill, regex, updatedText)
+        })
 
         // Restore selection if it existed
         if (currentSelection) {
