@@ -18,7 +18,6 @@ export const Options = () => {
           .map((t) => t.trim())
           .filter(Boolean)
       )
-      console.log("going")
 
       if (quill) {
         applyHighlights(quill, Rules.getRules())
@@ -38,7 +37,6 @@ export const Options = () => {
           .map((t) => t.trim())
           .filter(Boolean)
       )
-      console.log("going")
       if (quill) {
         applyHighlights(quill, Rules.getRules())
       }
