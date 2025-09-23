@@ -1,46 +1,10 @@
-<<<<<<< Updated upstream
-"use client";
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
-import {
-  BtnBold,
-  BtnItalic,
-  ContentEditableEvent,
-  Editor,
-  EditorProvider,
-  Toolbar,
-} from "react-simple-wysiwyg";
-=======
 "use client"
 import Editor from "./features/Editor/components/Editor/Editor.component"
-import { useRef, useState } from "react"
-import Rules from "./features/Editor/utils/regex.utils"
 import { RulesCollapsable } from "./components/Rules/Rules.component"
 import { Options } from "./features/Editor/components/Options/Options.component"
->>>>>>> Stashed changes
 
 export default function Home() {
-  const [html, setHTML] = useState<string>("");
-  const [wordCounter, setWordCounter] = useState<number>(0);
-  const onChange = (e: ContentEditableEvent) => {
-    const stripped = e.target.value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-    setWordCounter(stripped.split(" ").length);
-    setHTML(e.target.value);
-  };
   return (
-<<<<<<< Updated upstream
-    <EditorProvider>
-      <Editor value={html} onChange={onChange} className="text-white-500">
-        <Toolbar>
-          <BtnBold />
-          <BtnItalic />
-        </Toolbar>
-      </Editor>
-
-      <small className={wordCounter > 5000 ? "text-red-500" : ""}>Words: {wordCounter} / 5k</small>
-
-    </EditorProvider>
-  );
-=======
     <main className="flex gap-4">
       <div className="editor">
         <header>
@@ -81,5 +45,4 @@ export default function Home() {
       <Options />
     </main>
   )
->>>>>>> Stashed changes
 }
