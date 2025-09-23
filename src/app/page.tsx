@@ -1,4 +1,3 @@
-"use client"
 import Editor from "./features/Editor/components/Editor/Editor.component"
 import { RulesCollapsable } from "./components/Rules/Rules.component"
 import { Options } from "./features/Editor/components/Options/Options.component"
