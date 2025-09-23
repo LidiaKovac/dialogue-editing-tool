@@ -20,7 +20,9 @@ export const registerBlot = (Quill: any) => {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         format(name: string, value: any) {
-            if (name === this.constructor.blotName && value) {
+            const constructor = this.constructor as typeof HighlightBlot
+            if (name === constructor.blotName && value) {
+
                 this.domNode.dataset.highlight = "true"
             } else {
                 super.format(name, value)
