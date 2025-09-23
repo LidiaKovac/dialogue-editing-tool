@@ -1,0 +1,98 @@
+@use "tailwindcss";
+
+body {
+  font-family: var(--roboto_mono-font);
+  height: 100vh;
+  font-size: 10pt;
+  padding: 30px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h3,
+h4,
+h5 {
+  @apply font-bold;
+}
+
+h1 {
+  @apply text-4xl;
+  margin-block-end: 20px;
+}
+
+h2 {
+  @apply text-3xl;
+}
+
+h3 {
+  @apply text-2xl;
+  margin-block-end: 20px;
+}
+
+h4 {
+  @apply text-lg;
+}
+
+ul {
+  @apply list-disc;
+  padding-inline-start: 30px;
+  li .rule-description {
+    padding-block-end: 5px;
+  }
+  li .examples {
+    text-indent: 30px;
+    padding-block-end: 20px;
+  }
+}
+
+header {
+  padding-inline-start: 10px;
+  small {
+    display: block;
+    margin-block: 5px 15px;
+  }
+}
+main {
+  height: calc(100vh - 40px);
+  $height: calc(100vh - 40px - 170px);
+  .editor {
+    overflow-y: auto;
+    min-height: 100%;
+    width: 75%;
+    border-right: 1px solid lightgrey;
+
+    &__wrap {
+      padding-right: 20px;
+      :has(.ql-toolbar) {
+        height: $height;
+
+        font-family: var(--roboto_mono-font);
+
+        padding-inline: 10px 20px;
+        padding-block: 10px;
+        * {
+          white-space: pre-wrap;
+          tab-size: 5;
+        }
+        .ql-highlight {
+          background-color: yellow;
+        }
+      }
+    }
+    &__options {
+      width: 25%;
+      textarea {
+        width: 100%;
+        font-size: inherit;
+        border: 1px solid lightgrey;
+        padding: 5px;
+        margin-block-end: 20px;
+      }
+    }
+  }
+}
