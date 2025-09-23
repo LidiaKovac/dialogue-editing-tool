@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import type QuillType from "quill"
-import type { Delta, RangeStatic, Sources, QuillOptionsStatic } from "quill"
+import type { Delta, Range, EmitterSource, QuillOptions } from "quill"
 import "quill/dist/quill.snow.css"
 import Rules from "../../utils/regex.utils"
 import { applyHighlights } from "../../utils"
@@ -16,12 +16,12 @@ interface EditorProps {
   readonly onTextChange?: (
     delta: Delta,
     oldContents: Delta,
-    source: Sources
+    source: EmitterSource
   ) => void
   readonly onSelectionChange?: (
-    range: RangeStatic | null,
-    oldRange: RangeStatic | null,
-    source: Sources
+    range: Range | null,
+    oldRange: Range | null,
+    source: EmitterSource
   ) => void
 }
 
@@ -49,7 +49,7 @@ export default function Editor({
         // Register the format
         registerBlot(Quill)
 
-        const quillOptions: QuillOptionsStatic = {
+        const quillOptions: QuillOptions = {
           theme: "snow",
           modules: {
             toolbar: [["bold", "italic", "underline", "strike"]],

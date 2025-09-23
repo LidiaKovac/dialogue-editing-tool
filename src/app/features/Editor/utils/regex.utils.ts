@@ -76,7 +76,7 @@ export default class Rules {
     }
 
     private static get NEGATIVE_LOOKAHEAD_TAGS(): string {
-        return `(?!${this._dialogueTags.map(t => t + /\\b/).join("|")})`
+        return `(?!${this._dialogueTags.map(t => t + `\\b`).join("|")})`
     }
 
     private static get NEGATIVE_NOT_CAPTURING_LOOKAHEAD_CHARS(): string {
