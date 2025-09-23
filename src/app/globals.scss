@@ -73,10 +73,12 @@ header {
 main {
   height: calc(100vh - 40px);
   $height: calc(100vh - 40px - 250px);
+
   .editor {
     overflow-y: auto;
     min-height: 100%;
     width: 75%;
+    border-right: 1px solid black;
     .ql-toolbar,
     .ql-container {
       border-color: black;
@@ -136,6 +138,23 @@ main {
           z-index: -1;
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  main {
+    flex-direction: column;
+    .editor {
+      width: 100%;
+    border-right: unset;
+
+    }
+    .editor__options {
+      width: 100%;
+    }
+    .editor__wrap {
+      padding: 0;
     }
   }
 }
