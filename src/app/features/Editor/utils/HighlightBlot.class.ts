@@ -22,6 +22,7 @@ export const registerBlot = (Quill: any) => {
         format(name: string, value: any) {
             const constructor = this.constructor as typeof HighlightBlot
             if (name === constructor.blotName && value) {
+
                 this.domNode.dataset.highlight = "true"
             } else {
                 super.format(name, value)
