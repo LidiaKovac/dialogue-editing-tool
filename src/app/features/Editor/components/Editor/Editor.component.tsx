@@ -9,9 +9,7 @@ import { applyHighlights } from "../../utils"
 import { useQuillSingleton } from "../../hooks/editor.hooks"
 import { registerBlot } from "../../utils/HighlightBlot.class"
 
-interface EditorProps {}
-
-export default function Editor({}: EditorProps) {
+export default function Editor() {
   const editorRef = useRef<HTMLDivElement | null>(null)
   const quillRef = useRef<QuillType | null>(null)
   const highlightTimer = useRef<NodeJS.Timeout | null>(null)

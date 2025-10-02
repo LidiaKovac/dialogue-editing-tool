@@ -2,13 +2,13 @@
 import { useEffect, useRef, useState } from "react"
 
 export const FalsePositives = () => {
-  const [open, setIsOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false)
   const ref = useRef<HTMLDetailsElement>(null)
   useEffect(() => {
     ref.current?.setAttribute("aria-expanded", open ? "true" : "false")
   }, [open])
   return (
-    <details onToggle={(e) => setIsOpen(e.currentTarget.open)}>
+    <details onToggle={(e) => setOpen(e.currentTarget.open)}>
       <summary ref={ref}>On false positives</summary>
       <div className="callout">
         This is an AI-free tool. It&apos;s based on pattern recognition and it
