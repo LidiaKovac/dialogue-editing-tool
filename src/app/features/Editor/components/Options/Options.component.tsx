@@ -1,46 +1,61 @@
 "use client"
-import { ChangeEventHandler, useRef } from "react"
+import { ChangeEventHandler, useRef, useState } from "react"
 import Rules from "../../utils/regex.utils"
 import { applyHighlights } from "../../utils"
 import { useQuillSingleton } from "../../hooks/editor.hooks"
 
 export const Options = () => {
+  const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "))
+  const [tags, setTags] = useState<string>(Rules.DIALOGUE_TAGS.join(", "))
   const { quill } = useQuillSingleton()
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null) // Fixed: use ref for timeout
+  // Separate timeout refs for each input
+  const charTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const tagTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const handleCharChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
+    setChars(e.target.value)
+
+    if (charTimeoutRef.current) {
+      clearTimeout(charTimeoutRef.current)
     }
-    timeoutRef.current = setTimeout(() => {
-      Rules.setCharacters(
-        e.target.value
-          .split(",")
-          .map((t) => t.trim())
-          .filter(Boolean)
-      )
+
+    charTimeoutRef.current = setTimeout(() => {
+      const newChars = e.target.value
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean)
+
+      console.log("Setting characters to:", newChars)
+      Rules.setCharacters(newChars)
+      console.log("Rules now has characters:", Rules.CHARACTERS)
 
       if (quill) {
         applyHighlights(quill, Rules.getRules())
       }
-      timeoutRef.current = null
+      charTimeoutRef.current = null
     }, 150)
   }
 
   const handleTagsChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
+    setTags(e.target.value)
+
+    if (tagTimeoutRef.current) {
+      clearTimeout(tagTimeoutRef.current)
     }
-    timeoutRef.current = setTimeout(() => {
-      Rules.setDialogueTags(
-        e.target.value
-          .split(",")
-          .map((t) => t.trim())
-          .filter(Boolean)
-      )
+
+    tagTimeoutRef.current = setTimeout(() => {
+      const newTags = e.target.value
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean)
+
+      console.log("Setting tags to:", newTags)
+      Rules.setDialogueTags(newTags)
+      console.log("Rules now has tags:", Rules.DIALOGUE_TAGS)
+
       if (quill) {
         applyHighlights(quill, Rules.getRules())
       }
-      timeoutRef.current = null
+      tagTimeoutRef.current = null
     }, 150)
   }
   return (
@@ -52,7 +67,7 @@ export const Options = () => {
       <div className="textarea__wrap">
         <textarea
           rows={5}
-          defaultValue={Rules.CHARACTERS.join(", ")}
+          value={chars}
           name="characters"
           onChange={handleCharChange}
           placeholder="Emily, Dean, Sam, John, he, she, they"
@@ -65,7 +80,7 @@ export const Options = () => {
         <textarea
           rows={5}
           name="tags"
-          defaultValue={Rules.DIALOGUE_TAGS.join(", ")}
+          value={tags}
           onChange={handleTagsChange}
           placeholder="said, asked, replied, whispered, shouted"
         ></textarea>
