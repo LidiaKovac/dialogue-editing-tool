@@ -11,6 +11,7 @@ import { registerBlot } from "../../utils/HighlightBlot.class"
 
 interface EditorProps {}
 
+
 export default function Editor({}: EditorProps) {
   const editorRef = useRef<HTMLDivElement | null>(null)
   const quillRef = useRef<QuillType | null>(null)
