@@ -119,10 +119,8 @@ export default function Editor({
       setWords(count)
     }
 
-    // Initial count
     updateWordCount()
 
-    // Listen for changes
     quill.on("text-change", updateWordCount)
 
     return () => {
@@ -130,21 +128,25 @@ export default function Editor({
     }
   }, [quill])
 
-  // Handle prop changes separately
   useEffect(() => {
     if (quillRef.current) {
       applyHighlights(quillRef.current, highlightPatterns)
     }
   }, [highlightPatterns])
 
-  // Enable/disable readonly dynamically
   useEffect(() => {
     quillRef.current?.enable(!readOnly)
   }, [readOnly])
 
   return (
     <div>
-      <div ref={editorRef} />
+      <div
+        ref={editorRef}
+        role="textbox"
+        aria-label="Dialogue text editor"
+        aria-multiline="true"
+        tabIndex={0}
+      />
       <small>
         Words: {words} / 30k{" "}
         {words > 30_000 && (

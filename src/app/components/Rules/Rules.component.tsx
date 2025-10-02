@@ -1,8 +1,16 @@
+"use client"
+import { useEffect, useRef, useState } from "react"
+
 export const RulesCollapsable = () => {
+  const [open, setIsOpen] = useState<boolean>(false)
+  const ref = useRef<HTMLDetailsElement>(null)
+  useEffect(() => {
+    ref.current?.setAttribute("aria-expanded", open ? "true" : "false")
+  }, [open])
   return (
-    <details>
-      <summary>See the rules</summary>
-      <ul>
+    <details onToggle={(e) => setIsOpen(e.currentTarget.open)}>
+      <summary ref={ref}>See the rules</summary>
+      <ul role="list">
         <li>
           <h5>Comma With No Dialogue Tag</h5>
           <div className="rule-description">

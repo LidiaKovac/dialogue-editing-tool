@@ -46,19 +46,25 @@ export const Options = () => {
   return (
     <div className="editor__options">
       <h3 className="text-xl"> Options </h3>
-      <h4>Character names</h4>
+      <h4>
+        <label htmlFor="characters"> Character names</label>
+      </h4>
       <div className="textarea__wrap">
         <textarea
           rows={5}
           defaultValue={Rules.CHARACTERS.join(", ")}
+          name="characters"
           onChange={handleCharChange}
           placeholder="Emily, Dean, Sam, John, he, she, they"
         ></textarea>
       </div>
-      <h4>Dialogue tags</h4>
+      <h4>
+        <label htmlFor="tags">Dialogue tags</label>
+      </h4>
       <div className="textarea__wrap">
         <textarea
           rows={5}
+          name="tags"
           defaultValue={Rules.DIALOGUE_TAGS.join(", ")}
           onChange={handleTagsChange}
           placeholder="said, asked, replied, whispered, shouted"
