@@ -9,29 +9,7 @@ import { applyHighlights } from "../../utils"
 import { useQuillSingleton } from "../../hooks/editor.hooks"
 import { registerBlot } from "../../utils/HighlightBlot.class"
 
-interface EditorProps {
-  readonly readOnly?: boolean
-  readonly defaultValue?: Delta | string
-  readonly highlightPatterns?: { id: string; regex: RegExp }[]
-  readonly onTextChange?: (
-    delta: Delta,
-    oldContents: Delta,
-    source: EmitterSource
-  ) => void
-  readonly onSelectionChange?: (
-    range: Range | null,
-    oldRange: Range | null,
-    source: EmitterSource
-  ) => void
-}
-
-export default function Editor({
-  readOnly = false,
-  defaultValue,
-  highlightPatterns = Rules.getRules(),
-  onTextChange,
-  onSelectionChange,
-}: EditorProps) {
+export default function Editor() {
   const editorRef = useRef<HTMLDivElement | null>(null)
   const quillRef = useRef<QuillType | null>(null)
   const highlightTimer = useRef<NodeJS.Timeout | null>(null)
@@ -51,10 +29,11 @@ export default function Editor({
 
         const quillOptions: QuillOptions = {
           theme: "snow",
+
           modules: {
             toolbar: [["bold", "italic", "underline", "strike"]],
           },
-          readOnly,
+          readOnly: false,
           formats: ["bold", "italic", "underline", "strike", "highlight"],
         }
 
@@ -62,38 +41,25 @@ export default function Editor({
         // 🔑 Register the quill instance with the singleton
         setQuill(quill)
         quillRef.current = quill
-
-        // Set initial content
-        if (defaultValue) {
-          if (typeof defaultValue === "string") {
-            quill.clipboard.dangerouslyPasteHTML(defaultValue)
-          } else {
-            quill.setContents(defaultValue)
-          }
-        }
+        quillRef.current.root.setAttribute("spellcheck", "false")
 
         // Apply initial highlights after a short delay
         setTimeout(() => {
-          applyHighlights(quill, highlightPatterns)
+          applyHighlights(quill, Rules.getRules())
         }, 100)
 
         // Event: text-change
         quill.on("text-change", (delta, oldDelta, source) => {
-          onTextChange?.(delta, oldDelta, source)
-
           // Only debounce for user edits
           if (source === "user") {
             if (highlightTimer.current) clearTimeout(highlightTimer.current)
             highlightTimer.current = setTimeout(() => {
-              applyHighlights(quill, highlightPatterns)
+              applyHighlights(quill, Rules.getRules())
             }, 300)
           }
         })
 
         // Event: selection-change
-        quill.on("selection-change", (...args) => {
-          onSelectionChange?.(...args)
-        })
       })
       .catch(console.error)
 
@@ -119,10 +85,8 @@ export default function Editor({
       setWords(count)
     }
 
-    // Initial count
     updateWordCount()
 
-    // Listen for changes
     quill.on("text-change", updateWordCount)
 
     return () => {
@@ -130,21 +94,21 @@ export default function Editor({
     }
   }, [quill])
 
-  // Handle prop changes separately
   useEffect(() => {
     if (quillRef.current) {
-      applyHighlights(quillRef.current, highlightPatterns)
+      applyHighlights(quillRef.current, Rules.getRules())
     }
-  }, [highlightPatterns])
-
-  // Enable/disable readonly dynamically
-  useEffect(() => {
-    quillRef.current?.enable(!readOnly)
-  }, [readOnly])
+  }, [Rules.getRules()])
 
   return (
     <div>
-      <div ref={editorRef} />
+      <div
+        ref={editorRef}
+        role="textbox"
+        aria-label="Dialogue text editor"
+        aria-multiline="true"
+        tabIndex={0}
+      />
       <small>
         Words: {words} / 30k{" "}
         {words > 30_000 && (
