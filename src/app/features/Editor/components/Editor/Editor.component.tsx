@@ -9,16 +9,9 @@ import { applyHighlights } from "../../utils"
 import { useQuillSingleton } from "../../hooks/editor.hooks"
 import { registerBlot } from "../../utils/HighlightBlot.class"
 
-interface EditorProps {
-  readonly readOnly?: boolean
-  readonly defaultValue?: Delta | string
-  readonly highlightPatterns?: { id: string; regex: RegExp }[]
-}
+interface EditorProps {}
 
-export default function Editor({
-  readOnly = false,
-  defaultValue,
-}: EditorProps) {
+export default function Editor({}: EditorProps) {
   const editorRef = useRef<HTMLDivElement | null>(null)
   const quillRef = useRef<QuillType | null>(null)
   const highlightTimer = useRef<NodeJS.Timeout | null>(null)
@@ -42,7 +35,7 @@ export default function Editor({
           modules: {
             toolbar: [["bold", "italic", "underline", "strike"]],
           },
-          readOnly,
+          readOnly: false,
           formats: ["bold", "italic", "underline", "strike", "highlight"],
         }
 
@@ -51,15 +44,6 @@ export default function Editor({
         setQuill(quill)
         quillRef.current = quill
         quillRef.current.root.setAttribute("spellcheck", "false")
-
-        // Set initial content
-        if (defaultValue) {
-          if (typeof defaultValue === "string") {
-            quill.clipboard.dangerouslyPasteHTML(defaultValue)
-          } else {
-            quill.setContents(defaultValue)
-          }
-        }
 
         // Apply initial highlights after a short delay
         setTimeout(() => {
@@ -117,10 +101,6 @@ export default function Editor({
       applyHighlights(quillRef.current, Rules.getRules())
     }
   }, [Rules.getRules()])
-
-  useEffect(() => {
-    quillRef.current?.enable(!readOnly)
-  }, [readOnly])
 
   return (
     <div>
