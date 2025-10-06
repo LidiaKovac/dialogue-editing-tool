@@ -1,105 +1,30 @@
-"use client"
-
-import React, { useEffect, useRef, useState } from "react"
-import type QuillType from "quill"
-import type { Delta, Range, EmitterSource, QuillOptions } from "quill"
-import "quill/dist/quill.snow.css"
-import Rules from "../../utils/regex.utils"
-import { applyHighlights } from "../../utils"
-import { useQuillSingleton } from "../../hooks/editor.hooks"
-import { registerBlot } from "../../utils/HighlightBlot.class"
+"use client";
+import "quill/dist/quill.snow.css";
+import { useQuillEditor } from "../../hooks/editor-init.hooks";
+import { useEffect, useState } from "react";
+import Rules from "../../utils/regex.utils";
+import { STOP_WORDS } from "../../utils";
 
 export default function Editor() {
-  const editorRef = useRef<HTMLDivElement | null>(null)
-  const quillRef = useRef<QuillType | null>(null)
-  const highlightTimer = useRef<NodeJS.Timeout | null>(null)
-  const { quill, setQuill } = useQuillSingleton()
-  const isQuillCreated = useRef(false) // Prevent double creation
-  // Initialize Quill
+  const { editorRef, words, text } = useQuillEditor();
+  const [names, setNames] = useState<Map<string, number>>(new Map());
   useEffect(() => {
-    if (!editorRef.current) return
-    let isMounted = true
-    isQuillCreated.current = true
-    import("quill")
-      .then(({ default: Quill }) => {
-        if (!isMounted || !editorRef.current) return
+    if (!text) return;
 
-        // Register the format
-        registerBlot(Quill)
+    // const regex = /(?<=^|[\.\!?\:"“”\n]\s)[A-Z][a-zA-Z]+/g;
+    const regex = /[A-Z][a-zA-Z]+/g;
+    const stopWords = new Set(STOP_WORDS);
 
-        const quillOptions: QuillOptions = {
-          theme: "snow",
+    const matches = text.match(regex) || [];
+    const filteredNames = matches.filter((name) => !stopWords.has(name));
 
-          modules: {
-            toolbar: [["bold", "italic", "underline", "strike"]],
-          },
-          readOnly: false,
-          formats: ["bold", "italic", "underline", "strike", "highlight"],
-        }
-
-        const quill = new Quill(editorRef.current, quillOptions)
-        // 🔑 Register the quill instance with the singleton
-        setQuill(quill)
-        quillRef.current = quill
-        quillRef.current.root.setAttribute("spellcheck", "false")
-
-        // Apply initial highlights after a short delay
-        setTimeout(() => {
-          applyHighlights(quill, Rules.getRules())
-        }, 100)
-
-        // Event: text-change
-        quill.on("text-change", (delta, oldDelta, source) => {
-          // Only debounce for user edits
-          if (source === "user") {
-            if (highlightTimer.current) clearTimeout(highlightTimer.current)
-            highlightTimer.current = setTimeout(() => {
-              applyHighlights(quill, Rules.getRules())
-            }, 300)
-          }
-        })
-
-        // Event: selection-change
-      })
-      .catch(console.error)
-
-    return () => {
-      isMounted = false
-      // 🔑 Unregister the quill instance from singleton
-      setQuill(null)
-      if (highlightTimer.current) {
-        clearTimeout(highlightTimer.current)
-        highlightTimer.current = null
-      }
-      if (editorRef.current) editorRef.current.innerHTML = ""
-      quillRef.current = null
-    }
-  }, [setQuill])
-  const [words, setWords] = useState<number>(0)
-  useEffect(() => {
-    if (!quill) return
-
-    const updateWordCount = () => {
-      const text = quill.getText()
-      const count = text.trim().split(/\s+/).filter(Boolean).length
-      setWords(count)
-    }
-
-    updateWordCount()
-
-    quill.on("text-change", updateWordCount)
-
-    return () => {
-      quill.off("text-change", updateWordCount)
-    }
-  }, [quill])
-
-  useEffect(() => {
-    if (quillRef.current) {
-      applyHighlights(quillRef.current, Rules.getRules())
-    }
-  }, [Rules.getRules()])
-
+    const nameMap = new Map();
+    filteredNames.forEach((name) => {
+      nameMap.set(name, (nameMap.get(name) || 0) + 1);
+    });
+    console.log(nameMap);
+    setNames(nameMap);
+  }, [text]);
   return (
     <div>
       <div
@@ -119,5 +44,5 @@ export default function Editor() {
         )}
       </small>
     </div>
-  )
+  );
 }

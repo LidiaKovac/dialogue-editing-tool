@@ -2,7 +2,7 @@
 import { ChangeEventHandler, useRef, useState } from "react"
 import Rules from "../../utils/regex.utils"
 import { applyHighlights } from "../../utils"
-import { useQuillSingleton } from "../../hooks/editor.hooks"
+import { useQuillSingleton } from "../../hooks/editor-singleton.hooks"
 
 export const Options = () => {
   const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "))
@@ -24,9 +24,7 @@ export const Options = () => {
         .map((t) => t.trim())
         .filter(Boolean)
 
-      console.log("Setting characters to:", newChars)
       Rules.setCharacters(newChars)
-      console.log("Rules now has characters:", Rules.CHARACTERS)
 
       if (quill) {
         applyHighlights(quill, Rules.getRules())
@@ -48,9 +46,7 @@ export const Options = () => {
         .map((t) => t.trim())
         .filter(Boolean)
 
-      console.log("Setting tags to:", newTags)
       Rules.setDialogueTags(newTags)
-      console.log("Rules now has tags:", Rules.DIALOGUE_TAGS)
 
       if (quill) {
         applyHighlights(quill, Rules.getRules())
