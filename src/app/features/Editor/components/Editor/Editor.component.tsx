@@ -1,16 +1,23 @@
-"use client";
-import "quill/dist/quill.snow.css";
-import { useQuillEditor } from "../../hooks/editor-init.hooks";
-import { useEffect, useState } from "react";
-import { Lexicon } from "natural"
+"use client"
+import "quill/dist/quill.snow.css"
+import { useQuillEditor } from "../../hooks/editor-init.hooks"
+import { useCallback, useEffect } from "react"
+import Rules from "../../utils/regex.utils"
 
 export default function Editor() {
   const { editorRef, words, text } = useQuillEditor()
-  const [_, setNames] = useState<Map<string, number>>(new Map())
-  // useEffect(() => {
-  //   if (!text) return
-
-  // }, [text])
+  const getNames = useCallback(async () => {
+    const res = await fetch("http://localhost:3000/api", {
+      method: "POST",
+      body: text,
+    })
+    const names = await res.json()
+    Rules.setCharacters(names)
+  }, [text])
+  useEffect(() => {
+    if (!text) return
+    getNames()
+  }, [text])
   return (
     <div>
       <div

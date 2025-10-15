@@ -1,8 +1,9 @@
 "use client"
-import { ChangeEventHandler, useRef, useState } from "react"
+import { ChangeEventHandler, useEffect, useRef, useState } from "react"
 import Rules from "../../utils/regex.utils"
 import { applyHighlights } from "../../utils"
 import { useQuillSingleton } from "../../hooks/editor-singleton.hooks"
+import Quill from "quill"
 
 export const Options = () => {
   const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "))
@@ -11,6 +12,17 @@ export const Options = () => {
   // Separate timeout refs for each input
   const charTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const tagTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  useEffect(() => {
+    Rules.subscribeToChars(handleChars)
+  }, [quill])
+
+  const handleChars = (cs: string[]) => {
+    setChars(cs.join(", "))
+    if (quill) {
+      applyHighlights(quill, Rules.getRules())
+    }
+  }
+
   const handleCharChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setChars(e.target.value)
 

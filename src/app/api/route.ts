@@ -1,35 +1,19 @@
-import { BrillPOSTagger, Lexicon, RuleSet } from "natural"
 import { NextRequest, NextResponse } from "next/server"
-
+import { generateTagger, preprocessText } from "../lib/nlp/nlp.utils";
 export async function POST(body: NextRequest) {
+    const text = await body.text()
     const names = new Set()
-    const lexicon = new Lexicon("EN", "UH", "UH")
-    const ruleset = new RuleSet("EN")
-    const tagger = new BrillPOSTagger(lexicon, ruleset)
-
-    const clean = (await body.text()).replaceAll(new RegExp(/[\n,."'’”““?-]/, "gmi"), " ")
-        .split(" ")
-        .filter(Boolean)
-
-
+    const tagger = generateTagger()
+    const clean = preprocessText(text)
     const tagged = tagger.tag(clean)
-    const grouped = new Map()
-    for (const word of tagged.taggedWords) {
-        if(word.tag === "NNP") {
-            names.add(word.token)
-        } else if(word.tag === "UH" || word.tag === "RB") {
-            const llcw = word.token.toLocaleLowerCase()
-            grouped.set(llcw, [...grouped.get(llcw) ?? [], word.token])
+    const grouped = Object.groupBy(tagged.taggedWords, (t) => t.token.toLocaleLowerCase())
+    for (const key in grouped) {
+        if (!Object.hasOwn(grouped, key)) continue;
+
+        const word = grouped[key];
+        if (word?.every(e => e.tag === "NNP") && word.length > 1) {
+            names.add(key.at(0)?.toLocaleUpperCase() + key.substring(1).toLocaleLowerCase())
         }
     }
-    console.log(grouped)
-    grouped.forEach((value, key) => {
-        if (value?.length !== 1) {   
-            if (value?.every((w) => w.at(0) === key.at(0)?.toUpperCase())) {
-                names.add(key)
-            }
-        }
-    })
-
     return NextResponse.json([...names])
 }
