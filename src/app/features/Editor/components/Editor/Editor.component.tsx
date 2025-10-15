@@ -2,29 +2,15 @@
 import "quill/dist/quill.snow.css";
 import { useQuillEditor } from "../../hooks/editor-init.hooks";
 import { useEffect, useState } from "react";
-import Rules from "../../utils/regex.utils";
-import { STOP_WORDS } from "../../utils";
+import { Lexicon } from "natural"
 
 export default function Editor() {
-  const { editorRef, words, text } = useQuillEditor();
-  const [names, setNames] = useState<Map<string, number>>(new Map());
-  useEffect(() => {
-    if (!text) return;
+  const { editorRef, words, text } = useQuillEditor()
+  const [_, setNames] = useState<Map<string, number>>(new Map())
+  // useEffect(() => {
+  //   if (!text) return
 
-    // const regex = /(?<=^|[\.\!?\:"“”\n]\s)[A-Z][a-zA-Z]+/g;
-    const regex = /[A-Z][a-zA-Z]+/g;
-    const stopWords = new Set(STOP_WORDS);
-
-    const matches = text.match(regex) || [];
-    const filteredNames = matches.filter((name) => !stopWords.has(name));
-
-    const nameMap = new Map();
-    filteredNames.forEach((name) => {
-      nameMap.set(name, (nameMap.get(name) || 0) + 1);
-    });
-    console.log(nameMap);
-    setNames(nameMap);
-  }, [text]);
+  // }, [text])
   return (
     <div>
       <div
@@ -44,5 +30,5 @@ export default function Editor() {
         )}
       </small>
     </div>
-  );
+  )
 }
