@@ -171,7 +171,9 @@ export default class Rules {
      * @public
      */
     public static setCharacters(chars: string[]): void {
-        this._characters = [...chars] // Create a copy to prevent external mutation
+        const pronouns = ["he", "she", "they"]
+        const withPronouns = new Set([...chars, ...pronouns])
+        this._characters = [...withPronouns] // Create a copy to prevent external mutation
         this._subs.forEach(s => s(this._characters))
     }
 

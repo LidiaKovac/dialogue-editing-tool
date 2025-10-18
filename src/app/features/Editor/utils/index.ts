@@ -1,28 +1,6 @@
 import type QuillType from "quill"
 import type { Op } from "quill"
 
-export const STOP_WORDS = [
-  "A", "An", "The", "And", "But", "Or", "Nor", "So", "For", "Yet",
-  "At", "By", "From", "In", "Into", "Near", "Of", "On", "To", "With",
-  "About", "After", "Against", "Among", "Before", "Between", "During",
-  "Since", "Through", "Throughout", "Within", "Without",
-  "Is", "Are", "Was", "Were", "Be", "Been", "Being", "Do", "Does", "Did",
-  "Has", "Have", "Had", "Am", "Can", "Could", "Will", "Would", "Shall", "Should",
-  "May", "Might", "Must", "Ought",
-  "I", "You", "He", "She", "It", "We", "They", "Me", "Him", "Her", "Us", "Them",
-  "My", "Your", "His", "Her", "Its", "Our", "Their",
-  "Mine", "Yours", "Hers", "Ours", "Theirs",
-  "This", "That", "These", "Those",
-  "Here", "There", "Where",
-  "When", "Who", "Whom", "Which", "What",
-  "All", "Any", "Both", "Each", "Few", "More", "Most", "Other", "Some", "Such",
-  "Not", "No", "Yes", "If", "Then", "Else", "Than",
-  "Also", "Very", "Too", "Just", "Only", "Even",
-  "Once", "Still", "Yet", "So",
-  "Because", "Since", "Although", "Though", "While", "Whereas"
-];
-
-
 /**
  * Remove highlight attributes from an operation
  */

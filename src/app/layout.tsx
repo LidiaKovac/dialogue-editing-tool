@@ -6,6 +6,39 @@ import { Roboto_Mono } from "next/font/google"
 const font = Roboto_Mono({
   variable: "--roboto_mono-font",
 })
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "The Dialogue Thing",
+  "url": "https://dialogue-thing.netlify.app",
+  "logo": "https://dialogue-thing.netlify.app/favicon-32x32.png",
+  "applicationCategory": "WritingTool",
+  "operatingSystem": "Web",
+  "softwareVersion": "1.0",
+  "inLanguage": "en",
+  "author": {
+    "@type": "Person",
+    "name": "Lidia Kovac"
+  },
+  "creator": {
+    "@type": "Person",
+    "name": "Lidia Kovac"
+  },
+  "description": "The Dialogue Thing is a free dialogue editor with real-time grammar validation, character tracking, and intelligent formatting suggestions—perfect for novelists, screenwriters, and content creators.",
+  "datePublished": "2025-10-01",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Real-time grammar validation",
+    "Character dialogue tracking",
+    "Intelligent formatting suggestions",
+    "Speech attribution checking",
+    "Punctuation error detection"
+  ]
+}
 export const metadata: Metadata = {
   // Basic Meta Tags
   title: "The Dialogue Thing - Edit your dialogue for free!",
@@ -73,6 +106,7 @@ export const metadata: Metadata = {
 
   // Additional structured data
   other: {
+    'application/ld+json': JSON.stringify(jsonld),
     // App-specific meta tags
     "application-name": "The Dialogue Thing",
     "mobile-web-app-capable": "yes",
@@ -111,9 +145,13 @@ export const metadata: Metadata = {
         url: "/safari-pinned-tab.svg",
         color: "#ffffff", // Adjust to your brand color
       },
+      
     ],
   },
+
 }
+
+
 
 export default function RootLayout({
   children,

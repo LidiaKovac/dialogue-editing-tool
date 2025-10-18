@@ -7,7 +7,7 @@ import Rules from "../../utils/regex.utils"
 export default function Editor() {
   const { editorRef, words, text } = useQuillEditor()
   const getNames = useCallback(async () => {
-    const res = await fetch("http://localhost:3000/api", {
+    const res = await fetch(process.env.NEXT_PUBLIC_URL + "api", {
       method: "POST",
       body: text,
     })

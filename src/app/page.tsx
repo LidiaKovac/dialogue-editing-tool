@@ -2,8 +2,10 @@ import Editor from "./features/Editor/components/Editor/Editor.component"
 import { RulesCollapsable } from "./components/Rules/Rules.component"
 import { Options } from "./features/Editor/components/Options/Options.component"
 import { FalsePositives } from "./components/FalsePositives/FalsePositives.component"
+import dynamic from "next/dynamic"
 
 export default function Home() {
+  const Options = dynamic(() => import("./features/Editor/components/Options/Options.component").then(m => m.Options), {loading: () => <div>Loading options...</div>})
   return (
     <main className="flex gap-4">
       <div className="editor">
