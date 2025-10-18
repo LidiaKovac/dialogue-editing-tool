@@ -1,12 +1,12 @@
 "use client"
 import "quill/dist/quill.snow.css"
 import { useQuillEditor } from "../../hooks/editor-init.hooks"
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import Rules from "../../utils/regex.utils"
 
 export default function Editor() {
   const { editorRef, words, text } = useQuillEditor()
-  const getNames = useCallback(async () => {
+  const getNames = () => useMemo(async () => {
     const res = await fetch(process.env.NEXT_PUBLIC_URL + "api", {
       method: "POST",
       body: text,
@@ -25,6 +25,7 @@ export default function Editor() {
         role="textbox"
         aria-label="Dialogue text editor"
         aria-multiline="true"
+        
         tabIndex={0}
       />
       <small>
