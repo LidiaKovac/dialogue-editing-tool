@@ -25,7 +25,6 @@ export default function Editor() {
         role="textbox"
         aria-label="Dialogue text editor"
         aria-multiline="true"
-        
         tabIndex={0}
       />
       <small>
