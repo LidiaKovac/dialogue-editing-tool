@@ -6,7 +6,7 @@ import Rules from "../../utils/regex.utils"
 
 export default function Editor() {
   const { editorRef, words, text } = useQuillEditor()
-const [names, setNames] = useState(null);
+const [names, setNames] = useState([]);
 
 useEffect(() => {
   if (!text) return; // guard clause if text is empty

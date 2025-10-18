@@ -12,7 +12,7 @@ export default class Rules {
      * @private
      * @static
      */
-    private static _characters: string[] = ["Emily", "Dean", "Sam", "John", "he", "she", "they"]
+    private static _characters: string[] = []
 
     /**
      * Internal storage for dialogue tags used to indicate speech attribution.
@@ -172,8 +172,8 @@ export default class Rules {
      */
     public static setCharacters(chars: string[]): void {
         const pronouns = ["he", "she", "they"]
-        const withPronouns = new Set([...chars, ...pronouns])
-        this._characters = [...withPronouns] // Create a copy to prevent external mutation
+        const withPronouns = new Set([...(chars.length ? chars : []), ...pronouns])
+        this._characters = Array.from(withPronouns)// Create a copy to prevent external mutation
         for (const sub of this._subs) {
             sub(this._characters)
         }
