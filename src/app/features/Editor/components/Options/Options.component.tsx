@@ -3,7 +3,6 @@ import { ChangeEventHandler, useEffect, useRef, useState } from "react"
 import Rules from "../../utils/regex.utils"
 import { applyHighlights } from "../../utils"
 import { useQuillSingleton } from "../../hooks/editor-singleton.hooks"
-import Quill from "quill"
 
 export const Options = () => {
   const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "))

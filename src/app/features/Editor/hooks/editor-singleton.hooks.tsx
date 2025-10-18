@@ -5,23 +5,28 @@ import type QuillType from "quill";
 // Module-level singleton - not global, but scoped to this module
 class QuillSingleton {
   private instance: QuillType | null = null;
-  private subscribers: Set<() => void> = new Set();
+  private readonly subscribers: Set<() => void> = new Set();
 
   setInstance(quill: QuillType | null) {
     this.instance = quill;
     // Notify all subscribers of the change
-    this.subscribers.forEach((callback) => callback());
+    for (const cb of this.subscribers) {
+      cb()
+    }
   }
 
   getInstance(): QuillType | null {
     return this.instance;
   }
 
-  subscribe(callback: () => void) {
-    this.subscribers.add(callback);
-    return () => {
-      this.subscribers.delete(callback);
-    };
+  subscribe(callback: (() => void) | null) {
+    if(callback) {
+
+      this.subscribers.add(callback);
+      return () => {
+        this.subscribers.delete(callback);
+      };
+    }
   }
 }
 
@@ -31,11 +36,11 @@ export const useQuillSingleton = () => {
   const forceUpdate = useRef<() => void>(null);
 
   // Force re-render when quill instance changes
-  const [, setTick] = useState(0);
+  const [_, setTick] = useState(0);
   forceUpdate.current = () => setTick((prev) => prev + 1);
 
   useEffect(() => {
-    const unsubscribe = quillSingleton.subscribe(forceUpdate.current!);
+    const unsubscribe = quillSingleton.subscribe(forceUpdate.current);
     return unsubscribe;
   }, []);
 

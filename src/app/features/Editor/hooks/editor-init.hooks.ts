@@ -13,13 +13,14 @@ export const useQuillEditor = () => {
   const quillRef = useRef<QuillType | null>(null);
   const highlightTimer = useRef<NodeJS.Timeout | null>(null);
   const isQuillCreated = useRef(false);
-
   const { quill, setQuill } = useQuillSingleton();
 
   useEffect(() => {
     if (!editorRef.current) return;
+
     let isMounted = true;
     isQuillCreated.current = true;
+
     import("quill")
       .then(({ default: Quill }) => {
         if (!isMounted || !editorRef.current) return;
@@ -28,7 +29,6 @@ export const useQuillEditor = () => {
 
         const quillOptions: QuillOptions = {
           theme: "snow",
-
           modules: {
             toolbar: [["bold", "italic", "underline", "strike"]],
           },
@@ -36,37 +36,59 @@ export const useQuillEditor = () => {
           formats: ["bold", "italic", "underline", "strike", "highlight"],
         };
 
-        const quill = new Quill(editorRef.current, quillOptions);
-        setQuill(quill);
-        quillRef.current = quill;
-        quillRef.current.root.setAttribute("spellcheck", "false");
-
-        setTimeout(() => {
-          applyHighlights(quill, Rules.getRules());
-        }, 100);
-
-        quill.on("text-change", (delta, oldDelta, source) => {
-          if (source === "user") {
-            if (highlightTimer.current) clearTimeout(highlightTimer.current);
-            highlightTimer.current = setTimeout(() => {
-              applyHighlights(quill, Rules.getRules());
-            }, 300);
-          }
-        });
+        initializeQuill(Quill, quillOptions);
       })
       .catch(console.error);
 
     return () => {
       isMounted = false;
-      setQuill(null);
-      if (highlightTimer.current) {
-        clearTimeout(highlightTimer.current);
-        highlightTimer.current = null;
-      }
-      if (editorRef.current) editorRef.current.innerHTML = "";
-      quillRef.current = null;
+      cleanUp();
     };
   }, [setQuill]);
+
+  function initializeQuill(Quill: typeof QuillType, options: QuillOptions) {
+    const quill = new Quill(editorRef.current!, options);
+    setQuill(quill);
+    quillRef.current = quill;
+
+    quill.root.setAttribute("spellcheck", "false");
+
+    // Delay to ensure highlights apply after initialization
+    setTimeout(() => applyHighlights(quill, Rules.getRules()), 100);
+
+    quill.on("text-change", onTextChange);
+  }
+
+  function onTextChange(delta: any, oldDelta: any, source: string) {
+    if (source !== "user") return;
+
+    if (highlightTimer.current) clearTimeout(highlightTimer.current);
+
+    highlightTimer.current = setTimeout(() => {
+      if (quillRef.current) {
+        applyHighlights(quillRef.current, Rules.getRules());
+      }
+    }, 300);
+  }
+
+  function cleanUp() {
+    setQuill(null);
+
+    if (highlightTimer.current) {
+      clearTimeout(highlightTimer.current);
+      highlightTimer.current = null;
+    }
+
+    if (editorRef.current) {
+      editorRef.current.innerHTML = "";
+    }
+
+    if (quillRef.current) {
+      quillRef.current.off("text-change", onTextChange);
+      quillRef.current = null;
+    }
+  }
+
   useEffect(() => {
     if (!quill) return;
 
@@ -77,7 +99,6 @@ export const useQuillEditor = () => {
     };
 
     updateWordCount();
-
     quill.on("text-change", updateWordCount);
 
     return () => {
@@ -90,5 +111,6 @@ export const useQuillEditor = () => {
       applyHighlights(quillRef.current, Rules.getRules());
     }
   }, [Rules.getRules()]);
+
   return { editorRef, words, text: quill?.getText() };
 };

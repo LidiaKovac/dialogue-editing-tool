@@ -5,7 +5,7 @@ type Subscriber = ((cs: string[]) => any)
 * This class automatically updates all regular expressions when characters or dialogue tags change.
 */
 export default class Rules {
-    private static _subs: Subscriber[] = []
+    private static readonly _subs: Subscriber[] = []
     /**
      * Internal storage for character names and pronouns used in dialogue validation.
      * @type {string[]}
@@ -174,7 +174,9 @@ export default class Rules {
         const pronouns = ["he", "she", "they"]
         const withPronouns = new Set([...chars, ...pronouns])
         this._characters = [...withPronouns] // Create a copy to prevent external mutation
-        this._subs.forEach(s => s(this._characters))
+        for (const sub of this._subs) {
+            sub(this._characters)
+        }
     }
 
     /**

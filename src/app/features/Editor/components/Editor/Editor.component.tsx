@@ -1,23 +1,31 @@
 "use client"
 import "quill/dist/quill.snow.css"
 import { useQuillEditor } from "../../hooks/editor-init.hooks"
-import { useCallback, useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Rules from "../../utils/regex.utils"
 
 export default function Editor() {
   const { editorRef, words, text } = useQuillEditor()
-  const getNames = () => useMemo(async () => {
+const [names, setNames] = useState(null);
+
+useEffect(() => {
+  if (!text) return; // guard clause if text is empty
+
+  const fetchNames = async () => {
     const res = await fetch(process.env.NEXT_PUBLIC_URL + "api", {
       method: "POST",
       body: text,
-    })
-    const names = await res.json()
-    Rules.setCharacters(names)
-  }, [text])
-  useEffect(() => {
-    if (!text) return
-    getNames()
-  }, [text])
+    });
+    const result = await res.json();
+    setNames(result);
+  };
+
+  fetchNames();
+}, [text]);
+useEffect(() => {
+  if(!names) return 
+  Rules.setCharacters(names)
+}, [names])
   return (
     <div>
       <div

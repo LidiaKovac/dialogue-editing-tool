@@ -1,7 +1,6 @@
 import { BrillPOSTagger, Lexicon, RuleSet, ruleTemplates, Sentence, TransformationRule } from "natural";
 import countries from "../../api/countries.json";
 import names from "../../api/names.json";
-import Rules from "@/app/features/Editor/utils/regex.utils";
 
 const ruleFactory = (rule: [string, string, string, string], cb: (s: Sentence, i: number, p?: any) => boolean) => {
     ruleTemplates[rule[2]] = {
@@ -72,15 +71,15 @@ export const generateTagger = () => {
 
 
 export const preprocessText = (text: string) => {
-    let preprocessedText = text.replaceAll(/[a-zA-Z]+-[\s”"']/gmi, "");
+    let preprocessedText = text.replaceAll(/[a-zA-Z]+-(?=[\s”"'])[ \s”"']/gmi, "");
     const arr = [...countries.filter(w => w.includes(' ')), ...names.filter(n => n.includes(" "))]
 
     for (const spaced of arr) {
-        const escaped = spaced.replace(/[.*+?^${}()|[\]\\]/gm, '\\$&'); //escapes special chars
-        const re = new RegExp(`\\b${escaped}\\b`, 'gim'); //takes word with word boundary (\b)
-        preprocessedText = preprocessedText.replace(re, spaced.replace(/ /g, '_'));
+        const escaped = spaced.replaceAll(/[.*+?^${}()|[\]\\]/gm, '\\$&'); //escapes special chars
+        const re = /\\b$/ + escaped + /\\b/gim; //takes word with word boundary (\b)
+        preprocessedText = preprocessedText.replaceAll(re, spaced.replace(/ /g, '_'));
     }
-    return preprocessedText.replaceAll(new RegExp(/[\n,."'’”““\t?0-9-]/, "gmi"), " ")
+    return preprocessedText.replaceAll(new RegExp(/[\n,."'’”“\t?0-9-]/, "gmi"), " ")
         .split(" ")
         .filter(Boolean)
 }
