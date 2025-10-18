@@ -1,15 +1,18 @@
+type Subscriber = ((cs: string[]) => any)
+
 /**
 * A reactive utility class for managing dialogue formatting rules and validation patterns.
 * This class automatically updates all regular expressions when characters or dialogue tags change.
 */
 export default class Rules {
+    private static readonly _subs: Subscriber[] = []
     /**
      * Internal storage for character names and pronouns used in dialogue validation.
      * @type {string[]}
      * @private
      * @static
      */
-    private static _characters: string[] = ["Emily", "Dean", "Sam", "John", "he", "she", "they"]
+    private static _characters: string[] = []
 
     /**
      * Internal storage for dialogue tags used to indicate speech attribution.
@@ -168,7 +171,12 @@ export default class Rules {
      * @public
      */
     public static setCharacters(chars: string[]): void {
-        this._characters = [...chars] // Create a copy to prevent external mutation
+        const pronouns = ["he", "she", "they"]
+        const withPronouns = new Set([...(chars.length ? chars : []), ...pronouns])
+        this._characters = Array.from(withPronouns)// Create a copy to prevent external mutation
+        for (const sub of this._subs) {
+            sub(this._characters)
+        }
     }
 
     /**
@@ -196,5 +204,9 @@ export default class Rules {
             { id: "no-dialogue-after-punctuation", regex: this.NO_DIALOGUE_TAG_AFTER_PUNCTUATION },
             { id: "capital-after-punctuation", regex: this.CAPITAL_AFTER_PUNCTUATION },
         ]
+    }
+
+    public static subscribeToChars(s: Subscriber) {
+        this._subs.push(s)
     }
 }
