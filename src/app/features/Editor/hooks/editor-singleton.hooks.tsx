@@ -36,7 +36,7 @@ export const useQuillSingleton = () => {
   const forceUpdate = useRef<() => void>(null);
 
   // Force re-render when quill instance changes
-  const [_, setTick] = useState(0);
+  const [tick, setTick] = useState(0);
   forceUpdate.current = () => setTick((prev) => prev + 1);
 
   useEffect(() => {

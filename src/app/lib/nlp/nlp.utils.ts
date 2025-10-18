@@ -71,14 +71,14 @@ export const generateTagger = () => {
 
 
 export const preprocessText = (text: string) => {
-    let preprocessedText = text.replaceAll(/[a-zA-Z]{0,10}-(?: |\u00A0|”|"|')/gmi, "");
+    let preprocessedText = text.replaceAll(/[a-zA-Z]{0,10}-[\u00A0”"']/gmi, "");
     
     const arr = [...countries.filter(w => w.includes(' ')), ...names.filter(n => n.includes(" "))]
 
     for (const spaced of arr) {
-        const escaped = spaced.replaceAll(/[.*+?^${}()|[\]\\]/gm, '\\$&'); //escapes special chars
+        const escaped = spaced.replaceAll(/[.*+?^${}()|[\]\\]/gm, String.raw`\$&`); //escapes special chars
         const re = /\\b$/ + escaped + /\\b/gim; //takes word with word boundary (\b)
-        preprocessedText = preprocessedText.replaceAll(re, spaced.replace(/ /g, '_'));
+        preprocessedText = preprocessedText.replaceAll(re, spaced.replaceAll(/ /g, '_'));
     }
     return preprocessedText.replaceAll(new RegExp(/[\n,."'’”“\t?0-9-]/, "gmi"), " ")
         .split(" ")

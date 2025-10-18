@@ -1,7 +1,7 @@
 "use client"
 import "quill/dist/quill.snow.css"
 import { useQuillEditor } from "../../hooks/editor-init.hooks"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import Rules from "../../utils/regex.utils"
 
 export default function Editor() {
