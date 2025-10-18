@@ -71,7 +71,8 @@ export const generateTagger = () => {
 
 
 export const preprocessText = (text: string) => {
-    let preprocessedText = text.replaceAll(/[a-zA-Z]+-(?=[\s”"'])[ \s”"']/gmi, "");
+    let preprocessedText = text.replaceAll(/[a-zA-Z]+-[\s”"']/gmi, "");
+    
     const arr = [...countries.filter(w => w.includes(' ')), ...names.filter(n => n.includes(" "))]
 
     for (const spaced of arr) {
