@@ -26,10 +26,6 @@ function applyPattern(quill: QuillType, regex: RegExp, text: string): void {
         const start = match.index
         const length = match[0].length
 
-        console.log(
-            `Highlighting "${match[0]}" at position ${start}-${start + length}`
-        )
-
         if (length === 0) {
             regex.lastIndex++
             continue
@@ -57,9 +53,6 @@ export function applyHighlights(
         const text = quill.getText()
         const currentContents = quill.getContents()
 
-        console.log("Current text:", text)
-        console.log("Applying highlights...")
-
         // Create a new delta without highlights
         const newDelta = {
             ops: currentContents.ops.map(removeHighlightFromOp)
@@ -78,9 +71,6 @@ export function applyHighlights(
         if (currentSelection) {
             quill.setSelection(currentSelection, "silent")
         }
-
-        // Debug: log the final contents
-        console.log("Final delta:", quill.getContents())
     } catch (error) {
         console.error("Error in applyHighlights:", error)
     }
