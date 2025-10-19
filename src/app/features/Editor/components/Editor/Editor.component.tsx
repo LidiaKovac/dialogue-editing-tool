@@ -1,31 +1,31 @@
-"use client"
-import "quill/dist/quill.snow.css"
-import { useQuillEditor } from "../../hooks/editor-init.hooks"
-import { useEffect, useState } from "react"
-import Rules from "../../utils/regex.utils"
+"use client";
+import "quill/dist/quill.snow.css";
+import { useQuillEditor } from "../../hooks/editor-init.hooks";
+import { useEffect, useState } from "react";
+import Rules from "../../utils/regex.utils";
 
 export default function Editor() {
-  const { editorRef, words, text } = useQuillEditor()
-const [names, setNames] = useState([]);
+  const { editorRef, words, text } = useQuillEditor();
+  const [names, setNames] = useState([]);
 
-useEffect(() => {
-  if (!text) return; // guard clause if text is empty
+  useEffect(() => {
+    if (!text) return; // guard clause if text is empty
 
-  const fetchNames = async () => {
-    const res = await fetch(process.env.NEXT_PUBLIC_URL + "api", {
-      method: "POST",
-      body: text,
-    });
-    const result = await res.json();
-    setNames(result);
-  };
+    const fetchNames = async () => {
+      const res = await fetch(process.env.NEXT_PUBLIC_URL + "api", {
+        method: "POST",
+        body: text,
+      });
+      const result = await res.json();
+      setNames(result);
+    };
 
-  fetchNames();
-}, [text]);
-useEffect(() => {
-  if(!names) return 
-  Rules.setCharacters(names)
-}, [names])
+    fetchNames();
+  }, [text]);
+  useEffect(() => {
+    if (!names) return;
+    Rules.setCharacters(names);
+  }, [names]);
   return (
     <div>
       <div
@@ -45,5 +45,5 @@ useEffect(() => {
         )}
       </small>
     </div>
-  )
+  );
 }
