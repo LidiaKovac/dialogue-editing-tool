@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useQuillSingleton } from "./editor-singleton.hooks";
 import type QuillType from "quill";
 import { registerBlot } from "../utils/HighlightBlot.class";
 import { QuillOptions } from "quill";
-import { applyHighlights, buildHighlightDelta } from "../utils";
+import { applyHighlights } from "../utils";
 import Rules from "../utils/regex.utils";
 
 export const useQuillEditor = () => {
@@ -13,14 +13,16 @@ export const useQuillEditor = () => {
   const quillRef = useRef<QuillType | null>(null);
   const highlightTimer = useRef<NodeJS.Timeout | null>(null);
   const isQuillCreated = useRef(false);
-  const worker = useRef<Worker>(null);
   const { quill, setQuill } = useQuillSingleton();
+
+  const applyHighlightsCB = useCallback(
+    async (quill: QuillType) => applyHighlights(quill, Rules.getRules()),
+    [quill, Rules.getRules()]
+  );
 
   useEffect(() => {
     if (!editorRef.current) return;
-    worker.current = new Worker(
-      new URL("../utils/analyze.ts", import.meta.url)
-    );
+
     let isMounted = true;
     isQuillCreated.current = true;
 
@@ -42,20 +44,7 @@ export const useQuillEditor = () => {
         initializeQuill(Quill, quillOptions);
       })
       .catch(console.error);
-    const handleWorkerMsg = (
-      e: MessageEvent<{
-        textLength: number;
-        highlights: { start: number; length: number }[];
-      }>
-    ) => {
-      buildHighlightDelta(e.data.textLength, e.data.highlights).then(
-        (delta) => {
-          quillRef.current?.updateContents(delta, "silent");
-        }
-      );
-    };
 
-    worker.current?.addEventListener("message", handleWorkerMsg);
     return () => {
       isMounted = false;
       cleanUp();
@@ -70,10 +59,7 @@ export const useQuillEditor = () => {
     quill.root.setAttribute("spellcheck", "false");
 
     // Delay to ensure highlights apply after initialization
-    setTimeout(
-      () => applyHighlights(worker.current!, quill, Rules.getRules()),
-      100
-    );
+    setTimeout(() => applyHighlightsCB(quillRef.current!), 100);
 
     quill.on("text-change", onTextChange);
   }
@@ -85,7 +71,7 @@ export const useQuillEditor = () => {
 
     highlightTimer.current = setTimeout(() => {
       if (quillRef.current) {
-        applyHighlights(worker.current!, quillRef.current, Rules.getRules());
+        applyHighlightsCB(quillRef.current);
       }
     }, 500);
   }
@@ -106,8 +92,6 @@ export const useQuillEditor = () => {
       quillRef.current.off("text-change", onTextChange);
       quillRef.current = null;
     }
-    worker.current?.terminate();
-    // worker.current?.removeEventListener("message", handleWorkerMsg);
   }
 
   useEffect(() => {
@@ -129,9 +113,9 @@ export const useQuillEditor = () => {
 
   useEffect(() => {
     if (quillRef.current) {
-      applyHighlights(worker.current!, quillRef.current, Rules.getRules());
+      applyHighlightsCB(quillRef.current);
     }
-  }, [Rules.getRules()]);
+  }, [Rules.getRules(), applyHighlightsCB]);
 
   return { editorRef, words, text: quill?.getText() };
 };

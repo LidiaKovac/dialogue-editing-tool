@@ -1,5 +1,6 @@
 import type QuillType from "quill";
 import { type Op } from "quill";
+import Rules from "./regex.utils";
 
 /**
  * Remove highlight attributes from an operation
@@ -55,8 +56,7 @@ export async function buildHighlightDelta(
 /**
  * Apply highlights using a different approach - directly manipulating the Delta
  */
-export function applyHighlights(
-  worker: Worker,
+export async function applyHighlights(
   quill: QuillType,
   patterns: { id: string; regex: RegExp }[]
 ) {
@@ -65,18 +65,27 @@ export function applyHighlights(
   try {
     const currentSelection = quill.getSelection();
     const currentContents = quill.getContents();
-
+    if (currentContents.length() < 1 || quill.getText() === "\n") {
+      return;
+    }
     // Create a new delta without highlights
     const newDelta = {
       ops: currentContents.ops.map(removeHighlightFromOp),
     };
 
+    const res = await fetch(process.env.NEXT_PUBLIC_URL + "api/highlights", {
+      method: "POST",
+      body: JSON.stringify({ text: quill.getText(), chars: Rules.CHARACTERS }),
+    });
+    const highlights = await res.json();
+
     // Set the content without highlights
     quill.setContents(newDelta.ops, "silent");
+    quill?.updateContents(
+      await buildHighlightDelta(quill.getText().length, highlights),
+      "silent"
+    );
 
-    // Apply all highlight patterns
-    const updatedText = quill.getText();
-    worker.postMessage({ regex: patterns, text: updatedText });
     // Restore selection if it existed
     if (currentSelection) {
       quill.setSelection(currentSelection, "silent");

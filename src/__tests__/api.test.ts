@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { __TEST__resetCache, POST, cache as realCache } from "../app/api/route"; // Adjust path to your endpoint
+import { __TEST__resetCache, POST, cache as realCache } from "../app/api/names/route"; // Adjust path to your endpoint
 import * as nlpUtils from "../app/lib/nlp/nlp.utils";
 import { LRUCache } from "lru-cache";
 // Mock the dependencies

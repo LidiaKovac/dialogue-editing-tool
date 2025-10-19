@@ -1,6 +1,6 @@
 import { BrillPOSTagger, Lexicon, RuleSet, ruleTemplates, Sentence, TransformationRule } from "natural";
-import countries from "../../api/countries.json";
-import names from "../../api/names.json";
+import countries from "../../api/names/countries.json"
+import names from "../../api/names/names.json"
 
 /**
  * Factory function to create a transformation rule for POS tagging.
