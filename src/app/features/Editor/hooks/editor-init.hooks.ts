@@ -133,5 +133,5 @@ export const useQuillEditor = () => {
     }
   }, [Rules.getRules()]);
 
-  return { editorRef, words, text: quill?.getText() };
+  return { editorRef, words, text: quill?.getText(), workerRef: worker };
 };

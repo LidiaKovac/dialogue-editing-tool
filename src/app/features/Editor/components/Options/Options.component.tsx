@@ -3,22 +3,25 @@ import { ChangeEventHandler, useEffect, useRef, useState } from "react"
 import Rules from "../../utils/regex.utils"
 import { applyHighlights } from "../../utils"
 import { useQuillSingleton } from "../../hooks/editor-singleton.hooks"
+import { useQuillEditor } from "../../hooks/editor-init.hooks"
 
 export const Options = () => {
   const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "))
   const [tags, setTags] = useState<string>(Rules.DIALOGUE_TAGS.join(", "))
   const { quill } = useQuillSingleton()
+  const {workerRef} = useQuillEditor()
   // Separate timeout refs for each input
   const charTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const tagTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   useEffect(() => {
     Rules.subscribeToChars(handleChars)
-  }, [quill])
+  }, [quill, workerRef.current])
 
   const handleChars = (cs: string[]) => {
     setChars(cs.join(", "))
-    if (quill) {
-      applyHighlights(quill, Rules.getRules())
+    if (quill && workerRef.current) {
+      console.log("My dude is firing")
+      applyHighlights(workerRef.current, quill, Rules.getRules())
     }
   }
 
@@ -37,11 +40,11 @@ export const Options = () => {
 
       Rules.setCharacters(newChars)
 
-      if (quill) {
-        applyHighlights(quill, Rules.getRules())
+      if (quill && workerRef.current) {
+        applyHighlights(workerRef.current, quill, Rules.getRules())
       }
       charTimeoutRef.current = null
-    }, 150)
+    }, 500)
   }
 
   const handleTagsChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -59,11 +62,11 @@ export const Options = () => {
 
       Rules.setDialogueTags(newTags)
 
-      if (quill) {
-        applyHighlights(quill, Rules.getRules())
+      if (quill && workerRef.current) {
+        applyHighlights(workerRef.current, quill, Rules.getRules())
       }
       tagTimeoutRef.current = null
-    }, 150)
+    }, 500)
   }
   return (
     <div className="editor__options">
