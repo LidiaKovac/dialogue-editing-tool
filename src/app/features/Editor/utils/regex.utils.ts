@@ -1,4 +1,15 @@
+import { LRUCache } from "lru-cache"
+
 type Subscriber = ((cs: string[]) => any)
+
+const cache = new LRUCache<string, Array<{ id: string; regex: RegExp }>>({
+  size: 500,
+  max: 2000 * 60 * 60,
+})
+
+function getKey(chars: string[], tags: string[]): string {
+  return [...chars].sort().join(',') + '|' + [...tags].sort().join(',');
+}
 
 /**
 * A reactive utility class for managing dialogue formatting rules and validation patterns.
@@ -177,6 +188,7 @@ export default class Rules {
         for (const sub of this._subs) {
             sub(this._characters)
         }
+        cache.clear()
     }
 
     /**
@@ -187,6 +199,8 @@ export default class Rules {
      */
     public static setDialogueTags(tags: string[]): void {
         this._dialogueTags = [...tags] // Create a copy to prevent external mutation
+    
+        cache.clear()
     }
 
     /**
@@ -197,13 +211,18 @@ export default class Rules {
        * @public
        */
     public static getRules(): Array<{ id: string; regex: RegExp }> {
-        return [
+        const key = getKey(this._characters, this._dialogueTags)
+        let cached = cache.get(key)
+        if(cached) return cached
+        const rules = [
             { id: "comma-no-dialogue", regex: this.COMMA_WITH_NO_DIALOGUE_TAG },
             { id: "capital-after-comma", regex: this.CAPITAL_AFTER_COMMA },
             { id: "lowercase-after-stop", regex: this.LOWERCASE_AFTER_FULL_STOP },
             { id: "no-dialogue-after-punctuation", regex: this.NO_DIALOGUE_TAG_AFTER_PUNCTUATION },
             { id: "capital-after-punctuation", regex: this.CAPITAL_AFTER_PUNCTUATION },
         ]
+        cache.set(key, rules);
+        return rules
     }
 
     public static subscribeToChars(s: Subscriber) {
