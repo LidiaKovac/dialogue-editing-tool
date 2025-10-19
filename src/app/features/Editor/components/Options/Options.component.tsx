@@ -1,73 +1,81 @@
-"use client"
-import { ChangeEventHandler, useEffect, useRef, useState } from "react"
-import Rules from "../../utils/regex.utils"
-import { applyHighlights } from "../../utils"
-import { useQuillSingleton } from "../../hooks/editor-singleton.hooks"
-import { useQuillEditor } from "../../hooks/editor-init.hooks"
-
+"use client";
+import {
+  ChangeEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import Rules from "../../utils/regex.utils";
+import { applyHighlights } from "../../utils";
+import { useQuillSingleton } from "../../hooks/editor-singleton.hooks";
+import type QuillType from "quill";
 export const Options = () => {
-  const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "))
-  const [tags, setTags] = useState<string>(Rules.DIALOGUE_TAGS.join(", "))
-  const { quill } = useQuillSingleton()
-  const {workerRef} = useQuillEditor()
+  const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "));
+  const [tags, setTags] = useState<string>(Rules.DIALOGUE_TAGS.join(", "));
+  const { quill } = useQuillSingleton();
+  const applyHighlightsCB = useCallback(
+    async (quill: QuillType) => applyHighlights(quill, Rules.getRules()),
+    [quill]
+  );
   // Separate timeout refs for each input
-  const charTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const tagTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const charTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const tagTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
-    Rules.subscribeToChars(handleChars)
-  }, [quill, workerRef.current])
+    Rules.subscribeToChars(handleChars);
+  }, [quill]);
 
   const handleChars = (cs: string[]) => {
-    setChars(cs.join(", "))
-    if (quill && workerRef.current) {
-      console.log("My dude is firing")
-      applyHighlights(workerRef.current, quill, Rules.getRules())
+    setChars(cs.join(", "));
+    if (quill) {
+      console.log("My dude is firing");
+      applyHighlightsCB(quill);
     }
-  }
+  };
 
   const handleCharChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setChars(e.target.value)
+    setChars(e.target.value);
 
     if (charTimeoutRef.current) {
-      clearTimeout(charTimeoutRef.current)
+      clearTimeout(charTimeoutRef.current);
     }
 
     charTimeoutRef.current = setTimeout(() => {
       const newChars = e.target.value
         .split(",")
         .map((t) => t.trim())
-        .filter(Boolean)
+        .filter(Boolean);
 
-      Rules.setCharacters(newChars)
+      Rules.setCharacters(newChars);
 
-      if (quill && workerRef.current) {
-        applyHighlights(workerRef.current, quill, Rules.getRules())
+      if (quill) {
+        applyHighlights(quill, Rules.getRules());
       }
-      charTimeoutRef.current = null
-    }, 500)
-  }
+      charTimeoutRef.current = null;
+    }, 500);
+  };
 
   const handleTagsChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setTags(e.target.value)
+    setTags(e.target.value);
 
     if (tagTimeoutRef.current) {
-      clearTimeout(tagTimeoutRef.current)
+      clearTimeout(tagTimeoutRef.current);
     }
 
     tagTimeoutRef.current = setTimeout(() => {
       const newTags = e.target.value
         .split(",")
         .map((t) => t.trim())
-        .filter(Boolean)
+        .filter(Boolean);
 
-      Rules.setDialogueTags(newTags)
+      Rules.setDialogueTags(newTags);
 
-      if (quill && workerRef.current) {
-        applyHighlights(workerRef.current, quill, Rules.getRules())
+      if (quill) {
+        applyHighlights(quill, Rules.getRules());
       }
-      tagTimeoutRef.current = null
-    }, 500)
-  }
+      tagTimeoutRef.current = null;
+    }, 500);
+  };
   return (
     <div className="editor__options">
       <h3 className="text-xl"> Options </h3>
@@ -97,5 +105,5 @@ export const Options = () => {
       </div>
       {/* <button>Apply</button> */}
     </div>
-  )
-}
+  );
+};
