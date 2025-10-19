@@ -38,7 +38,7 @@ describe("POST /api/endpoint", () => {
   });
 
   function createMockRequest(body: string): NextRequest {
-    return new NextRequest("http://localhost:3000/api/test", {
+    return new NextRequest(process.env.NEXT_PUBLIC_URL + "api", {
       method: "POST",
       body,
     });

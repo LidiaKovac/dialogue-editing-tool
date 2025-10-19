@@ -14,15 +14,12 @@ export async function POST(body: NextRequest) {
     });
   }
   const text = await body.text();
-  console.log(text)
   if (cache.has(text)) {
     return NextResponse.json([...(cache.get(text) ?? [])]);
   }
   const names = new Set<string>();
   const tagger = generateTagger();
   const clean = preprocessText(text);
-  console.log(clean)
-  console.log(tagger)
   const tagged = tagger.tag(clean);
   const grouped = Object.groupBy(tagged?.taggedWords, (t) =>
     t.token.toLocaleLowerCase()
