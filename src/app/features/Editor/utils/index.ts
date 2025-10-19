@@ -23,9 +23,9 @@ function removeHighlightFromOp(op: Op): Op {
  */
 export async function buildHighlightDelta(
   textLength: number,
-  highlights: { start: number; length: number }[],
+  highlights: { start: number; length: number }[]
 ) {
-  (highlights);
+  highlights;
   const Delta = (await import("quill")).Delta;
   const delta = new Delta();
   let currentPos = 0;
