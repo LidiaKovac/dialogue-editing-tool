@@ -2,21 +2,29 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateTagger, preprocessText } from "../lib/nlp/nlp.utils";
 import { LRUCache } from "lru-cache";
 
-const cache = new LRUCache<string, Set<string>>({
-  size: 500,
-  max: 2000 * 60 * 60,
-});
-
+export let cache:LRUCache<string, Set<string>> | undefined
+export function __TEST__resetCache(to?: LRUCache<string, Set<string>>) {
+  cache = to;
+}
 export async function POST(body: NextRequest) {
+  if (!cache) {
+    cache = new LRUCache<string, Set<string>>({
+      size: 500,
+      max: 2000 * 60 * 60,
+    });
+  }
   const text = await body.text();
+  console.log(text)
   if (cache.has(text)) {
     return NextResponse.json([...(cache.get(text) ?? [])]);
   }
   const names = new Set<string>();
   const tagger = generateTagger();
   const clean = preprocessText(text);
+  console.log(clean)
+  console.log(tagger)
   const tagged = tagger.tag(clean);
-  const grouped = Object.groupBy(tagged.taggedWords, (t) =>
+  const grouped = Object.groupBy(tagged?.taggedWords, (t) =>
     t.token.toLocaleLowerCase()
   );
   for (const key in grouped) {
