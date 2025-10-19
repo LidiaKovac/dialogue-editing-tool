@@ -50,9 +50,8 @@ export function applyHighlights(
 
     try {
         const currentSelection = quill.getSelection()
-        const text = quill.getText()
         const currentContents = quill.getContents()
-
+        
         // Create a new delta without highlights
         const newDelta = {
             ops: currentContents.ops.map(removeHighlightFromOp)
@@ -71,7 +70,39 @@ export function applyHighlights(
         if (currentSelection) {
             quill.setSelection(currentSelection, "silent")
         }
+    
     } catch (error) {
         console.error("Error in applyHighlights:", error)
     }
+}
+
+
+
+
+/**
+ * Worker function: Given text and regex patterns, return highlight ranges
+ */
+export function computeHighlightPositions(
+  text: string,
+  patterns: { id: string; regex: RegExp }[]
+): { start: number; length: number }[] {
+  const highlights: { start: number; length: number }[] = [];
+
+  patterns.forEach(({ regex }) => {
+    const r = new RegExp(regex, "g");
+    let match;
+    while ((match = r.exec(text)) !== null) {
+      const start = match.index;
+      const length = match[0].length;
+      if (length > 0) {
+        highlights.push({ start, length });
+      }
+      // avoid infinite zero-length match
+      if (r.lastIndex === match.index) {
+        r.lastIndex++;
+      }
+    }
+  });
+
+  return highlights;
 }
