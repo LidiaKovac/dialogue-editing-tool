@@ -12,12 +12,10 @@ export default function Editor() {
     if (!text) return; // guard clause if text is empty
 
     const fetchNames = async () => {
-      const res = await fetch(process.env.NEXT_PUBLIC_URL + "api", {
+      await fetch(process.env.NEXT_PUBLIC_URL + "api/names", {
         method: "POST",
         body: text,
       });
-      const result = await res.json();
-      setNames(result);
     };
 
     fetchNames();
