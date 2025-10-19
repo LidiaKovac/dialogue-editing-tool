@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateTagger, preprocessText } from "../lib/nlp/nlp.utils";
 import { LRUCache } from "lru-cache";
 
-const cache = new LRUCache({
+const cache = new LRUCache<string, Set<string>>({
   size: 500,
   max: 2000 * 60 * 60,
 });
@@ -10,9 +10,9 @@ const cache = new LRUCache({
 export async function POST(body: NextRequest) {
   const text = await body.text();
   if (cache.has(text)) {
-    return NextResponse.json(cache.get(text));
+    return NextResponse.json([...(cache.get(text) ?? [])]);
   }
-  const names = new Set();
+  const names = new Set<string>();
   const tagger = generateTagger();
   const clean = preprocessText(text);
   const tagged = tagger.tag(clean);
