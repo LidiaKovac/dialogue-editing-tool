@@ -10,6 +10,7 @@ import Rules from "../../utils/regex.utils";
 import { applyHighlights } from "../../utils";
 import { useQuillSingleton } from "../../hooks/editor-singleton.hooks";
 import type QuillType from "quill";
+
 export const Options = () => {
   const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "));
   const [tags, setTags] = useState<string>(Rules.DIALOGUE_TAGS.join(", "));

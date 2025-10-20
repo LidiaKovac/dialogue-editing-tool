@@ -1,15 +1,8 @@
-"use client"
-import { useEffect, useRef, useState } from "react"
+import { Details } from "../Details/Details.component";
 
 export const FalsePositives = () => {
-  const [open, setOpen] = useState<boolean>(false)
-  const ref = useRef<HTMLDetailsElement>(null)
-  useEffect(() => {
-    ref.current?.setAttribute("aria-expanded", open ? "true" : "false")
-  }, [open])
   return (
-    <details onToggle={(e) => setOpen(e.currentTarget.open)}>
-      <summary ref={ref}>On false positives</summary>
+    <Details title="On false positives">
       <div className="callout">
         This is an AI-free tool. It&apos;s based on pattern recognition and it
         is not infallible. This means it can create false positives. <br /> For
@@ -25,6 +18,6 @@ export const FalsePositives = () => {
         Remember: you know your work better than a bunch of computerized rules!
         💕
       </div>
-    </details>
-  )
-}
+    </Details>
+  );
+};

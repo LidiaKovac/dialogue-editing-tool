@@ -5,6 +5,7 @@ import { registerBlot } from "../utils/HighlightBlot.class";
 import { QuillOptions } from "quill";
 import { applyHighlights } from "../utils";
 import Rules from "../utils/regex.utils";
+import { quillOptions } from "@/app/lib/quill/quill.options";
 
 export const useQuillEditor = () => {
   const [words, setWords] = useState<number>(0);
@@ -16,7 +17,7 @@ export const useQuillEditor = () => {
   const { quill, setQuill } = useQuillSingleton();
 
   const applyHighlightsCB = useCallback(
-    async (quill: QuillType) => applyHighlights(quill, Rules.getRules()),
+    async (quill: QuillType | null) => applyHighlights(quill, Rules.getRules()),
     [quill, Rules.getRules()]
   );
 
@@ -31,15 +32,6 @@ export const useQuillEditor = () => {
         if (!isMounted || !editorRef.current) return;
 
         registerBlot(Quill);
-
-        const quillOptions: QuillOptions = {
-          theme: "snow",
-          modules: {
-            toolbar: [["bold", "italic", "underline", "strike"]],
-          },
-          readOnly: false,
-          formats: ["bold", "italic", "underline", "strike", "highlight"],
-        };
 
         initializeQuill(Quill, quillOptions);
       })
@@ -59,7 +51,7 @@ export const useQuillEditor = () => {
     quill.root.setAttribute("spellcheck", "false");
 
     // Delay to ensure highlights apply after initialization
-    setTimeout(() => applyHighlightsCB(quillRef.current!), 100);
+    setTimeout(() => applyHighlightsCB(quillRef.current), 100);
 
     quill.on("text-change", onTextChange);
   }
