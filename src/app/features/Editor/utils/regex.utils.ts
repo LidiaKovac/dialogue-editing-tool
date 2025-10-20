@@ -50,6 +50,10 @@ export default class Rules {
         "repeated",
     ]
 
+    private static _dialogueString: string = this._dialogueTags.join("|")
+    private static _charString: string = this._characters.join("|")
+    
+
     /**
      * Get the current list of character names and pronouns.
      * @returns {string[]} Array of character names and pronouns
@@ -78,7 +82,7 @@ export default class Rules {
     }
 
     private static get NON_CAPTURING_GROUP_CHARS(): string {
-        return `(?:${this._characters.join("|")})`
+        return `(?:${this._charString})`
     }
 
     private static get NON_CAPTURING_GROUP_PRONOUNS(): string {
@@ -86,7 +90,7 @@ export default class Rules {
     }
 
     private static get NON_CAPTURING_GROUP_TAGS(): string {
-        return `(?:${this._dialogueTags.join("|")})`
+        return `(?:${this._dialogueString})`
     }
 
     private static get NEGATIVE_LOOKAHEAD_TAGS(): string {
@@ -95,7 +99,7 @@ export default class Rules {
     }
 
     private static get NEGATIVE_NOT_CAPTURING_LOOKAHEAD_CHARS(): string {
-        return `(?!(?:${this._characters.join("|")})\\b)`
+        return `(?!(?:${this._charString})\\b)`
     }
 
     /**
@@ -185,6 +189,7 @@ export default class Rules {
         const pronouns = ["he", "she", "they"]
         const withPronouns = new Set([...(chars.length ? chars : []), ...pronouns])
         this._characters = Array.from(withPronouns)// Create a copy to prevent external mutation
+        this._charString = this._characters.join("|")
         for (const sub of this._subs) {
             sub(this._characters)
         }
@@ -199,6 +204,7 @@ export default class Rules {
      */
     public static setDialogueTags(tags: string[]): void {
         this._dialogueTags = [...tags] // Create a copy to prevent external mutation
+        this._dialogueString = this._dialogueTags.join("|")
     
         cache.clear()
     }
