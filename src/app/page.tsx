@@ -1,31 +1,31 @@
-import dynamic from "next/dynamic"
+import { Typewriter } from "./components/Typewriter/Typewriter.component";
 
-const Options = dynamic(() => import("./features/Editor/components/Options/Options.component").then(m => m.Options), {loading: () => <div>Loading options...</div>})
-const RulesCollapsable = dynamic(()=> import("./components/Rules/Rules.component").then(m => m.RulesCollapsable), {loading: () => <div>Loading rules...</div>})
-const FalsePositives = dynamic(()=> import("./components/FalsePositives/FalsePositives.component").then(m => m.FalsePositives), {loading: () => <div>Loading false positives...</div>})
-const Editor = dynamic(() => import("./features/Editor/components/Editor/Editor.component"), {loading: () => <div>Loading editor...</div>})
-export default function Home() {
+export default function Landing() {
+  
   return (
-    <main className="flex gap-4">
-      <div className="editor">
-        <header>
-          <h1>The Dialogue Thing</h1>
-          <p>
-            Paste your chapter in the area below ⬇️ and see everything that
-            doesn&apos;t match the default dialogue rules.
-          </p>
-          <small>
-            💡 Tip: when pasting back to google docs, use CTRL+SHIFT+V, or
-            &quot;Paste without formatting&quot;
-          </small>
-          <RulesCollapsable />
-          <FalsePositives />
-        </header>
-        <div className="editor__wrap">
-          <Editor />
-        </div>
+    <>
+    <div className="flex gap-2 m-auto items-center" id="landing">
+      <div className="flex-2 relative">
+
+      <h1>
+        <div className="badge absolute">
+          <div>
+          beta
+          </div>
+          </div>
+        The dialogue thing</h1>
+      <h2 className="text-gray-500">
+        
+        Where writers edit <br /> their <Typewriter/>
+      </h2>
       </div>
-      <Options />
-    </main>
-  )
+      <p className="flex-1">
+        Edit smarter, not harder. 
+        Discover a powerful suite for writers: track your characters and edit your story’s dialogue. 
+        Unlock insights that help you find your voice, clean up your draft, and publish confidently. 
+        Get started for free and see how editing should feel.
+      </p>
+    </div>
+    </>
+  );
 }

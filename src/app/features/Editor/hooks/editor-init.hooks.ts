@@ -5,6 +5,7 @@ import { registerBlot } from "../utils/HighlightBlot.class";
 import { QuillOptions } from "quill";
 import { applyHighlights } from "../utils";
 import Rules from "../utils/regex.utils";
+import { quillOptions } from "@/app/lib/quill/quill.options";
 
 export const useQuillEditor = () => {
   const [words, setWords] = useState<number>(0);
@@ -31,15 +32,6 @@ export const useQuillEditor = () => {
         if (!isMounted || !editorRef.current) return;
 
         registerBlot(Quill);
-
-        const quillOptions: QuillOptions = {
-          theme: "snow",
-          modules: {
-            toolbar: [["bold", "italic", "underline", "strike"]],
-          },
-          readOnly: false,
-          formats: ["bold", "italic", "underline", "strike", "highlight"],
-        };
 
         initializeQuill(Quill, quillOptions);
       })
