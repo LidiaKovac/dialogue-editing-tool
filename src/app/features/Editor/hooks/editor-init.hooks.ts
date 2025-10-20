@@ -13,6 +13,7 @@ export const useQuillEditor = () => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<QuillType | null>(null);
   const highlightTimer = useRef<NodeJS.Timeout | null>(null);
+  const wordCountTime = useRef<NodeJS.Timeout>(null);
   const isQuillCreated = useRef(false);
   const { quill, setQuill } = useQuillSingleton();
 
@@ -90,9 +91,12 @@ export const useQuillEditor = () => {
     if (!quill) return;
 
     const updateWordCount = () => {
-      const text = quill.getText();
-      const count = text.trim().split(/\s+/).filter(Boolean).length;
-      setWords(count);
+      if (wordCountTime.current) clearTimeout(wordCountTime.current);
+      wordCountTime.current = setTimeout(() => {
+        const text = quill.getText();
+        const count = text.trim().split(/\s+/).filter(Boolean).length;
+        setWords(count);
+      }, 500);
     };
 
     updateWordCount();
@@ -100,6 +104,8 @@ export const useQuillEditor = () => {
 
     return () => {
       quill.off("text-change", updateWordCount);
+      if (wordCountTime.current) clearTimeout(wordCountTime.current);
+      wordCountTime.current = null;
     };
   }, [quill]);
 
