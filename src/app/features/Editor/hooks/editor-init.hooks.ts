@@ -17,7 +17,7 @@ export const useQuillEditor = () => {
   const { quill, setQuill } = useQuillSingleton();
 
   const applyHighlightsCB = useCallback(
-    async (quill: QuillType) => applyHighlights(quill, Rules.getRules()),
+    async (quill: QuillType | null) => applyHighlights(quill, Rules.getRules()),
     [quill, Rules.getRules()]
   );
 
@@ -51,7 +51,7 @@ export const useQuillEditor = () => {
     quill.root.setAttribute("spellcheck", "false");
 
     // Delay to ensure highlights apply after initialization
-    setTimeout(() => applyHighlightsCB(quillRef.current!), 100);
+    setTimeout(() => applyHighlightsCB(quillRef.current), 100);
 
     quill.on("text-change", onTextChange);
   }

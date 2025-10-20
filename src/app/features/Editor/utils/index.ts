@@ -57,7 +57,7 @@ export async function buildHighlightDelta(
  * Apply highlights using a different approach - directly manipulating the Delta
  */
 export async function applyHighlights(
-  quill: QuillType,
+  quill: QuillType | null,
   patterns: { id: string; regex: RegExp }[]
 ) {
   if (!quill || !patterns?.length) return;

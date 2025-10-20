@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateTagger, preprocessText } from "../../lib/nlp/nlp.utils";
 import { LRUCache } from "lru-cache";
 
-export let cache:LRUCache<string, Set<string>> | undefined
+let cache:LRUCache<string, Set<string>> | undefined
 export function __TEST__resetCache(to?: LRUCache<string, Set<string>>) {
   cache = to;
 }
