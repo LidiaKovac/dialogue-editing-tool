@@ -31,5 +31,5 @@ jobs:
 
       - name: Run tests
         env:
-          NEXT_PUBLIC_URL: ${{ steps.wait_deploy.outputs.netlify_url }} + "/"
+          NEXT_PUBLIC_URL: ${{ steps.wait_deploy.outputs.netlify_url }} + /
         run: npm run test
