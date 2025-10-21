@@ -4,22 +4,41 @@ on:
   pull_request:
     branches:
       - main
-      - develop # Change this to your default branch
+      - develop
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-        - uses: actions/checkout@v3
-        - name: Set up Node
-          uses: actions/setup-node@v2
-          with:
-            node-version: '22.21.0'
-        - name: Install dependencies
-          run: npm install
-        - name: Run tests
-          run: npm test
+      - uses: actions/checkout@v3
+      
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
 
-        - name: Run tests
-          run: npm run test
+      - name: Deploy to Netlify
+        id: netlify_deploy
+        run: |
+          netlify deploy --dir=build --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_TOKEN }} --json > deploy_output.json
+          echo "NETLIFY_PREVIEW_URL=$(jq -r '.deploy_url' deploy_output.json)" >> $GITHUB_OUTPUT
+
+      - name: Wait for Netlify Deployment
+        uses: probablyup/wait-for-netlify-action@3.2.0
+        id: wait_deploy
+        with:
+          site_id: ${{ secrets.NETLIFY_SITE_ID }}
+        env:
+          NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22.21.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        env:
+          NEXT_PUBLIC_URL: ${{ steps.netlify_deploy.outputs.NETLIFY_PREVIEW_URL }}
+        run: npm run test
