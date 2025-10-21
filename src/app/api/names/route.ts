@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateTagger, preprocessText } from "../../lib/nlp/nlp.utils";
 import { LRUCache } from "lru-cache";
-import { tagger } from "../lib/tagger.singleton";
+import { getTaggerSingleton } from "../lib/tagger.singleton";
 
 let cache: LRUCache<string, Set<string>> | undefined;
 
@@ -37,6 +37,7 @@ export async function POST(body: NextRequest) {
 
   const names = new Set<string>();
   const clean = preprocessText(text);
+  const tagger = getTaggerSingleton()
   const tagged = tagger.tag(clean);
 
   const grouped = Object.groupBy(tagged?.taggedWords, (t) =>

@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { __TEST__resetCache, POST } from "../app/api/names/route"; // Adjust path to your endpoint
-import * as nlpUtils from "../app/lib/nlp/nlp.utils";
 import { LRUCache } from "lru-cache";
+import * as nlpUtils from "../app/lib/nlp/nlp.utils" 
+import { getTaggerSingleton } from "../app/api/lib/tagger.singleton";
 // Mock the dependencies
 jest.mock("lru-cache");
+jest.mock("../app/api/lib/tagger.singleton");
 jest.mock("../app/lib/nlp/nlp.utils");
 
-describe("POST /api/endpoint", () => {
+describe("POST /api/names", () => {
   let mockCache: {
     has: jest.Mock;
     get: jest.Mock;
@@ -33,12 +35,12 @@ describe("POST /api/endpoint", () => {
     );
 
     // Mock NLP utilities
-    (nlpUtils.generateTagger as jest.Mock).mockReturnValue(mockTagger);
+    (getTaggerSingleton as jest.Mock).mockReturnValue(mockTagger);
     (nlpUtils.preprocessText as jest.Mock).mockImplementation((text) => text);
   });
 
   function createMockRequest(body: string): NextRequest {
-    return new NextRequest(process.env.NEXT_PUBLIC_URL + "api", {
+    return new NextRequest(process.env.NEXT_PUBLIC_URL + "api/names", {
       method: "POST",
       body,
     });
@@ -61,7 +63,7 @@ describe("POST /api/endpoint", () => {
       expect(mockCache.has).toHaveBeenCalledWith("some cached text");
       expect(mockCache.get).toHaveBeenCalledWith("some cached text");
       expect(result).toEqual(["Alice", "Bob", "Charlie"]);
-      expect(nlpUtils.generateTagger).not.toHaveBeenCalled();
+      expect(getTaggerSingleton).not.toHaveBeenCalled();
     });
 
     it("processes text and caches result when not in cache", async () => {
@@ -80,7 +82,7 @@ describe("POST /api/endpoint", () => {
       const result = await getResponseJson(response);
 
       expect(mockCache.has).toHaveBeenCalledWith("John John Smith Smith");
-      expect(nlpUtils.generateTagger).toHaveBeenCalled();
+      expect(getTaggerSingleton).toHaveBeenCalled();
       expect(nlpUtils.preprocessText).toHaveBeenCalledWith(
         "John John Smith Smith"
       );
