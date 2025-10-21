@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Wait for Netlify Deployment
         id: wait_deploy
         uses: probablyup/wait-for-netlify-action@0855dade13fa1445d67907d2b5b2ce470e38c468
@@ -20,17 +20,17 @@ jobs:
           site_id: ${{ secrets.NETLIFY_SITE_ID }}
         env:
           NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
-      - name: Show Netlify Preview URL
-        run: |
-            echo "Inputs:"
-            echo "${{ toJson(steps.wait_deploy.inputs) }}"
-            echo "Outputs:"
-            echo "${{ toJson(steps.wait_deploy.outputs) }}"
+    #   - name: Show Netlify Preview URL #debug step
+    #     run: |
+    #       echo "Inputs:"
+    #       echo "${{ toJson(steps.wait_deploy.inputs) }}"
+    #       echo "Outputs:"
+    #       echo "${{ toJson(steps.wait_deploy.outputs) }}"
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '22.21.0'
+          node-version: "22.21.0"
 
       - name: Install dependencies
         run: npm install
