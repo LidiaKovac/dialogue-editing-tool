@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { __TEST__resetCache, POST } from "../app/api/names/route"; // Adjust path to your endpoint
 import { LRUCache } from "lru-cache";
-import * as nlpUtils from "../app/lib/nlp/nlp.utils" 
+import * as nlpUtils from "../app/lib/nlp/nlp.utils";
 import { getTaggerSingleton } from "../app/api/lib/tagger.singleton";
 // Mock the dependencies
 jest.mock("lru-cache");
@@ -26,13 +26,11 @@ describe("POST /api/names", () => {
     (LRUCache as jest.MockedClass<typeof LRUCache>).mockImplementation(
       () => mockCache as any
     );
-    __TEST__resetCache()
+    __TEST__resetCache();
     // Mock tagger
     mockTagger = { tag: jest.fn() };
-    +(
-      // Ensure tagger.tag always returns an object with taggedWords
-      (+mockTagger.tag.mockReturnValue({ taggedWords: [] }))
-    );
+    // Ensure tagger.tag always returns an object with taggedWords
+    mockTagger.tag.mockReturnValue({ taggedWords: [] });
 
     // Mock NLP utilities
     (getTaggerSingleton as jest.Mock).mockReturnValue(mockTagger);
@@ -218,7 +216,7 @@ describe("POST /api/names", () => {
       });
 
       const request = createMockRequest("Hello, world!");
-      const response = await POST(request);
+      await POST(request);
 
       expect(nlpUtils.preprocessText).toHaveBeenCalledWith("Hello, world!");
       expect(mockTagger.tag).toHaveBeenCalledWith("Hello world");

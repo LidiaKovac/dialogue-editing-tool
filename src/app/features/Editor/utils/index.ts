@@ -26,14 +26,13 @@ export async function buildHighlightDelta(
   textLength: number,
   highlights: { start: number; length: number }[]
 ) {
-  highlights;
   const Delta = (await import("quill")).Delta;
   const delta = new Delta();
   let currentPos = 0;
   // Sort highlights by start position to process in order
   highlights.sort((a, b) => a.start - b.start);
 
-  highlights.forEach(({ start, length }) => {
+  for (const {start, length} of highlights) {
     // Retain text before highlight (unformatted)
     if (start > currentPos) {
       delta.retain(start - currentPos);
@@ -43,7 +42,7 @@ export async function buildHighlightDelta(
     // Retain the highlight range with the highlight attribute
     delta.retain(length, { highlight: true });
     currentPos += length;
-  });
+  }
 
   // Retain rest of the text unformatted
   if (currentPos < textLength) {

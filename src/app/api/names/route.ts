@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateTagger, preprocessText } from "../../lib/nlp/nlp.utils";
+import { preprocessText } from "../../lib/nlp/nlp.utils";
 import { LRUCache } from "lru-cache";
 import { getTaggerSingleton } from "../lib/tagger.singleton";
 

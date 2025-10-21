@@ -1,5 +1,4 @@
 import Rules from "@/app/features/Editor/utils/regex.utils";
-import { LRUCache } from "lru-cache";
 import { NextRequest, NextResponse } from "next/server";
 
 /**

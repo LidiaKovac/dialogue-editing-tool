@@ -8,7 +8,7 @@ const cache = new LRUCache<string, Array<{ id: string; regex: RegExp }>>({
 });
 
 function getKey(chars: string[], tags: string[]): string {
-  return [...chars].sort().join(",") + "|" + [...tags].sort().join(",");
+  return [...chars].sort((a,b) => a.localeCompare(b)).join(",") + "|" + [...tags].sort((a,b) => a.localeCompare(b)).join(",");
 }
 
 /**
@@ -93,7 +93,7 @@ export default class Rules {
   }
 
   private static get NEGATIVE_LOOKAHEAD_TAGS(): string {
-    return `(?!${this._dialogueTags.map((t) => t + `\\b`).join("|")})`;
+    return `(?!${this._dialogueTags.map((t) => t + "\\b").join("|")})`;
   }
 
   private static get NEGATIVE_NOT_CAPTURING_LOOKAHEAD_CHARS(): string {
@@ -148,7 +148,7 @@ export default class Rules {
    * @static
    */
   static get LOWERCASE_AFTER_FULL_STOP(): RegExp {
-    return new RegExp(`\\.\\s*["“”]\\s([a-z]+)`, "gm");
+    return /\.\s*["“”]\s([a-z]+)/gm;
   }
 
   /**
