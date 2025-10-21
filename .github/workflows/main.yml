@@ -22,7 +22,10 @@ jobs:
           NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
       - name: Show Netlify Preview URL
         run: |
-            echo "Netlify Preview URL: ${{ steps.wait_deploy.outputs.netlify_url }}"
+            echo "Inputs:"
+            echo "${{ toJson(steps.wait_deploy.inputs) }}"
+            echo "Outputs:"
+            echo "${{ toJson(steps.wait_deploy.outputs) }}"
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -34,5 +37,5 @@ jobs:
 
       - name: Run tests
         env:
-          NEXT_PUBLIC_URL: ${{ steps.wait_deploy.outputs.netlify_url }}
+          NEXT_PUBLIC_URL: ${{ steps.wait_deploy.outputs.url }}
         run: npm run test
