@@ -8,6 +8,17 @@ jest.mock("lru-cache");
 jest.mock("../app/api/lib/tagger.singleton");
 jest.mock("../app/lib/nlp/nlp.utils");
 
+function createMockRequest(body: string): NextRequest {
+  return new NextRequest(process.env.NEXT_PUBLIC_URL + "api/names", {
+    method: "POST",
+    body,
+  });
+}
+
+async function getResponseJson(response: NextResponse) {
+  return await response.json();
+}
+
 describe("POST /api/names", () => {
   let mockCache: {
     has: jest.Mock;
@@ -36,17 +47,6 @@ describe("POST /api/names", () => {
     (getTaggerSingleton as jest.Mock).mockReturnValue(mockTagger);
     (nlpUtils.preprocessText as jest.Mock).mockImplementation((text) => text);
   });
-
-  function createMockRequest(body: string): NextRequest {
-    return new NextRequest(process.env.NEXT_PUBLIC_URL + "api/names", {
-      method: "POST",
-      body,
-    });
-  }
-
-  async function getResponseJson(response: NextResponse) {
-    return await response.json();
-  }
 
   describe("Cache functionality", () => {
     it("returns cached result when text exists in cache", async () => {
