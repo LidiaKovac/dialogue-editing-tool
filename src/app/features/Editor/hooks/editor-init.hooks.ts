@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useQuillSingleton } from "./editor-singleton.hooks";
 import type QuillType from "quill";
-import { registerBlot } from "../utils/HighlightBlot.class";
+import { registerDialogueBlot } from "../utils/DialogueBlot.class";
 import { QuillOptions } from "quill";
 import { applyHighlights } from "../utils";
 import Rules from "../utils/regex.utils";
 import { quillOptions } from "@/app/lib/quill/quill.options";
+import { registerAdvBlot } from "../utils/AdverbBlot.class";
 
 /**
  * Custom hook to initialize and manage a Quill rich text editor with syntax highlighting and word count.
@@ -36,6 +37,8 @@ export const useQuillEditor = () => {
   // Shared singleton Quill instance and setter method from custom hook
   const { quill, setQuill } = useQuillSingleton();
 
+
+  const isApplyingHighlights = useRef(false);
   // Memoized callback to apply syntax highlights using rules
   const applyHighlightsCB = useCallback(
     async (quill: QuillType | null) => applyHighlights(quill, Rules.getRules()),
@@ -54,7 +57,8 @@ export const useQuillEditor = () => {
         if (!isMounted || !editorRef.current) return;
 
         // Register custom highlight blot for rich text highlighting
-        registerBlot(Quill);
+        registerDialogueBlot(Quill);
+        registerAdvBlot(Quill);
 
         // Initialize Quill instance with provided options
         initializeQuill(Quill, quillOptions);
@@ -100,12 +104,13 @@ export const useQuillEditor = () => {
    */
   function onTextChange(delta: any, oldDelta: any, source: string) {
     if (source !== "user") return;
-
+if (isApplyingHighlights.current) return; // Prevent recursive highlights
     if (highlightTimer.current) clearTimeout(highlightTimer.current);
 
     highlightTimer.current = setTimeout(() => {
       if (quillRef.current) {
-        applyHighlightsCB(quillRef.current);
+        isApplyingHighlights.current = true;
+        applyHighlightsCB(quillRef.current).finally(() => isApplyingHighlights.current = false);
       }
     }, 500);
   }
