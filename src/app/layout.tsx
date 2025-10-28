@@ -160,6 +160,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="google-site-verification" content="rE38Kd_bfIAsyV3_C-Bb5HVD75iG09H12kCa2Olwkfg" />
+      </head>
       <body className={`${font.variable}  antialiased`}>{children}</body>
     </html>
   )
