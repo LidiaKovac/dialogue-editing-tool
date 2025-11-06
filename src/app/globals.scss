@@ -32,6 +32,9 @@
       }
     }
   }
+  &>div {
+    min-width: 200px;
+  }
 }
 
 body {
