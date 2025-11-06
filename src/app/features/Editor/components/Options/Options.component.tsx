@@ -33,6 +33,7 @@ export const Options = () => {
           placeholder="said, asked, replied, whispered, shouted"
         ></textarea>
       </div>
+
       <div className="features">
         <Toggle
           label="Highlight Adverbs"
@@ -40,6 +41,13 @@ export const Options = () => {
           onChange={setEnableAdv}
         />
       </div>
+        <Link
+        className="inline-block mt-5 text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+        href={"https://form.typeform.com/to/OEauYMEz"}
+        target="blank"
+      >
+        Report a bug 🪲🐛{" "}
+      </Link>
       {/* <button>Apply</button> */}
     </div>
   )
