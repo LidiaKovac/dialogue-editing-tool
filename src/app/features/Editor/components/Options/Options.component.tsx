@@ -10,73 +10,74 @@ import Rules from "../../utils/regex.utils";
 import { applyHighlights } from "../../utils";
 import { useQuillSingleton } from "../../hooks/editor-singleton.hooks";
 import type QuillType from "quill";
+import Link from "next/link"
 
 export const Options = () => {
-  const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "));
-  const [tags, setTags] = useState<string>(Rules.DIALOGUE_TAGS.join(", "));
-  const { quill } = useQuillSingleton();
+  const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "))
+  const [tags, setTags] = useState<string>(Rules.DIALOGUE_TAGS.join(", "))
+  const { quill } = useQuillSingleton()
   const applyHighlightsCB = useCallback(
     async (quill: QuillType) => applyHighlights(quill, Rules.getRules()),
     [quill]
-  );
+  )
   // Separate timeout refs for each input
-  const charTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const tagTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const charTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const tagTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   useEffect(() => {
-    Rules.subscribeToChars(handleChars);
-  }, [quill]);
+    Rules.subscribeToChars(handleChars)
+  }, [quill])
 
   const handleChars = (cs: string[]) => {
-    setChars(cs.join(", "));
+    setChars(cs.join(", "))
     if (quill) {
-      console.log("My dude is firing");
-      applyHighlightsCB(quill);
+      console.log("My dude is firing")
+      applyHighlightsCB(quill)
     }
-  };
+  }
 
   const handleCharChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setChars(e.target.value);
+    setChars(e.target.value)
 
     if (charTimeoutRef.current) {
-      clearTimeout(charTimeoutRef.current);
+      clearTimeout(charTimeoutRef.current)
     }
 
     charTimeoutRef.current = setTimeout(() => {
       const newChars = e.target.value
         .split(",")
         .map((t) => t.trim())
-        .filter(Boolean);
+        .filter(Boolean)
 
-      Rules.setCharacters(newChars);
+      Rules.setCharacters(newChars)
 
       if (quill) {
-        applyHighlights(quill, Rules.getRules());
+        applyHighlights(quill, Rules.getRules())
       }
-      charTimeoutRef.current = null;
-    }, 500);
-  };
+      charTimeoutRef.current = null
+    }, 500)
+  }
 
   const handleTagsChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setTags(e.target.value);
+    setTags(e.target.value)
 
     if (tagTimeoutRef.current) {
-      clearTimeout(tagTimeoutRef.current);
+      clearTimeout(tagTimeoutRef.current)
     }
 
     tagTimeoutRef.current = setTimeout(() => {
       const newTags = e.target.value
         .split(",")
         .map((t) => t.trim())
-        .filter(Boolean);
+        .filter(Boolean)
 
-      Rules.setDialogueTags(newTags);
+      Rules.setDialogueTags(newTags)
 
       if (quill) {
-        applyHighlights(quill, Rules.getRules());
+        applyHighlights(quill, Rules.getRules())
       }
-      tagTimeoutRef.current = null;
-    }, 500);
-  };
+      tagTimeoutRef.current = null
+    }, 500)
+  }
   return (
     <div className="editor__options">
       <h3 className="text-xl"> Options </h3>
@@ -104,7 +105,14 @@ export const Options = () => {
           placeholder="said, asked, replied, whispered, shouted"
         ></textarea>
       </div>
+      <Link
+        className="inline-block mt-5 text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+        href={"https://form.typeform.com/to/OEauYMEz"}
+        target="blank"
+      >
+        Report a bug 🪲🐛{" "}
+      </Link>
       {/* <button>Apply</button> */}
     </div>
-  );
-};
+  )
+}
