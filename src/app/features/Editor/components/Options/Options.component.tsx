@@ -55,7 +55,15 @@ export const Options = () => {
       >
         Report a bug 🪲🐛{" "}
       </Link>
+      <div className="donate mt-5 ">Like the app? </div>
+      <Link
+        href={"https://ko-fi.com/lidiacodes"}
+        target="blank"
+        className="inline-block mt-2 text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+      >
+        Buy me a coffee ☕🍵
+      </Link>
       {/* <button>Apply</button> */}
     </div>
-  );
+  )
 };
