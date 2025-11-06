@@ -66,8 +66,8 @@ main {
           aspect-ratio: 1/1;
           background-color: black;
           position: absolute;
-          left: 0;
-          top: -1px;
+          left: -2px;
+          top: -2px;
           transition: 0.3s;
           &.enabled {
             transform: translateX(100%);

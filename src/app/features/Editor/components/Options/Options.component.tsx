@@ -18,7 +18,7 @@ export const Options = () => {
           value={chars}
           name="characters"
           onChange={handleCharChange}
-          placeholder="Emily, Dean, Sam, John, he, she, they"
+          placeholder="he, she, they"
         ></textarea>
       </div>
       <h4>
@@ -34,11 +34,13 @@ export const Options = () => {
         ></textarea>
       </div>
       <div className="features">
-        <Toggle label="Highlight Adverbs" checked={enableAdv}
+        <Toggle
+          label="Highlight Adverbs"
+          checked={enableAdv}
           onChange={setEnableAdv}
         />
       </div>
       {/* <button>Apply</button> */}
     </div>
-  );
+  )
 };

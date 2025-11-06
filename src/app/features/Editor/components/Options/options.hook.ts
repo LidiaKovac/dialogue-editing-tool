@@ -14,6 +14,15 @@ export const useOptions = () => {
     [quill]
   );
 
+  useEffect(() => {
+    if (enableAdv) {
+      document.querySelectorAll(".--adv-highlight").forEach(span => span.classList.replace("--adv-highlight", "adv-highlight"))
+    } else {
+      document.querySelectorAll(".adv-highlight").forEach(span => span.classList.replace("adv-highlight", "--adv-highlight"))
+
+    }
+  }, [enableAdv]) 
+
   const charTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const tagTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
