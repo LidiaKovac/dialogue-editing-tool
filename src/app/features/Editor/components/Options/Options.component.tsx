@@ -57,5 +57,5 @@ export const Options = () => {
       </Link>
       {/* <button>Apply</button> */}
     </div>
-  )
-}
+  );
+};
