@@ -1,4 +1,3 @@
-import Rules from "@/app/features/Editor/utils/regex.utils";
 import { NextRequest, NextResponse } from "next/server";
 import { getTaggerSingleton } from "../../lib/tagger.singleton";
 import { preprocessText } from "@/app/lib/nlp/nlp.utils";
@@ -18,11 +17,12 @@ export const POST = async (body: NextRequest) => {
   const adverbs = new Set<string>();
   const matches: { start: number; length: number }[] = [];
 
-  tagged.taggedWords.forEach((word) => {
+  for (const word of tagged.taggedWords) {
     if (word.tag == "RB" && word.token.endsWith("ly")) adverbs.add(word.token);
-  });
+  }
+
   const percentage = ((100 * adverbs.size) / text.length).toFixed(2);
-  
+
   for (const adv of adverbs) {
     let searchPos = 0;
     while (true) {

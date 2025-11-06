@@ -16,10 +16,15 @@ export const useOptions = () => {
 
   useEffect(() => {
     if (enableAdv) {
-      document.querySelectorAll(".--adv-highlight").forEach(span => span.classList.replace("--adv-highlight", "adv-highlight"))
+      const spans = document.querySelectorAll(".--adv-highlight")
+      for (const span of spans) {
+        span.classList.replace("--adv-highlight", "adv-highlight")
+      }
     } else {
-      document.querySelectorAll(".adv-highlight").forEach(span => span.classList.replace("adv-highlight", "--adv-highlight"))
-
+      const spans = document.querySelectorAll(".adv-highlight")
+      for (const span of spans) {
+        span.classList.replace("adv-highlight", "--adv-highlight")
+      }
     }
   }, [enableAdv]) 
 
