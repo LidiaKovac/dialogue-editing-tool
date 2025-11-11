@@ -9,37 +9,41 @@ const font = Roboto_Mono({
 const jsonld = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "The Dialogue Thing",
-  "url": "https://dialogue-thing.netlify.app",
-  "logo": "https://dialogue-thing.netlify.app/favicon-32x32.png",
-  "applicationCategory": "WritingTool",
-  "operatingSystem": "Web",
-  "softwareVersion": "1.0",
-  "inLanguage": "en",
-  "author": {
+  name: "The Dialogue Thing",
+  url: "https://editingthing.com",
+  logo: "https://editingthing.com/favicon-32x32.png",
+  applicationCategory: "WritingTool",
+  operatingSystem: "Web",
+  softwareVersion: "1.0",
+  inLanguage: "en",
+  author: {
     "@type": "Person",
-    "name": "Lidia Kovac"
+    name: "Lidia Kovac",
   },
-  "creator": {
+  creator: {
     "@type": "Person",
-    "name": "Lidia Kovac"
+    name: "Lidia Kovac",
   },
-  "description": "The Dialogue Thing is a free dialogue editor with real-time grammar validation, character tracking, and intelligent formatting suggestions—perfect for novelists, screenwriters, and content creators.",
-  "datePublished": "2025-10-01",
-  "offers": {
+  description:
+    "The Dialogue Thing is a free dialogue editor with real-time grammar validation, character tracking, and intelligent formatting suggestions—perfect for novelists, screenwriters, and content creators.",
+  datePublished: "2025-10-01",
+  offers: {
     "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
+    price: "0",
+    priceCurrency: "USD",
   },
-  "featureList": [
+  featureList: [
     "Real-time grammar validation",
     "Character dialogue tracking",
     "Intelligent formatting suggestions",
     "Speech attribution checking",
-    "Punctuation error detection"
-  ]
+    "Punctuation error detection",
+  ],
 }
 export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://editingthing.com",
+  },
   // Basic Meta Tags
   title: "The Dialogue Thing - Edit your dialogue for free!",
   description:
@@ -69,14 +73,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://dialogue-thing.netlify.app", // Replace with your domain
+    url: "https://editingthing.com", // Replace with your domain
     siteName: "The Dialogue Thing",
     title: "The Dialogue Thing - Edit your dialogue for free!",
     description:
       "Dialogue editor with real-time validation and formatting suggestions. Write better dialogue with intelligent grammar checking and character tracking.",
     images: [
       {
-        url: "https://dialogue-thing.netlify.app/ogimage.png", // Replace with your OG image
+        url: "https://editingthing.com/ogimage.png", // Replace with your OG image
         width: 1200,
         height: 630,
         alt: "The Dialogue Thing - Smart Writing Assistant",
@@ -106,7 +110,7 @@ export const metadata: Metadata = {
 
   // Additional structured data
   other: {
-    'application/ld+json': JSON.stringify(jsonld),
+    "application/ld+json": JSON.stringify(jsonld),
     // App-specific meta tags
     "application-name": "The Dialogue Thing",
     "mobile-web-app-capable": "yes",
@@ -145,10 +149,8 @@ export const metadata: Metadata = {
         url: "/safari-pinned-tab.svg",
         color: "#ffffff", // Adjust to your brand color
       },
-      
     ],
   },
-
 }
 
 
