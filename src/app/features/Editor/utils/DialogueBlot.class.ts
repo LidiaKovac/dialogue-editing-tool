@@ -1,4 +1,4 @@
-export const registerBlot = (Quill: any) => {
+export const registerDialogueBlot = (Quill: any) => {
     const Inline: any = Quill.import("blots/inline")
 
     class HighlightBlot extends Inline {

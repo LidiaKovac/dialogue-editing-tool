@@ -9,6 +9,7 @@ function removeHighlightFromOp(op: Op): Op {
   if (op.insert && typeof op.insert === "string") {
     const attributes = { ...op.attributes };
     delete attributes.highlight;
+    delete attributes.adv_highlight;
     return {
       insert: op.insert,
       attributes: Object.keys(attributes).length > 0 ? attributes : undefined,
@@ -32,7 +33,7 @@ export async function buildHighlightDelta(
   // Sort highlights by start position to process in order
   highlights.sort((a, b) => a.start - b.start);
 
-  for (const {start, length} of highlights) {
+  for (const { start, length } of highlights) {
     // Retain text before highlight (unformatted)
     if (start > currentPos) {
       delta.retain(start - currentPos);
@@ -41,6 +42,41 @@ export async function buildHighlightDelta(
 
     // Retain the highlight range with the highlight attribute
     delta.retain(length, { highlight: true });
+    currentPos += length;
+  }
+
+  // Retain rest of the text unformatted
+  if (currentPos < textLength) {
+    delta.retain(textLength - currentPos);
+  }
+
+  return delta;
+}
+
+/**
+ * Build a Delta that applies highlight attributes for given ranges.
+ * @param textLength Length of the whole text
+ * @param highlights Array of { start: number, length: number } to highlight
+ */
+export async function buildHighlightDeltaAdverbs(
+  textLength: number,
+  highlights: { start: number; length: number }[]
+) {
+  const Delta = (await import("quill")).Delta;
+  const delta = new Delta();
+  let currentPos = 0;
+  // Sort highlights by start position to process in order
+  highlights?.sort((a, b) => a.start - b.start);
+
+  for (const { start, length } of highlights) {
+    // Retain text before highlight (unformatted)
+    if (start > currentPos) {
+      delta.retain(start - currentPos);
+      currentPos = start;
+    }
+
+    // Retain the highlight range with the highlight attribute
+    delta.retain(length, { "adv_highlight": true });
     currentPos += length;
   }
 
@@ -72,18 +108,44 @@ export async function applyHighlights(
       ops: currentContents.ops.map(removeHighlightFromOp),
     };
 
-    const res = await fetch(process.env.NEXT_PUBLIC_URL + "api/highlights", {
-      method: "POST",
-      body: JSON.stringify({ text: quill.getText(), chars: Rules.CHARACTERS }),
-    });
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_URL + "api/highlights/dialogue",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          text: quill.getText(),
+          chars: Rules.CHARACTERS,
+        }),
+      }
+    );
     const highlights = await res.json();
+
+    const resAdv = await fetch(
+      process.env.NEXT_PUBLIC_URL + "api/highlights/adverbs",
+      {
+        method: "POST",
+        body: JSON.stringify({ text: quill.getText() }),
+      }
+    );
+    const highlightsAdv = await resAdv.json();
 
     // Set the content without highlights
     quill.setContents(newDelta.ops, "silent");
+    const updateContentsCBs = await Promise.all([
+      buildHighlightDelta(quill.getText().length, highlights),
+      buildHighlightDeltaAdverbs(
+        quill.getText().length,
+        highlightsAdv.matches
+      ),
+    ])
+
+    const delta = updateContentsCBs[0].compose(updateContentsCBs[1])
+    console.log(updateContentsCBs[1])
     quill?.updateContents(
-      await buildHighlightDelta(quill.getText().length, highlights),
+      delta,
       "silent"
     );
+    
 
     // Restore selection if it existed
     if (currentSelection) {

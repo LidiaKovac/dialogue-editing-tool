@@ -32,10 +32,14 @@ main {
         .ql-highlight {
           background-color: yellow;
         }
+        .adv-highlight {
+          background-color: greenyellow;
+        }
       }
     }
     &__options {
       width: 25%;
+      padding-block-end: 20px;
       .textarea__wrap {
         margin-block-end: 20px;
 
@@ -44,6 +48,30 @@ main {
           font-size: inherit;
           padding: 5px;
           background-color: white;
+
+          //TODO: add focus styles
+        }
+      }
+      .toggle {
+        background-color: white;
+        border: 2px solid black;
+        position: relative;
+        $width: 50px;
+        width: $width;
+        height: $width / 2;
+        border-radius: $width / 2;
+        &__handle {
+          border-radius: 100px;
+          width: $width / 2;
+          aspect-ratio: 1/1;
+          background-color: black;
+          position: absolute;
+          left: -2px;
+          top: -2px;
+          transition: 0.3s;
+          &.enabled {
+            transform: translateX(100%);
+          }
         }
       }
       button {
@@ -51,14 +79,17 @@ main {
         padding-block: 10px;
         background-color: white;
       }
+      textarea,
+      button {
+        border: 2px solid black;
+      }
       .textarea__wrap,
       button {
         position: relative;
-        border: 2px solid black;
         &::before {
           content: "";
           width: 100%;
-          height: 100%;
+          height: calc(100% - 5px);
           left: 5px;
           top: 5px;
           position: absolute;

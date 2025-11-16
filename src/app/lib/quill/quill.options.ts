@@ -6,5 +6,5 @@ export const quillOptions: QuillOptions = {
     toolbar: [["bold", "italic", "underline", "strike"]],
   },
   readOnly: false,
-  formats: ["bold", "italic", "underline", "strike", "highlight"],
+  formats: ["bold", "italic", "underline", "strike", "highlight", "adv_highlight"],
 };

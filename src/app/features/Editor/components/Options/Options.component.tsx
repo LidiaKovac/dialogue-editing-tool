@@ -1,84 +1,20 @@
-"use client";
-import {
-  ChangeEventHandler,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import Rules from "../../utils/regex.utils";
-import { applyHighlights } from "../../utils";
-import { useQuillSingleton } from "../../hooks/editor-singleton.hooks";
-import type QuillType from "quill";
+"use client"
+import Link from "next/link"
+import { Toggle } from "../Toggle/Toggle.component"
+import { useOptions } from "./options.hook"
 
 export const Options = () => {
-  const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "));
-  const [tags, setTags] = useState<string>(Rules.DIALOGUE_TAGS.join(", "));
-  const { quill } = useQuillSingleton();
-  const applyHighlightsCB = useCallback(
-    async (quill: QuillType) => applyHighlights(quill, Rules.getRules()),
-    [quill]
-  );
-  // Separate timeout refs for each input
-  const charTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const tagTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  useEffect(() => {
-    Rules.subscribeToChars(handleChars);
-  }, [quill]);
+  const {
+    chars,
+    handleCharChange,
+    tags,
+    handleTagsChange,
+    enableAdv,
+    setEnableAdv,
+  } = useOptions()
 
-  const handleChars = (cs: string[]) => {
-    setChars(cs.join(", "));
-    if (quill) {
-      console.log("My dude is firing");
-      applyHighlightsCB(quill);
-    }
-  };
-
-  const handleCharChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setChars(e.target.value);
-
-    if (charTimeoutRef.current) {
-      clearTimeout(charTimeoutRef.current);
-    }
-
-    charTimeoutRef.current = setTimeout(() => {
-      const newChars = e.target.value
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean);
-
-      Rules.setCharacters(newChars);
-
-      if (quill) {
-        applyHighlights(quill, Rules.getRules());
-      }
-      charTimeoutRef.current = null;
-    }, 500);
-  };
-
-  const handleTagsChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setTags(e.target.value);
-
-    if (tagTimeoutRef.current) {
-      clearTimeout(tagTimeoutRef.current);
-    }
-
-    tagTimeoutRef.current = setTimeout(() => {
-      const newTags = e.target.value
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean);
-
-      Rules.setDialogueTags(newTags);
-
-      if (quill) {
-        applyHighlights(quill, Rules.getRules());
-      }
-      tagTimeoutRef.current = null;
-    }, 500);
-  };
   return (
-    <div className="editor__options">
+    <div className="editor__options" tabIndex={0}>
       <h3 className="text-xl"> Options </h3>
       <h4>
         <label htmlFor="characters"> Character names</label>
@@ -89,7 +25,7 @@ export const Options = () => {
           value={chars}
           name="characters"
           onChange={handleCharChange}
-          placeholder="Emily, Dean, Sam, John, he, she, they"
+          placeholder="he, she, they"
         ></textarea>
       </div>
       <h4>
@@ -104,7 +40,30 @@ export const Options = () => {
           placeholder="said, asked, replied, whispered, shouted"
         ></textarea>
       </div>
+
+      <div className="features">
+        <Toggle
+          label="Highlight Adverbs"
+          checked={enableAdv}
+          onChange={setEnableAdv}
+        />
+      </div>
+      <Link
+        className="inline-block mt-5 text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+        href={"https://form.typeform.com/to/OEauYMEz"}
+        target="blank"
+      >
+        Report a bug 🪲🐛{" "}
+      </Link>
+      <div className="donate mt-5 ">Like the app? </div>
+      <Link
+        href={"https://ko-fi.com/lidiacodes"}
+        target="blank"
+        className="inline-block mt-2 text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+      >
+        Buy me a coffee ☕🍵
+      </Link>
       {/* <button>Apply</button> */}
     </div>
-  );
+  )
 };
