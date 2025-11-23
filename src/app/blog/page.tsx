@@ -1,7 +1,37 @@
 import Link from "next/link"
 import { sanity } from "../lib/sanity/sanity.config"
+import { Metadata } from "next";
 
+export async function generateMetadata(): Promise<Metadata> {
+  const posts = await sanity.fetch(`*[_type=="post" && dateTime(publishedAt) < dateTime(now())]
+    {
+      title,
+      slug,
+      "categories": categories[]->{title}.title,
+      "author": author->{name}
+    } | order(publishedAt desc)`);
 
+  const categories = posts.flatMap(post => post.categories || []);
+  const uniqueCategories = Array.from(new Set(categories));
+
+  return {
+    title: "The Editing Blog",
+    description: "Latest blog posts covering various categories including " + (uniqueCategories.join(", ") || "no categories"),
+    openGraph: {
+      title: "The Editing Blog - Latest Posts",
+      description: "Read the latest blog posts across categories: " + (uniqueCategories.join(", ") || "no categories"),
+      url: "https://editingthing.com/blog",
+      type: "website",
+      images: posts[0]?.author.image ? [{ url: posts[0].author.image, alt: posts[0].author.name }] : [],
+    },
+    keywords: uniqueCategories as string[],
+    twitter: {
+      card: "summary_large_image",
+      title: "The Editing Blog - Latest Posts",
+      description: "Stay updated with the latest posts on The Editing Blog.",
+    },
+  };
+}
 export default async function BlogLanding() {
   const posts = await sanity.fetch(`*[_type=="post" && dateTime(publishedAt) < dateTime(now())]
     {
