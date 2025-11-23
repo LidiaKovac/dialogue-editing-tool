@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
       "author": author->{name}
     } | order(publishedAt desc)`);
 
-  const categories = posts.flatMap(post => post.categories || []);
+  const categories = posts.flatMap((post:Record<string, any>) => post.categories || []);
   const uniqueCategories = Array.from(new Set(categories));
 
   return {
@@ -51,7 +51,7 @@ export default async function BlogLanding() {
     <div className="blog">
       <h2>The Editing Blog</h2>
       <div className="flex gap-2">
-        {posts.map(post => <div className="card">
+        {posts.map((post:Record<string, any>) => <div className="card">
           <h3>{post.title}</h3>
           <p>{post.author.name}</p>
           <Link href={"/blog/" + post.slug.current}>
