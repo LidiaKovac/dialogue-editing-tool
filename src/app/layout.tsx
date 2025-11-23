@@ -3,6 +3,7 @@ import "./globals.scss"
 import "quill/dist/quill.snow.css"
 
 import { Roboto_Mono } from "next/font/google"
+import { Navbar } from "./components/Navbar/Navbar.component"
 const font = Roboto_Mono({
   variable: "--roboto_mono-font",
 })
@@ -165,7 +166,9 @@ export default function RootLayout({
       <head>
         <meta name="google-site-verification" content="rE38Kd_bfIAsyV3_C-Bb5HVD75iG09H12kCa2Olwkfg" />
       </head>
-      <body className={`${font.variable}  antialiased`}>{children}</body>
+      <body className={`${font.variable}  antialiased`}>
+        <Navbar/>
+        {children}</body>
     </html>
   )
 }

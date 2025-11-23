@@ -32,8 +32,78 @@
       }
     }
   }
-  &>div {
+  & > div {
     min-width: 200px;
+  }
+}
+
+.blog {
+  padding-top: 20px;
+  h2 {
+    padding-bottom: 30px;
+  }
+  .flex {
+    .card {
+      position: relative;
+      background-color: white;
+      max-width: 300px;
+      border: 2px solid black;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      a {
+        position: relative;
+        background-color: white;
+        border: 2px solid black;
+        display: block;
+        width: fit-content;
+        span {
+          z-index: 2;
+          position: relative;
+          display: block;
+          background-color: white;
+          padding: 2px 10px;
+        }
+        .decoration {
+          width: 100%;
+          height: 100%;
+          left: 3px;
+          top: 3px;
+          position: absolute;
+          background-color: black;
+          z-index: 0;
+        }
+      }
+      &::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        left: 5px;
+        top: 5px;
+        position: absolute;
+        background-color: black;
+        z-index: -1;
+      }
+    }
+  }
+  .blog-post {
+    h3 {
+      margin-block: 20px 10px;
+    }
+  }
+  .categories {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: smaller;
+    .tag {
+      color: darkslategray
+    }
+  }
+  blockquote {
+    border-left: 2px solid black;
+    padding-left: 20px;
+    margin-block: 10px;
   }
 }
 

@@ -3,13 +3,31 @@ import type { MetadataRoute } from 'next'
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://dialogue-thing.netlify.app/',
+      url: 'https://editingthing.com/',
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: 'https://dialogue-thing.netlify.app/editor',
+      url: 'https://editingthing.com/editor',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: 'https://editingthing.com/blog',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: 'https://editingthing.com/blog/how-to-edit-a-fanfiction',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: 'https://editingthing.com/blog/dialogue-rules-for-fanfiction',
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.5,
