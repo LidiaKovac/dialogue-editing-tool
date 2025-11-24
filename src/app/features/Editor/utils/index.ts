@@ -76,7 +76,7 @@ export async function buildHighlightDeltaAdverbs(
     }
 
     // Retain the highlight range with the highlight attribute
-    delta.retain(length, { "adv_highlight": true });
+    delta.retain(length, { adv_highlight: true });
     currentPos += length;
   }
 
@@ -93,7 +93,8 @@ export async function buildHighlightDeltaAdverbs(
  */
 export async function applyHighlights(
   quill: QuillType | null,
-  patterns: { id: string; regex: RegExp }[]
+  patterns: { id: string; regex: RegExp }[],
+  adv: boolean
 ) {
   if (!quill || !patterns?.length) return;
 
@@ -119,33 +120,30 @@ export async function applyHighlights(
       }
     );
     const highlights = await res.json();
-
-    const resAdv = await fetch(
-      process.env.NEXT_PUBLIC_URL + "api/highlights/adverbs",
-      {
-        method: "POST",
-        body: JSON.stringify({ text: quill.getText() }),
-      }
-    );
-    const highlightsAdv = await resAdv.json();
-
-    // Set the content without highlights
-    quill.setContents(newDelta.ops, "silent");
-    const updateContentsCBs = await Promise.all([
-      buildHighlightDelta(quill.getText().length, highlights),
-      buildHighlightDeltaAdverbs(
-        quill.getText().length,
-        highlightsAdv.matches
-      ),
-    ])
-
-    const delta = updateContentsCBs[0].compose(updateContentsCBs[1])
-    console.log(updateContentsCBs[1])
-    quill?.updateContents(
-      delta,
-      "silent"
-    );
-    
+    if (adv) {
+      const resAdv = await fetch(
+        process.env.NEXT_PUBLIC_URL + "api/highlights/adverbs",
+        {
+          method: "POST",
+          body: JSON.stringify({ text: quill.getText() }),
+        }
+      );
+      const highlightsAdv = await resAdv.json();
+      quill.setContents(newDelta.ops, "silent");
+      const updateContentsCBs = await Promise.all([
+        buildHighlightDelta(quill.getText().length, highlights),
+        buildHighlightDeltaAdverbs(
+          quill.getText().length,
+          highlightsAdv.matches
+        ),
+      ]);
+      const delta = updateContentsCBs[0].compose(updateContentsCBs[1]);
+      quill?.updateContents(delta, "silent");
+    } else {
+      quill.setContents(newDelta.ops, "silent");
+      const delta = await buildHighlightDelta(quill.getText().length, highlights);
+      quill?.updateContents(delta, "silent");
+    }
 
     // Restore selection if it existed
     if (currentSelection) {
