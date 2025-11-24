@@ -37,16 +37,31 @@
   }
 }
 
+footer {
+  background-color: black;
+  color: white;
+}
+
 .blog {
   padding-top: 20px;
+  padding-inline: 10%;
+  min-height: 90vh;
+  :not(:has(article)) {
+    h2 {
+      font-size: 18pt;
+    }
+  }
   h2 {
-    padding-bottom: 30px;
+    padding-block: 20px 10px;
   }
   .flex {
+    flex-wrap: wrap;
+    margin-top: 20px;
     .card {
       position: relative;
       background-color: white;
       max-width: 300px;
+      min-width: 200px;
       border: 2px solid black;
       padding: 15px;
       display: flex;
@@ -111,7 +126,18 @@ body {
   font-family: var(--roboto_mono-font);
   height: 100vh;
   font-size: 10pt;
-  padding: 30px;
+  // padding: 30px;
+}
+nav {
+  padding: 20px;
+  padding-left: 40px;
+  a {
+    text-decoration: underline solid;
+  }
+}
+main {
+   padding-inline: 30px;
+   padding-block: 10px;
 }
 
 * {
