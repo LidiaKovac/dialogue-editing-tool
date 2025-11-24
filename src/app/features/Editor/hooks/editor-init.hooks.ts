@@ -7,6 +7,7 @@ import { applyHighlights } from "../utils";
 import Rules from "../utils/regex.utils";
 import { quillOptions } from "@/app/lib/quill/quill.options";
 import { registerAdvBlot } from "../utils/AdverbBlot.class";
+import { useOptions } from "../components/Options/options.hook";
 
 /**
  * Custom hook to initialize and manage a Quill rich text editor with syntax highlighting and word count.
@@ -36,12 +37,13 @@ export const useQuillEditor = () => {
   const isQuillCreated = useRef(false);
   // Shared singleton Quill instance and setter method from custom hook
   const { quill, setQuill } = useQuillSingleton();
+  const {enableAdv} = useOptions()
 
 
   const isApplyingHighlights = useRef(false);
   // Memoized callback to apply syntax highlights using rules
   const applyHighlightsCB = useCallback(
-    async (quill: QuillType | null) => applyHighlights(quill, Rules.getRules()),
+    async (quill: QuillType | null) => applyHighlights(quill, Rules.getRules(), enableAdv),
     [quill, Rules.getRules()]
   );
 

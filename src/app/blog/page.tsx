@@ -49,17 +49,21 @@ export default async function BlogLanding() {
   console.log(posts)
   return <>
     <div className="blog">
-      <h2>The Editing Blog</h2>
-      <div className="flex gap-2">
-        {posts.map((post:Record<string, any>) => <div className="card">
-          <h3>{post.title}</h3>
-          <p>{post.author.name}</p>
-          <Link href={"/blog/" + post.slug.current}>
-            <span>Read</span>
-            <div className="decoration"></div>
-          </Link>
-        </div>)}
-      </div>
-    </div>
+  <h1>The Editing Blog</h1> {/* Use h1 for main page title */}
+  <p>Explore the latest articles on editing, fanfiction tips, and writing advice.</p> {/* Add a descriptive intro paragraph */}
+
+  <section aria-label="Blog posts" className="flex gap-2">
+    {posts.map((post: Record<string, any>) => (
+      <article key={post._id} className="card">
+        <h2>{post.title}</h2> {/* Change to h2 for individual post titles */}
+        <p>By {post.author.name}</p> {/* More natural text */}
+        <Link href={"/blog/" + post.slug.current} aria-label={`Read full article: ${post.title}`}>
+          <span>Read</span>
+          <div className="decoration"></div>
+        </Link>
+      </article>
+    ))}
+  </section>
+</div>
   </>
 }
