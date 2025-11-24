@@ -61,8 +61,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     } | order(date desc)`)
     return <>
         <div className="blog">
-            <h2>The Editing Blog</h2>
-            <h3>{post.title}</h3>
+            
+            {/* <h2>The Editing Blog</h2> */}
+            <h1>{post.title}</h1>
 
             <article>
                 <PortableText value={post.blocks} />

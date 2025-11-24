@@ -10,22 +10,14 @@ export const useOptions = () => {
   const [enableAdv, setEnableAdv] = useState<boolean>(true)
   const { quill } = useQuillSingleton();
   const applyHighlightsCB = useCallback(
-    async (quill: QuillType) => applyHighlights(quill, Rules.getRules()),
+    async (quill: QuillType) => applyHighlights(quill, Rules.getRules(), enableAdv),
     [quill]
   );
 
   useEffect(() => {
-    if (enableAdv) {
-      const spans = document.querySelectorAll(".--adv-highlight")
-      for (const span of spans) {
-        span.classList.replace("--adv-highlight", "adv-highlight")
-      }
-    } else {
-      const spans = document.querySelectorAll(".adv-highlight")
-      for (const span of spans) {
-        span.classList.replace("adv-highlight", "--adv-highlight")
-      }
-    }
+    console.log(enableAdv, "ue")
+    if(quill)
+      applyHighlights(quill, Rules.getRules(), enableAdv)
   }, [enableAdv]) 
 
   const charTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -57,7 +49,7 @@ export const useOptions = () => {
       Rules.setCharacters(newChars);
 
       if (quill) {
-        applyHighlights(quill, Rules.getRules());
+        applyHighlights(quill, Rules.getRules(), enableAdv);
       }
       charTimeoutRef.current = null;
     }, 500);
@@ -79,7 +71,7 @@ export const useOptions = () => {
       Rules.setDialogueTags(newTags);
 
       if (quill) {
-        applyHighlights(quill, Rules.getRules());
+        applyHighlights(quill, Rules.getRules(), enableAdv);
       }
       tagTimeoutRef.current = null;
     }, 500);

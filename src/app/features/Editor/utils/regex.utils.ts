@@ -7,30 +7,17 @@ const cache = new LRUCache<string, Array<{ id: string; regex: RegExp }>>({
   max: 2000 * 60 * 60,
 });
 
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function getKey(chars: string[], tags: string[]): string {
   return [...chars].sort((a,b) => a.localeCompare(b)).join(",") + "|" + [...tags].sort((a,b) => a.localeCompare(b)).join(",");
 }
 
-/**
- * A reactive utility class for managing dialogue formatting rules and validation patterns.
- * This class automatically updates all regular expressions when characters or dialogue tags change.
- */
 export default class Rules {
   private static readonly _subs: Subscriber[] = [];
-  /**
-   * Internal storage for character names and pronouns used in dialogue validation.
-   * @type {string[]}
-   * @private
-   * @static
-   */
   private static _characters: string[] = [];
-
-  /**
-   * Internal storage for dialogue tags used to indicate speech attribution.
-   * @type {string[]}
-   * @private
-   * @static
-   */
   private static _dialogueTags: string[] = [
     "said",
     "asked",
@@ -50,28 +37,17 @@ export default class Rules {
     "repeated",
   ];
 
-  private static _dialogueString: string = this._dialogueTags.join("|");
-  private static _charString: string = this._characters.join("|");
+  private static _dialogueString: string = this._dialogueTags.map(escapeRegex).join("|");
+  private static _charString: string = this._characters.map(escapeRegex).join("|");
 
-  /**
-   * Get the current list of character names and pronouns.
-   * @returns {string[]} Array of character names and pronouns
-   * @static
-   */
   static get CHARACTERS(): string[] {
-    return [...this._characters]; // Return a copy to prevent external mutation
+    return [...this._characters];
   }
 
-  /**
-   * Get the current list of dialogue tags.
-   * @returns {string[]} Array of dialogue tags
-   * @static
-   */
   static get DIALOGUE_TAGS(): string[] {
-    return [...this._dialogueTags]; // Return a copy to prevent external mutation
+    return [...this._dialogueTags];
   }
 
-  // Common regex pattern components (automatically reactive)
   private static get START_WITH_PUNCTUATION_AND_QUOTES(): string {
     return `[,?!]\\s*["“”]\\s`;
   }
@@ -81,11 +57,8 @@ export default class Rules {
   }
 
   private static get NON_CAPTURING_GROUP_CHARS(): string {
-    return `(?:${this._charString})`;
-  }
-
-  private static get NON_CAPTURING_GROUP_PRONOUNS(): string {
-    return `(?:he|she|they)`;
+    // Word boundaries added here for safety
+    return `\\b(?:${this._charString})\\b`;
   }
 
   private static get NON_CAPTURING_GROUP_TAGS(): string {
@@ -93,31 +66,18 @@ export default class Rules {
   }
 
   private static get NEGATIVE_LOOKAHEAD_TAGS(): string {
-    return `(?!${this._dialogueTags.map((t) => t + /\b/).join("|")})`;
+    // Properly escaped with word boundary as string
+    return `(?!${this._dialogueTags.map(t => escapeRegex(t) + "\\b").join("|")})`;
   }
 
   private static get NEGATIVE_NOT_CAPTURING_LOOKAHEAD_CHARS(): string {
     return `(?!(?:${this._charString})\\b)`;
   }
 
-  /**
-   * Helper method to create negative lookahead patterns.
-   * @param {string} first - First pattern
-   * @param {string} second - Second pattern
-   * @returns {string} Negative lookahead pattern
-   * @private
-   * @static
-   */
   private static negativeLookahead(first: string, second: string): string {
     return `(?!${first}\\s+(?:${second})\\b)`;
   }
 
-  /**
-   * Regex to catch cases like: "something," Sam walked (where "walked" should be flagged)
-   * Automatically updates when characters or dialogue tags change.
-   * @returns {RegExp} Regular expression for comma with no dialogue tag
-   * @static
-   */
   static get COMMA_WITH_NO_DIALOGUE_TAG(): RegExp {
     return new RegExp(
       `${this.START_WITH_COMMA_AND_QUOTES}${this.negativeLookahead(
@@ -128,12 +88,6 @@ export default class Rules {
     );
   }
 
-  /**
-   * Regex to catch incorrect capitalization after commas.
-   * Matches cases like: "Hello," She said (where "She" should be "she")
-   * @returns {RegExp} Regular expression for capital after comma
-   * @static
-   */
   static get CAPITAL_AFTER_COMMA(): RegExp {
     return new RegExp(
       `${this.START_WITH_COMMA_AND_QUOTES}${this.NEGATIVE_NOT_CAPTURING_LOOKAHEAD_CHARS}([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)*)`,
@@ -141,79 +95,44 @@ export default class Rules {
     );
   }
 
-  /**
-   * Regex to catch lowercase words that should be capitalized after full stops.
-   * Matches cases like: "Hello." she said (where "she" should be "She")
-   * @returns {RegExp} Regular expression for lowercase after full stop
-   * @static
-   */
   static get LOWERCASE_AFTER_FULL_STOP(): RegExp {
     return /\.\s*["“”]\s([a-z]+)/gm;
   }
 
-  /**
-   * Regex to catch missing dialogue tags after punctuation.
-   * Matches cases like: "Hello?" He ran (where "ran" should be flagged)
-   * @returns {RegExp} Regular expression for no dialogue tag after punctuation
-   * @static
-   */
   static get NO_DIALOGUE_TAG_AFTER_PUNCTUATION(): RegExp {
     return new RegExp(
-      `${this.START_WITH_PUNCTUATION_AND_QUOTES}(${this.NON_CAPTURING_GROUP_PRONOUNS}\\s+${this.NEGATIVE_LOOKAHEAD_TAGS}[A-Za-z]+)`,
+      `${this.START_WITH_PUNCTUATION_AND_QUOTES}` +
+      `(\\b(?:he|she|they)\\b)\\s+` +
+      `${this.NEGATIVE_LOOKAHEAD_TAGS}[A-Za-z]+`,
       "gm"
     );
   }
 
-  /**
-   * Regex to catch capitalized words after any punctuation that should be lowercase.
-   * Matches cases like: "Hello?" Said Kevin (where "Said" should be "said")
-   * @returns {RegExp} Regular expression for capital after punctuation
-   * @static
-   */
   static get CAPITAL_AFTER_PUNCTUATION(): RegExp {
+    //[,?!]\s*["“”]\s*(?!Emily\b|Jesse\b)([A-Z][a-z]+)\b(?!\s+(?:said|yelled)\b)
     return new RegExp(
-      `${this.START_WITH_PUNCTUATION_AND_QUOTES}${this.NEGATIVE_NOT_CAPTURING_LOOKAHEAD_CHARS}([A-Z][a-z]+)`,
+      `${this.START_WITH_PUNCTUATION_AND_QUOTES}${this.NEGATIVE_NOT_CAPTURING_LOOKAHEAD_CHARS}([A-Z][a-z]+)\b(${this.NEGATIVE_LOOKAHEAD_TAGS}\b)`,
       "gm"
     );
   }
 
-  /**
-   * Updates the character list. All regex patterns automatically update.
-   * @param {string[]} chars - Array of character names and pronouns to recognize
-   * @static
-   * @public
-   */
   public static setCharacters(chars: string[]): void {
     const pronouns = ["he", "she", "they"];
     const withPronouns = new Set([...(chars.length ? chars : []), ...pronouns]);
-    this._characters = Array.from(withPronouns); // Create a copy to prevent external mutation
-    this._charString = this._characters.join("|");
+    this._characters = Array.from(withPronouns);
+    this._charString = this._characters.map(escapeRegex).join("|");
     for (const sub of this._subs) {
       sub(this._characters);
     }
     cache.clear();
   }
 
-  /**
-   * Updates the dialogue tags list. All regex patterns automatically update.
-   * @param {string[]} tags - Array of dialogue tags to recognize
-   * @static
-   * @public
-   */
   public static setDialogueTags(tags: string[]): void {
-    this._dialogueTags = [...tags]; // Create a copy to prevent external mutation
-    this._dialogueString = this._dialogueTags.join("|");
-
+    this._dialogueTags = [...tags];
+    this._dialogueString = this._dialogueTags.map(escapeRegex).join("|");
     cache.clear();
   }
 
-  /**
-   * Returns an array of rule objects containing regular expressions for dialogue validation.
-   * All regex patterns are automatically up-to-date with current characters and dialogue tags.
-   * @returns {Array<{id: string, regex: RegExp}>} Array of rule objects with IDs and regex patterns
-   * @static
-   * @public
-   */
   public static getRules(): Array<{ id: string; regex: RegExp }> {
     const key = getKey(this._characters, this._dialogueTags);
     let cached = cache.get(key);
@@ -231,6 +150,8 @@ export default class Rules {
         regex: this.CAPITAL_AFTER_PUNCTUATION,
       },
     ];
+    console.log(rules)
+
     cache.set(key, rules);
     return rules;
   }

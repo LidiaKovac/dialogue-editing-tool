@@ -4,6 +4,7 @@ import "quill/dist/quill.snow.css"
 
 import { Roboto_Mono } from "next/font/google"
 import { Navbar } from "./components/Navbar/Navbar.component"
+import { Footer } from "./components/Footer/Footer"
 const font = Roboto_Mono({
   variable: "--roboto_mono-font",
 })
@@ -168,7 +169,10 @@ export default function RootLayout({
       </head>
       <body className={`${font.variable}  antialiased`}>
         <Navbar/>
-        {children}</body>
+        {children}
+        <Footer/>
+        </body>
+
     </html>
   )
 }
