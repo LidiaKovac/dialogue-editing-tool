@@ -33,7 +33,6 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 export default async function BlogLanding() {
-
   const posts = await sanity.fetch(`*[_type=="post" && dateTime(publishedAt) < dateTime(now())]
     {
       "date":publishedAt,
@@ -47,7 +46,6 @@ export default async function BlogLanding() {
     La fetch da indietro .result, ma la variabile e' SOLO i risultati, 
     non quello che si vede in network tab
     */
-  console.log(posts)
   return <>
     <div className="blog">
   <h1>The Editing Blog</h1> {/* Use h1 for main page title */}

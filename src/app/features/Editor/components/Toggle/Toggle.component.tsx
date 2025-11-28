@@ -10,7 +10,6 @@ export const Toggle = ({
   onChange: Dispatch<SetStateAction<boolean>>
 }) => {
     const keyboardListener = (event: React.KeyboardEvent) => {
-      console.log(event.key)
       if (event.key == " " || event.key == "Enter") {
         event.preventDefault()
         onChange((prev) => !prev)

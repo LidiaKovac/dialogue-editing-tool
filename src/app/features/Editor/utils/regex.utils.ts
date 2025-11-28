@@ -150,7 +150,6 @@ export default class Rules {
         regex: this.CAPITAL_AFTER_PUNCTUATION,
       },
     ];
-    console.log(rules)
 
     cache.set(key, rules);
     return rules;

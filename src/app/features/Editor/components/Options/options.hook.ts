@@ -15,7 +15,6 @@ export const useOptions = () => {
   );
 
   useEffect(() => {
-    console.log(enableAdv, "ue")
     if(quill)
       applyHighlights(quill, Rules.getRules(), enableAdv)
   }, [enableAdv]) 

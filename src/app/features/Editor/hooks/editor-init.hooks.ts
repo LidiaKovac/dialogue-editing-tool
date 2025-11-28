@@ -24,6 +24,7 @@ import { useOptions } from "../components/Options/options.hook";
 export const useQuillEditor = () => {
   // State to store current word count
   const [words, setWords] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
 
   // Ref to the editor container div
   const editorRef = useRef<HTMLDivElement | null>(null);
@@ -37,13 +38,24 @@ export const useQuillEditor = () => {
   const isQuillCreated = useRef(false);
   // Shared singleton Quill instance and setter method from custom hook
   const { quill, setQuill } = useQuillSingleton();
-  const {enableAdv} = useOptions()
-
+  const { enableAdv } = useOptions();
 
   const isApplyingHighlights = useRef(false);
   // Memoized callback to apply syntax highlights using rules
   const applyHighlightsCB = useCallback(
-    async (quill: QuillType | null) => applyHighlights(quill, Rules.getRules(), enableAdv),
+    async (quill: QuillType | null) => {
+      try {
+        setLoading(true);
+        quill?.disable();
+        quill?.blur();
+        await applyHighlights(quill, Rules.getRules(), enableAdv);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+        quill?.enable(true);
+      }
+    },
     [quill, Rules.getRules()]
   );
 
@@ -106,13 +118,15 @@ export const useQuillEditor = () => {
    */
   function onTextChange(delta: any, oldDelta: any, source: string) {
     if (source !== "user") return;
-if (isApplyingHighlights.current) return; // Prevent recursive highlights
+    if (isApplyingHighlights.current) return; // Prevent recursive highlights
     if (highlightTimer.current) clearTimeout(highlightTimer.current);
 
     highlightTimer.current = setTimeout(() => {
       if (quillRef.current) {
         isApplyingHighlights.current = true;
-        applyHighlightsCB(quillRef.current).finally(() => isApplyingHighlights.current = false);
+        applyHighlightsCB(quillRef.current).finally(
+          () => (isApplyingHighlights.current = false)
+        );
       }
     }, 500);
   }
@@ -171,5 +185,5 @@ if (isApplyingHighlights.current) return; // Prevent recursive highlights
   }, [Rules.getRules(), applyHighlightsCB]);
 
   // Return editor div ref, current word count, and text content getter
-  return { editorRef, words, text: quill?.getText() };
+  return { editorRef, words, text: quill?.getText(), loading };
 };
