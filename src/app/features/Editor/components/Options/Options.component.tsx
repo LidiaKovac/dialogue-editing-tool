@@ -12,7 +12,6 @@ export const Options = () => {
     enableAdv,
     setEnableAdv,
   } = useOptions()
-  console.log(enableAdv)
   return (
     <div className="editor__options" tabIndex={0}>
       <h3 className="text-xl"> Options </h3>

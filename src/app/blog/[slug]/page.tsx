@@ -48,7 +48,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params
-    console.log(slug)
     const [post] = await sanity.fetch(`*[_type=="post" && slug.current=="${slug}"]
     {
       "date":publishedAt,

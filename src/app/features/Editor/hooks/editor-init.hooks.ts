@@ -46,11 +46,14 @@ export const useQuillEditor = () => {
     async (quill: QuillType | null) => {
       try {
         setLoading(true);
-        applyHighlights(quill, Rules.getRules(), enableAdv);
+        quill?.disable();
+        quill?.blur();
+        await applyHighlights(quill, Rules.getRules(), enableAdv);
       } catch (error) {
         console.error(error);
       } finally {
         setLoading(false);
+        quill?.enable(true);
       }
     },
     [quill, Rules.getRules()]
