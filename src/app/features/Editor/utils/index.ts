@@ -141,7 +141,10 @@ export async function applyHighlights(
       quill?.updateContents(delta, "silent");
     } else {
       quill.setContents(newDelta.ops, "silent");
-      const delta = await buildHighlightDelta(quill.getText().length, highlights);
+      const delta = await buildHighlightDelta(
+        quill.getText().length,
+        highlights
+      );
       quill?.updateContents(delta, "silent");
     }
 
