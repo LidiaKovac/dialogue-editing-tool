@@ -24,10 +24,12 @@ export default function Landing() {
           Get started for free
         </Link>
       </div>
-      <p className="md:flex-1">
-        Edit smarter, not harder. Discover a powerful suite for writers: track
-        your characters and edit your story’s dialogue. Unlock insights that
-        help you find your voice, clean up your draft, and publish confidently.
+      <p className="md:flex-1 text-sm/6">
+        Looking for an <b> AI-free editing tool </b>? Look no further. <br />
+        The Dialogue Thing can help you edit your dialogue <b> for free </b>, no
+        word limit, no AI. <br /> <b> Recognize </b> and fix
+        <b> incorrect dialogue patterns</b>, formatting and adverbs. <br />{" "}
+        <br />
         Get started for free and see how editing should feel.
       </p>
     </div>
