@@ -2,6 +2,8 @@
 import Link from "next/link"
 import { Toggle } from "../Toggle/Toggle.component"
 import { useOptions } from "./options.hook"
+import { useQuillEditor } from "../../hooks/editor-init.hooks"
+import { ToolTip } from "@/app/components/Tooltip/Tooltip.component"
 
 export const Options = () => {
   const {
@@ -12,8 +14,78 @@ export const Options = () => {
     enableAdv,
     setEnableAdv,
   } = useOptions()
+  const { lix } = useQuillEditor()
+  const getAriLabel = () => {
+    switch (lix?.ari) {
+      case 1:
+        return "Kindergarten"
+      case 2:
+        return "First grade"
+      case 3:
+        return "Second grade"
+      case 4:
+        return "Third grade"
+      case 5:
+        return "Fourth grade"
+      case 6:
+        return "Fifth grade"
+      case 7:
+      case 8:
+      case 9:
+        return "Middle school"
+      case 10:
+      case 11:
+      case 12:
+      case 13:
+        return "High school"
+      case 14:
+        return "College / University"
+      default:
+        "Invalid ARI score"
+    }
+  }
+
+  const getLIXLabel = () => {
+    if (!lix) return "Invalid LIX score"
+    if (lix?.lix <= 25) {
+      return "Children level"
+    }
+    if (lix?.lix <= 30) {
+      return "Simple text"
+    }
+    if (lix?.lix <= 40) {
+      return "Fiction level"
+    }
+    if (lix?.lix <= 50) {
+      return "Informative text"
+    }
+    if (lix?.lix <= 60) {
+      return "Non fiction text"
+    }
+    return "Scientific text"
+  }
+
   return (
     <div className="editor__options" tabIndex={0}>
+      <h3>Readability scores</h3>
+      {lix && (
+        <>
+          ARI{" "}
+          <ToolTip
+            data={
+              "Automated Readability Index, approximate representation of the US grade level needed to comprehend the text."
+            }
+          />
+          : {lix.ari} - {getAriLabel()} <br />
+          LIX{" "}
+          <ToolTip
+            data={
+              "Läsbarhetsindex, based on number of sentences and number of words, with particular weight on long words."
+            }
+          />
+          : {lix.lix} - {getLIXLabel()}
+        </>
+      )}
       <h3 className="text-xl"> Options </h3>
       <h4>
         <label htmlFor="characters"> Character names</label>
@@ -39,7 +111,6 @@ export const Options = () => {
           placeholder="said, asked, replied, whispered, shouted"
         ></textarea>
       </div>
-
       <div className="features">
         <Toggle
           label="Highlight Adverbs"
@@ -65,4 +136,4 @@ export const Options = () => {
       {/* <button>Apply</button> */}
     </div>
   )
-};
+}
