@@ -26,6 +26,7 @@ export const useQuillEditor = () => {
   const [words, setWords] = useState<number>(0)
   const [loading, setLoading] = useState(false)
   const [lix, setLix] = useState<Record<string, number> | null>(null)
+  const [dialogueDensity, setDialogueDensity] = useState<number>(0)
 
   // Ref to the editor container div
   const editorRef = useRef<HTMLDivElement | null>(null)
@@ -37,6 +38,8 @@ export const useQuillEditor = () => {
   const wordCountTime = useRef<NodeJS.Timeout>(null)
   //Ref holding timer ID for debounced ARI value
   const ariTimer = useRef<NodeJS.Timeout>(null)
+  // Ref holding timer ID for debounced dialogue density
+  const dialogueDensityTimer = useRef<NodeJS.Timeout>(null)
   // Flag to track whether Quill instance was created
   const isQuillCreated = useRef(false)
   // Shared singleton Quill instance and setter method from custom hook
@@ -162,16 +165,15 @@ export const useQuillEditor = () => {
 
     // Debounced function to count words and update state
     const updateWordCount = () => {
-      const text = quill.getText()
       if (wordCountTime.current) clearTimeout(wordCountTime.current)
       wordCountTime.current = setTimeout(() => {
+        const text = quill.getText()
         const count = text.trim().split(/\s+/).filter(Boolean).length
         setWords(count)
       }, 500)
     }
 
     updateWordCount()
-
     quill.on("text-change", updateWordCount)
 
     return () => {
@@ -183,6 +185,26 @@ export const useQuillEditor = () => {
 
   useEffect(() => {
     if (!quill) return
+    if (words < 1) return
+    
+   // Debounced function to count words and update state
+    const calculateWordDensity = () => {
+      if (dialogueDensityTimer.current)
+        clearTimeout(dialogueDensityTimer.current)
+      dialogueDensityTimer.current = setTimeout(() => {
+        const text = quill.getText().trim()
+
+        const dialogueLines = [...text.matchAll(/[""“”][^""“”]*?[""“”]/gim)]
+          .flat()
+          .map((line) => line.replaceAll(/[""“”]/g, ""))
+        const wordsInDialogue = dialogueLines.join().split(" ").length
+        setDialogueDensity(Math.ceil((wordsInDialogue / words) * 100))
+      }, 500)
+      //TODO: move to API and add highlighting of dialogue in subtle color + toggle
+    }
+
+    calculateWordDensity()
+    quill.on("text-change", calculateWordDensity)
     const calculateReadabilityScore = () => {
       if (ariTimer.current) clearTimeout(ariTimer.current)
       // The formula for calculating the automated readability index is given below:
@@ -220,7 +242,13 @@ export const useQuillEditor = () => {
       quill.off("text-change", calculateReadabilityScore)
       if (ariTimer.current) clearTimeout(ariTimer.current)
       ariTimer.current = null
+      quill.off("text-change", calculateWordDensity)
+      if (dialogueDensityTimer.current)
+        clearTimeout(dialogueDensityTimer.current)
+      dialogueDensityTimer.current = null
     }
+    }
+    
   }, [words])
   // Effect to apply highlighting whenever rules change or the callback updates
   useEffect(() => {
@@ -230,5 +258,6 @@ export const useQuillEditor = () => {
   }, [Rules.getRules(), applyHighlightsCB])
 
   // Return editor div ref, current word count, and text content getter
-  return { editorRef, words, text: quill?.getText(), loading, lix }
+  return { editorRef, words, text: quill?.getText(), loading, lix, dialogueDensity }
+
 }

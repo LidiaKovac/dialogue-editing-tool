@@ -14,7 +14,7 @@ export const Options = () => {
     enableAdv,
     setEnableAdv,
   } = useOptions()
-  const { lix } = useQuillEditor()
+  const { lix, dialogueDensity } = useQuillEditor()
   const getAriLabel = () => {
     switch (lix?.ari) {
       case 1:
@@ -86,6 +86,35 @@ export const Options = () => {
           : {lix.lix} - {getLIXLabel()}
         </>
       )}
+
+  return (
+    <div className="editor__options" tabIndex={0}>
+      <h3>Readability scores</h3>
+      {lix && (
+        <>
+          ARI{" "}
+          <ToolTip
+            data={
+              "Automated Readability Index, approximate representation of the US grade level needed to comprehend the text."
+            }
+          />
+          : {lix.ari} - {getAriLabel()} <br />
+          LIX{" "}
+          <ToolTip
+            data={
+              "Läsbarhetsindex, based on number of sentences and number of words, with particular weight on long words."
+            }
+          />
+          : {lix.lix} - {getLIXLabel()}
+        </>
+      )}
+      <h3>Density</h3>
+      <p>
+        Dialogue density:
+        <span className={dialogueDensity > 50 ? "text-red-600" : ""}>
+          {dialogueDensity}%
+        </span>
+      </p>
       <h3 className="text-xl"> Options </h3>
       <h4>
         <label htmlFor="characters"> Character names</label>
