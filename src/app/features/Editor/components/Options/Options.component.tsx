@@ -2,6 +2,7 @@
 import Link from "next/link"
 import { Toggle } from "../Toggle/Toggle.component"
 import { useOptions } from "./options.hook"
+import { useQuillEditor } from "../../hooks/editor-init.hooks"
 
 export const Options = () => {
   const {
@@ -12,8 +13,17 @@ export const Options = () => {
     enableAdv,
     setEnableAdv,
   } = useOptions()
+
+  const { dialogueDensity } = useQuillEditor()
   return (
     <div className="editor__options" tabIndex={0}>
+      <h3>Density</h3>
+      <p>
+        Dialogue density:
+        <span className={dialogueDensity > 50 ? "text-red-600" : ""}>
+          {dialogueDensity}%
+        </span>
+      </p>
       <h3 className="text-xl"> Options </h3>
       <h4>
         <label htmlFor="characters"> Character names</label>
@@ -65,4 +75,4 @@ export const Options = () => {
       {/* <button>Apply</button> */}
     </div>
   )
-};
+}
