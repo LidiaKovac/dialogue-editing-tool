@@ -3,34 +3,46 @@ import type { MetadataRoute } from 'next'
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://editingthing.com/',
+      url: "https://editingthing.com/",
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: 'https://editingthing.com/editor',
+      url: "https://editingthing.com/editor",
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: "monthly",
       priority: 0.5,
     },
     {
-      url: 'https://editingthing.com/blog',
+      url: "https://editingthing.com/blog",
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: "monthly",
       priority: 0.5,
     },
     {
-      url: 'https://editingthing.com/blog/how-to-edit-a-fanfiction',
+      url: "https://editingthing.com/blog/how-to-edit-a-fanfiction",
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: "monthly",
       priority: 0.5,
     },
     {
-      url: 'https://editingthing.com/blog/dialogue-rules-for-fanfiction',
+      url: "https://editingthing.com/blog/dialogue-rules-for-fanfiction",
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: "monthly",
       priority: 0.5,
-    }
+    },
+    {
+      url: "https://editingthing.com/blog/dialogue-rules-for-books",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: "https://editingthing.com/blog/how-to-edit-a-book-or-novel",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
   ]
 }
