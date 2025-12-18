@@ -1,3 +1,4 @@
+@use "sass:math";
 main {
   // height: calc(100vh - 40px);
   $height: calc(100vh - 40px - 350px);
@@ -71,11 +72,11 @@ main {
         position: relative;
         $width: 50px;
         width: $width;
-        height: $width / 2;
-        border-radius: $width / 2;
+        height: math.div($width, 2);
+        border-radius: math.div($width, 2);
         &__handle {
           border-radius: 100px;
-          width: $width / 2;
+          width: math.div($width, 2);
           aspect-ratio: 1/1;
           background-color: black;
           position: absolute;
