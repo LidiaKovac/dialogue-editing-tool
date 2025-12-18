@@ -42,6 +42,7 @@ export const Options = () => {
         return "College / University"
       default:
         "Invalid ARI score"
+        break
     }
   }
 
@@ -65,27 +66,23 @@ export const Options = () => {
     return "Scientific text"
   }
 
-
-
   return (
     <div className="editor__options" tabIndex={0}>
       <h3 className="mt-3">Readability scores</h3>
-      <>
-        ARI{" "}
-        <ToolTip
-          data={
-            "Automated Readability Index, approximate representation of the US grade level needed to comprehend the text."
-          }
-        />
-        : {lix?.ari ?? 0} - {lix?.ari && getAriLabel()} <br />
-        LIX{" "}
-        <ToolTip
-          data={
-            "Läsbarhetsindex, based on number of sentences and number of words, with particular weight on long words."
-          }
-        />
-        : {lix?.lix ?? 0} - {lix?.lix && getLIXLabel()}
-      </>
+      ARI{" "}
+      <ToolTip
+        data={
+          "Automated Readability Index, approximate representation of the US grade level needed to comprehend the text."
+        }
+      />
+      : {lix?.ari ?? 0} - {lix?.ari && getAriLabel()} <br />
+      LIX{" "}
+      <ToolTip
+        data={
+          "Läsbarhetsindex, based on number of sentences and number of words, with particular weight on long words."
+        }
+      />
+      : {lix?.lix ?? 0} - {lix?.lix && getLIXLabel()}
       <h3 className="mt-3">Density</h3>
       <p>
         Dialogue density:
