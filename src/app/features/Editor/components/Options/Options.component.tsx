@@ -65,57 +65,36 @@ export const Options = () => {
     return "Scientific text"
   }
 
-  return (
-    <div className="editor__options" tabIndex={0}>
-      <h3>Readability scores</h3>
-      {lix && (
-        <>
-          ARI{" "}
-          <ToolTip
-            data={
-              "Automated Readability Index, approximate representation of the US grade level needed to comprehend the text."
-            }
-          />
-          : {lix.ari} - {getAriLabel()} <br />
-          LIX{" "}
-          <ToolTip
-            data={
-              "Läsbarhetsindex, based on number of sentences and number of words, with particular weight on long words."
-            }
-          />
-          : {lix.lix} - {getLIXLabel()}
-        </>
-      )}
+
 
   return (
     <div className="editor__options" tabIndex={0}>
-      <h3>Readability scores</h3>
-      {lix && (
-        <>
-          ARI{" "}
-          <ToolTip
-            data={
-              "Automated Readability Index, approximate representation of the US grade level needed to comprehend the text."
-            }
-          />
-          : {lix.ari} - {getAriLabel()} <br />
-          LIX{" "}
-          <ToolTip
-            data={
-              "Läsbarhetsindex, based on number of sentences and number of words, with particular weight on long words."
-            }
-          />
-          : {lix.lix} - {getLIXLabel()}
-        </>
-      )}
-      <h3>Density</h3>
+      <h3 className="mt-3">Readability scores</h3>
+      <>
+        ARI{" "}
+        <ToolTip
+          data={
+            "Automated Readability Index, approximate representation of the US grade level needed to comprehend the text."
+          }
+        />
+        : {lix?.ari ?? 0} - {lix?.ari && getAriLabel()} <br />
+        LIX{" "}
+        <ToolTip
+          data={
+            "Läsbarhetsindex, based on number of sentences and number of words, with particular weight on long words."
+          }
+        />
+        : {lix?.lix ?? 0} - {lix?.lix && getLIXLabel()}
+      </>
+      <h3 className="mt-3">Density</h3>
       <p>
         Dialogue density:
         <span className={dialogueDensity > 50 ? "text-red-600" : ""}>
+          &nbsp;
           {dialogueDensity}%
         </span>
       </p>
-      <h3 className="text-xl"> Options </h3>
+      <h3 className="text-xl mt-3"> Options </h3>
       <h4>
         <label htmlFor="characters"> Character names</label>
       </h4>
