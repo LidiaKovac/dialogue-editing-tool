@@ -9,6 +9,7 @@ export const useDebouncedHighlights = (
 ) => {
   const highlightTimer = useRef<NodeJS.Timeout | null>(null)
   const isApplyingHighlights = useRef(false)
+  const tagsVersionRef = useRef(0)
 
   const applyHighlightsCB = useCallback(async () => {
     if (!quill || isApplyingHighlights.current) return false
@@ -25,11 +26,25 @@ export const useDebouncedHighlights = (
       quill.enable(true)
     }
   }, [quill, enableAdv])
+
   useEffect(() => {
     if (quill?.getText()) {
       applyHighlightsCB()
     }
   }, [enableAdv, quill, applyHighlightsCB])
+
+  // Re-run analysis when dialogue tags change
+  useEffect(() => {
+    const handleTagsChange = () => {
+      tagsVersionRef.current++
+      if (quill?.getText()) {
+        applyHighlightsCB()
+      }
+    }
+
+    Rules.subscribeToTags(handleTagsChange)
+  }, [quill, applyHighlightsCB])
+
   useEffect(() => {
     if (!quill) return
 

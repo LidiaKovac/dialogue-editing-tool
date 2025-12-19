@@ -22,12 +22,10 @@ export function __TEST__resetCache(to?: LRUCache<string, Set<string>>) {
  * @returns {Promise<NextResponse>} JSON response with extracted proper names.
  */
 export async function POST(body: NextRequest) {
-  if (!cache) {
-    cache = new LRUCache<string, Set<string>>({
-      size: 500,
-      max: 2000 * 60 * 60,
-    });
-  }
+  cache ??= new LRUCache<string, Set<string>>({
+    max: 500,
+    ttl: 2000 * 60 * 60,
+  })
 
   const text = await body.text();
 
