@@ -27,8 +27,8 @@ export default function Landing() {
       <p className="md:flex-1 text-sm/6">
         Looking for an <b> AI-free editing tool </b>? Look no further. <br />
         The Dialogue Thing can help you edit your dialogue <b> for free </b>, no
-        word limit, no AI. <br /> <b> Recognize </b> and fix
-        <b> incorrect dialogue patterns</b>, formatting and adverbs. <br />{" "}
+        word limit, no AI. <br /> <b> Recognize </b> and fix{" "}
+        <b>incorrect dialogue patterns</b>, formatting and adverbs. <br />{" "}
         <br />
         Get started for free and see how editing should feel.
       </p>

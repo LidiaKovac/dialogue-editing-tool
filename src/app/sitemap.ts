@@ -21,6 +21,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     },
     {
+      url: "https://editingthing.com/faq",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
       url: "https://editingthing.com/blog/how-to-edit-a-fanfiction",
       lastModified: new Date(),
       changeFrequency: "monthly",

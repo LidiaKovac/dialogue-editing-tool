@@ -2,13 +2,10 @@ import type { Metadata } from "next"
 import "./globals.scss"
 import "quill/dist/quill.snow.css"
 
-import { Roboto_Mono } from "next/font/google"
 import { Navbar } from "./components/Navbar/Navbar.component"
 import { Footer } from "./components/Footer/Footer"
 import metadataObj from "./metadata"
-const font = Roboto_Mono({
-  variable: "--roboto_mono-font",
-})
+import { font } from "./lib/fonts"
 
 export const metadata: Metadata = metadataObj
 

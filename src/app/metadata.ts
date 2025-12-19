@@ -1,62 +1,65 @@
 import type { Metadata } from "next"
 import structuredData from "./structuredData"
 
-export default {
+const siteUrl = "https://editingthing.com"
+
+const metadata: Metadata = {
   alternates: {
-    canonical: "https://editingthing.com",
+    canonical: siteUrl,
   },
-  // Basic Meta Tags
-  title: "The Dialogue Thing - Edit your dialogue for free!",
+
+  // Basic meta
+  title:
+    "The Dialogue Thing – Free AI‑Free Dialogue Editor for Fanfiction and Novels",
   description:
-    "Dialogue editor with real-time grammar validation, character tracking, and intelligent formatting suggestions. Perfect for novelists, screenwriters, and content creators.",
+    "Edit your dialogue for free with The Dialogue Thing – an AI‑free tool that spots dialogue tag issues, punctuation mistakes, and overused adverbs. Built for fanfiction writers and novelists.",
   keywords: [
     "dialogue editor",
-    "writing tool",
-    "grammar checker",
-    "novel writing",
-    "screenwriting",
-    "character dialogue",
-    "writing assistant",
-    "punctuation checker",
-    "dialogue formatting",
-    "creative writing",
-    "author tools",
-    "manuscript editor",
-    "writing software",
-    "dialogue validation",
-    "speech attribution",
+    "fanfiction editing",
+    "edit dialogue online",
+    "novel dialogue formatting",
+    "dialogue tags and action beats",
+    "punctuation checker for dialogue",
+    "adverb checker",
+    "writing tool for authors",
+    "AI-free writing tool",
+    "edit fanfiction dialogue",
   ],
-  authors: [{ name: "Lidia Kovac" }], // Replace with actual author
+  authors: [{ name: "Lidia Kovac", url: siteUrl }],
   creator: "Lidia Kovac",
-  publisher: "Lidia Kovac", // Replace with your company/name
+  publisher: "Lidia Kovac",
+  applicationName: "The Dialogue Thing",
+  referrer: "origin-when-cross-origin",
+  category: "Writing Tools",
 
-  // Open Graph (Facebook, LinkedIn, etc.)
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://editingthing.com", // Replace with your domain
+    url: siteUrl,
     siteName: "The Dialogue Thing",
-    title: "The Dialogue Thing - Edit your dialogue for free!",
+    title: "The Dialogue Thing – Edit Your Dialogue for Free",
     description:
-      "Dialogue editor with real-time validation and formatting suggestions. Write better dialogue with intelligent grammar checking and character tracking.",
+      "A free, AI‑free dialogue editor that highlights dialogue tag problems, formatting issues, and adverbs so you stay in control of your fanfiction or novel edits.",
     images: [
       {
-        url: "https://editingthing.com/ogimage.png", // Replace with your OG image
+        url: `${siteUrl}/ogimage.png`,
         width: 1200,
         height: 630,
-        alt: "The Dialogue Thing - Smart Writing Assistant",
+        alt: "The Dialogue Thing – Smart dialogue editing tool",
         type: "image/png",
       },
     ],
   },
 
-  // Additional Meta Tags
-  applicationName: "The Dialogue Thing",
-  referrer: "origin-when-cross-origin",
-  category: "Writing Tools",
-  classification: "Writing Software",
+  twitter: {
+    card: "summary_large_image",
+    title: "The Dialogue Thing – Free AI‑Free Dialogue Editor",
+    description:
+      "Clean up your dialogue tags, action beats, and adverbs with a free AI‑free editor made for fanfiction writers and novelists.",
+    images: [`${siteUrl}/ogimage.png`],
+    creator: "@", // add handle if you have one
+  },
 
-  // Robots and SEO
   robots: {
     index: true,
     follow: true,
@@ -69,48 +72,40 @@ export default {
     },
   },
 
-  // Additional structured data
+  // extra meta / structured data
   other: {
     "application/ld+json": JSON.stringify(structuredData),
-    // App-specific meta tags
     "application-name": "The Dialogue Thing",
     "mobile-web-app-capable": "yes",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
     "apple-mobile-web-app-title": "The Dialogue Thing",
 
-    // Theme colors
-    "theme-color": "#ffffff", // Adjust to match your app's theme
+    "theme-color": "#ffffff",
     "msapplication-TileColor": "#ffffff",
     "msapplication-navbutton-color": "#ffffff",
 
-    // Content type and language
     "content-language": "en",
     "content-type": "text/html; charset=utf-8",
 
-    // Cache control
-    "cache-control": "public, max-age=31536000",
-
-    // Additional SEO tags
     rating: "General",
     distribution: "Global",
-    "revisit-after": "7 days",
   },
 
-  // Icons
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon.ico", sizes: "256x256", type: "image/x-icon" },
     ],
-
     other: [
       {
         rel: "mask-icon",
         url: "/safari-pinned-tab.svg",
-        color: "#ffffff", // Adjust to your brand color
+        color: "#000000",
       },
     ],
   },
+}
 
-} as Metadata
+export default metadata
