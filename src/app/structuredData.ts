@@ -17,20 +17,31 @@ export default {
     name: "Lidia Kovac",
   },
   description:
-    "The Dialogue Thing is a free dialogue editor with real-time grammar validation, character tracking, and intelligent formatting suggestions—perfect for novelists, screenwriters, and content creators.",
+    "The Dialogue Thing is a free, AI‑free dialogue editor that highlights dialogue tag issues, punctuation mistakes, and overused adverbs for fanfiction writers and novelists.",
   datePublished: "2025-10-01",
   offers: {
     "@type": "Offer",
     price: "0",
     priceCurrency: "USD",
   },
+  isAccessibleForFree: true,
+  applicationSubCategory: "TextEditor",
+  keywords: [
+    "dialogue editor",
+    "fanfiction editing",
+    "edit dialogue online",
+    "novel dialogue formatting",
+    "dialogue tags",
+    "action beats",
+    "adverb checker",
+    "AI-free writing tool",
+  ],
   featureList: [
-    "Real-time grammar validation",
-    "Character dialogue tracking",
-    "Intelligent formatting suggestions",
-    "Speech attribution checking",
-    "Punctuation error detection",
-    "dialogue formatting",
-    "readability index calculator"
-  ]
+    "Highlights incorrect dialogue patterns and tags",
+    "Checks punctuation around dialogue and quotation marks",
+    "Flags action verbs incorrectly used as dialogue tags",
+    "Detects adverbs in dialogue and narration",
+    "Works entirely AI-free in the browser",
+    "No account, tracking, or word limit for typical chapters",
+  ],
 }
