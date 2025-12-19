@@ -1,8 +1,8 @@
 import { ChangeEventHandler, useCallback, useEffect, useRef, useState } from "react";
-import { useQuillSingleton } from "../../hooks/editor-singleton.hooks";
+import { useQuillSingleton } from "../../hooks/quill/editor-singleton.hooks";
 import type QuillType from "quill";
-import { applyHighlights } from "../../utils";
-import Rules from "../../utils/regex.utils";
+import { applyHighlights } from "../../utils/highlights/highlights.utils";
+import Rules from "../../utils/regex/regex.utils";
 
 export const useOptions = () => {
   const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "));
