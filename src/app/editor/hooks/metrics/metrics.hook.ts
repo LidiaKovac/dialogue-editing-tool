@@ -20,12 +20,12 @@ export const useEditorMetrics = (quill: QuillType | null) => {
     timerRef.current = setTimeout(() => {
       if (!quill) return
 
-      const text = quill.getText()
-      const words = text.trim().split(/\s+/).filter(Boolean).length
+      const text = quill.getText().trim()
+      const words = text.split(/\s+/).filter(Boolean).length
       setMetrics({
         words,
-        lix: calculateReadabilityScore(quill),
-        dialogueDensity: calculateWordDensity(quill),
+        lix: calculateReadabilityScore(text),
+        dialogueDensity: calculateWordDensity(text),
       })
     }, 500)
   }, [quill])

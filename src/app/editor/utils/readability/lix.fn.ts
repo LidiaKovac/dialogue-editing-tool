@@ -1,6 +1,3 @@
-import Quill from "quill"
-import { RefObject } from "react"
-
 /**
  * Calculates readability scores (ARI and LIX) for text in a Quill editor.
  *
@@ -28,15 +25,21 @@ import { RefObject } from "react"
  * ```
  */
 export const calculateReadabilityScore = (
-  quill: Quill
-): { ari: number; lix: number } => {
+  text: string
+): { ari?: number; lix?: number } => {
+  const WORDS_REGEX = /[æøå\w]+/g
   // The formula for calculating the automated readability index is given below:
   // 4.71 ( characters / words ) + 0.5 ( words / sentences ) − 21.43
   // where characters is the number of letters and numbers, words is the number of spaces, and sentences is the number of sentences, which were counted manually by the typist when the above formula was developed. Non-integer scores are always rounded up to the nearest whole number, so a score of 10.1 or 10.6 would be converted to 11.
-  const text = quill.getText().trim()
   const characters = text.split("").filter((c) => /[a-zA-Z0-9]/.test(c)).length
-  const words = text.split(/\s+/).filter(Boolean).length || 1
-  const sentences = text.match(/(?:\.|\!|\?)/g)?.length ?? 1
+  const words = text.match(WORDS_REGEX)?.length ?? 0
+  if (words == 0) {
+    return {}
+  }
+  const sentences = text.match(/[.:;!?]+/g)?.length ?? 1
+  if (sentences == 1) {
+    return { ari: 1, lix: 1 }
+  }
   const rawAri = 4.71 * (characters / words) + 0.5 * (words / sentences) - 21.43
 
   //LIX = Läsbarhetsindex, indice di leggibilità
@@ -46,8 +49,7 @@ export const calculateReadabilityScore = (
   // Saklitteratur = 47 letteratura scentifica
   // Facklitteratur = 56 letteratura tecnica
 
-  const longWords = text
-    .split(/\s+/)
+  const longWords = [...(text.match(WORDS_REGEX) ?? [])]
     .filter(Boolean)
     .filter((w) => w.length >= 6).length
   //https://sv.wikipedia.org/wiki/L%C3%A4sbarhetsindex
@@ -82,8 +84,7 @@ export const calculateReadabilityScore = (
  *
  * @todo Move to API endpoint with dialogue highlighting toggle
  */
-export const calculateWordDensity = (quill: Quill): number => {
-  const text = quill.getText().trim()
+export const calculateWordDensity = (text: string): number => {
   const words = text.split(/\s+/).filter(Boolean).length || 1
 
   const dialogueLines = [...text.matchAll(/[""“”][^""“”]*?[""“”]/gim)]
