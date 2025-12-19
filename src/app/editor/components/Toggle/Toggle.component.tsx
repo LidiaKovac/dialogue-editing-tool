@@ -1,27 +1,28 @@
-import { Dispatch, SetStateAction } from "react"
+import {
+  Dispatch,
+  SetStateAction,
+} from "react"
 
 export const Toggle = ({
-  checked,
   onChange,
+  checked,
   label,
 }: {
   label: string
   checked: boolean
   onChange: Dispatch<SetStateAction<boolean>>
 }) => {
-    const keyboardListener = (event: React.KeyboardEvent) => {
-      if (event.key == " " || event.key == "Enter") {
-        event.preventDefault()
-        onChange((prev) => !prev)
-      }
+  const keyboardListener = (event: React.KeyboardEvent) => {
+    if (event.key == " " || event.key == "Enter") {
+      event.preventDefault()
+      onChange(!checked)
     }
-    return (
-      <>
-        <h4>
-          <label htmlFor={label.toLowerCase().replaceAll(" ", "_")}>
-            {label}
-          </label>
-        </h4>
+  }
+
+  return (
+    <>
+      <h4>{label}</h4>
+      <label htmlFor={label.toLowerCase().replaceAll(" ", "_")}>
         <input
           checked={checked}
           aria-hidden
@@ -37,7 +38,6 @@ export const Toggle = ({
             role="checkbox"
             aria-checked={checked}
             aria-labelledby={label.toLowerCase().replaceAll(" ", "_")}
-            onClick={() => onChange((prev) => !prev)}
             onKeyDown={keyboardListener}
           >
             <div
@@ -46,6 +46,7 @@ export const Toggle = ({
           </div>
           <div>{checked ? "ON" : "OFF"}</div>
         </div>
-      </>
-    )
+      </label>
+    </>
+  )
 }

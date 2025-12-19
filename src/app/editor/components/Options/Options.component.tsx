@@ -1,22 +1,22 @@
 "use client"
 import Link from "next/link"
 import { Toggle } from "../Toggle/Toggle.component"
-import { useOptions } from "./options.hook"
 import { useQuillEditor } from "../../hooks/quill/editor-init.hooks"
 import { ToolTip } from "@/app/components/Tooltip/Tooltip.component"
 import { getAriLabel, getLIXLabel } from "./options.fn"
 
 export const Options = () => {
-  const {
+  const { lix, dialogueDensity, options:{
     chars,
     handleCharChange,
     tags,
     handleTagsChange,
     enableAdv,
     setEnableAdv,
-  } = useOptions()
-  const { lix, dialogueDensity } = useQuillEditor()
-
+  } } = useQuillEditor()
+  const handleAdvChange = (checked: any) => {
+    setEnableAdv(checked)
+  }
   return (
     <div className="editor__options" tabIndex={0}>
       <h3 className="mt-3">Readability scores</h3>
@@ -69,9 +69,9 @@ export const Options = () => {
       </div>
       <div className="features">
         <Toggle
-          label="Highlight Adverbs"
           checked={enableAdv}
-          onChange={setEnableAdv}
+          label="Highlight Adverbs"
+          onChange={handleAdvChange}
         />
       </div>
       <Link

@@ -102,7 +102,6 @@ Rules.setDialogueTags(["whispered", "shouted"]);
 
 // Get rules for highlighting
 const rules = Rules.getRules();
-console.log(rules); 
 // [
 //   { id: "comma-no-dialogue", regex: /,.../ },
 //   ...
