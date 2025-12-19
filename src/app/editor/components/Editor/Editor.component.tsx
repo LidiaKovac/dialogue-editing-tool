@@ -1,15 +1,13 @@
-"use client";
-import "quill/dist/quill.snow.css";
-import { useQuillEditor } from "../../hooks/editor-init.hooks";
-import { useCallback, useEffect, useState } from "react";
-import Rules from "../../utils/regex.utils";
+"use client"
+import "quill/dist/quill.snow.css"
+import { useQuillEditor } from "../../hooks/quill/editor-init.hooks"
+import { useCallback, useEffect, useState } from "react"
+import Rules from "../../utils/regex/regex.utils"
 
 export default function Editor() {
-  const { editorRef, words, text, loading: loadingEditor } = useQuillEditor();
-  const [names, setNames] = useState([]);
+  const { editorRef, words, text, loading: loadingEditor } = useQuillEditor()
+  const [names, setNames] = useState([])
   const [loading, setLoading] = useState(false)
-
-  
 
   const fetchNames = useCallback(async () => {
     try {
@@ -17,26 +15,25 @@ export default function Editor() {
       const res = await fetch(process.env.NEXT_PUBLIC_URL + "api/names", {
         method: "POST",
         body: text,
-      });
-      const result = await res.json();
-      setNames(result);
+      })
+      const result = await res.json()
+      setNames(result)
     } catch (error) {
       console.error(error)
     } finally {
       setLoading(false)
     }
-
   }, [text])
 
   useEffect(() => {
-    if (!text) return; // guard clause if text is empty
+    if (!text) return // guard clause if text is empty
 
-    fetchNames();
-  }, [text]);
+    fetchNames()
+  }, [text])
   useEffect(() => {
-    if (!names) return;
-    Rules.setCharacters(names);
-  }, [names]);
+    if (!names) return
+    Rules.setCharacters(names)
+  }, [names])
   return (
     <div>
       {(loading || loadingEditor) && <div className="disable-foreground"></div>}
@@ -46,7 +43,6 @@ export default function Editor() {
         aria-label="Dialogue text editor"
         aria-multiline="true"
         tabIndex={0}
-        
       />
       <small>
         Words: {words} / 30k{" "}
@@ -58,5 +54,5 @@ export default function Editor() {
         )}
       </small>
     </div>
-  );
+  )
 }

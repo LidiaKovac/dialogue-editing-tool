@@ -1,8 +1,7 @@
 import Link from "next/link"
-import { sanity } from "../lib/sanity/sanity.config"
-import { Metadata } from "next";
+import { Metadata } from "next"
 import "./blog.scss"
-import { fontBlog } from "../lib/fonts";
+import { fontBlog } from "../lib/fonts"
 import metadata from "./metadata"
 import { getAllBlogPosts, getBlogMetadata } from "../lib/sanity/sanity.fn"
 

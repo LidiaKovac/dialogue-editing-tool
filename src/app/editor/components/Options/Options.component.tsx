@@ -1,71 +1,22 @@
 "use client"
 import Link from "next/link"
 import { Toggle } from "../Toggle/Toggle.component"
-import { useOptions } from "./options.hook"
-import { useQuillEditor } from "../../hooks/editor-init.hooks"
+import { useQuillEditor } from "../../hooks/quill/editor-init.hooks"
 import { ToolTip } from "@/app/components/Tooltip/Tooltip.component"
+import { getAriLabel, getLIXLabel } from "./options.fn"
 
 export const Options = () => {
-  const {
+  const { lix, dialogueDensity, options:{
     chars,
     handleCharChange,
     tags,
     handleTagsChange,
     enableAdv,
     setEnableAdv,
-  } = useOptions()
-  const { lix, dialogueDensity } = useQuillEditor()
-  const getAriLabel = () => {
-    switch (lix?.ari) {
-      case 1:
-        return "Kindergarten"
-      case 2:
-        return "First grade"
-      case 3:
-        return "Second grade"
-      case 4:
-        return "Third grade"
-      case 5:
-        return "Fourth grade"
-      case 6:
-        return "Fifth grade"
-      case 7:
-      case 8:
-      case 9:
-        return "Middle school"
-      case 10:
-      case 11:
-      case 12:
-      case 13:
-        return "High school"
-      case 14:
-        return "College / University"
-      default:
-        "Invalid ARI score"
-        break
-    }
+  } } = useQuillEditor()
+  const handleAdvChange = (checked: any) => {
+    setEnableAdv(checked)
   }
-
-  const getLIXLabel = () => {
-    if (!lix) return "Invalid LIX score"
-    if (lix?.lix <= 25) {
-      return "Children level"
-    }
-    if (lix?.lix <= 30) {
-      return "Simple text"
-    }
-    if (lix?.lix <= 40) {
-      return "Fiction level"
-    }
-    if (lix?.lix <= 50) {
-      return "Informative text"
-    }
-    if (lix?.lix <= 60) {
-      return "Non fiction text"
-    }
-    return "Scientific text"
-  }
-
   return (
     <div className="editor__options" tabIndex={0}>
       <h3 className="mt-3">Readability scores</h3>
@@ -75,14 +26,14 @@ export const Options = () => {
           "Automated Readability Index, approximate representation of the US grade level needed to comprehend the text."
         }
       />
-      : {lix?.ari ?? 0} - {lix?.ari && getAriLabel()} <br />
+      : {lix?.ari ?? 0} - {lix?.ari && getAriLabel(lix.ari)} <br />
       LIX{" "}
       <ToolTip
         data={
           "Läsbarhetsindex, based on number of sentences and number of words, with particular weight on long words."
         }
       />
-      : {lix?.lix ?? 0} - {lix?.lix && getLIXLabel()}
+      : {lix?.lix ?? 0} - {lix?.lix && getLIXLabel(lix.lix)}
       <h3 className="mt-3">Density</h3>
       <p>
         Dialogue density:
@@ -118,9 +69,9 @@ export const Options = () => {
       </div>
       <div className="features">
         <Toggle
-          label="Highlight Adverbs"
           checked={enableAdv}
-          onChange={setEnableAdv}
+          label="Highlight Adverbs"
+          onChange={handleAdvChange}
         />
       </div>
       <Link

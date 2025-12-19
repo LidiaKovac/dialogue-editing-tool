@@ -1,21 +1,21 @@
-import type QuillType from "quill";
-import { type Op } from "quill";
-import Rules from "./regex.utils";
+import type QuillType from "quill"
+import { type Op } from "quill"
+import Rules from "../regex/regex.utils"
 
 /**
  * Remove highlight attributes from an operation
  */
 function removeHighlightFromOp(op: Op): Op {
   if (op.insert && typeof op.insert === "string") {
-    const attributes = { ...op.attributes };
-    delete attributes.highlight;
-    delete attributes.adv_highlight;
+    const attributes = { ...op.attributes }
+    delete attributes.highlight
+    delete attributes.adv_highlight
     return {
       insert: op.insert,
       attributes: Object.keys(attributes).length > 0 ? attributes : undefined,
-    };
+    }
   }
-  return op;
+  return op
 }
 
 /**
@@ -27,30 +27,30 @@ export async function buildHighlightDelta(
   textLength: number,
   highlights: { start: number; length: number }[]
 ) {
-  const Delta = (await import("quill")).Delta;
-  const delta = new Delta();
-  let currentPos = 0;
+  const Delta = (await import("quill")).Delta
+  const delta = new Delta()
+  let currentPos = 0
   // Sort highlights by start position to process in order
-  highlights.sort((a, b) => a.start - b.start);
+  highlights.sort((a, b) => a.start - b.start)
 
   for (const { start, length } of highlights) {
     // Retain text before highlight (unformatted)
     if (start > currentPos) {
-      delta.retain(start - currentPos);
-      currentPos = start;
+      delta.retain(start - currentPos)
+      currentPos = start
     }
 
     // Retain the highlight range with the highlight attribute
-    delta.retain(length, { highlight: true });
-    currentPos += length;
+    delta.retain(length, { highlight: true })
+    currentPos += length
   }
 
   // Retain rest of the text unformatted
   if (currentPos < textLength) {
-    delta.retain(textLength - currentPos);
+    delta.retain(textLength - currentPos)
   }
 
-  return delta;
+  return delta
 }
 
 /**
@@ -62,30 +62,30 @@ export async function buildHighlightDeltaAdverbs(
   textLength: number,
   highlights: { start: number; length: number }[]
 ) {
-  const Delta = (await import("quill")).Delta;
-  const delta = new Delta();
-  let currentPos = 0;
+  const Delta = (await import("quill")).Delta
+  const delta = new Delta()
+  let currentPos = 0
   // Sort highlights by start position to process in order
-  highlights?.sort((a, b) => a.start - b.start);
+  highlights?.sort((a, b) => a.start - b.start)
 
   for (const { start, length } of highlights) {
     // Retain text before highlight (unformatted)
     if (start > currentPos) {
-      delta.retain(start - currentPos);
-      currentPos = start;
+      delta.retain(start - currentPos)
+      currentPos = start
     }
 
     // Retain the highlight range with the highlight attribute
-    delta.retain(length, { adv_highlight: true });
-    currentPos += length;
+    delta.retain(length, { adv_highlight: true })
+    currentPos += length
   }
 
   // Retain rest of the text unformatted
   if (currentPos < textLength) {
-    delta.retain(textLength - currentPos);
+    delta.retain(textLength - currentPos)
   }
 
-  return delta;
+  return delta
 }
 
 /**
@@ -96,18 +96,18 @@ export async function applyHighlights(
   patterns: { id: string; regex: RegExp }[],
   adv: boolean
 ) {
-  if (!quill || !patterns?.length) return;
+  if (!quill || !patterns?.length) return
 
   try {
-    const currentSelection = quill.getSelection();
-    const currentContents = quill.getContents();
+    const currentSelection = quill.getSelection()
+    const currentContents = quill.getContents()
     if (currentContents.length() < 1 || quill.getText() === "\n") {
-      return;
+      return
     }
     // Create a new delta without highlights
     const newDelta = {
       ops: currentContents.ops.map(removeHighlightFromOp),
-    };
+    }
 
     const res = await fetch(
       process.env.NEXT_PUBLIC_URL + "api/highlights/dialogue",
@@ -118,8 +118,8 @@ export async function applyHighlights(
           chars: Rules.CHARACTERS,
         }),
       }
-    );
-    const highlights = await res.json();
+    )
+    const highlights = await res.json()
     if (adv) {
       const resAdv = await fetch(
         process.env.NEXT_PUBLIC_URL + "api/highlights/adverbs",
@@ -127,32 +127,32 @@ export async function applyHighlights(
           method: "POST",
           body: JSON.stringify({ text: quill.getText() }),
         }
-      );
-      const highlightsAdv = await resAdv.json();
-      quill.setContents(newDelta.ops, "silent");
+      )
+      const highlightsAdv = await resAdv.json()
+      quill.setContents(newDelta.ops, "silent")
       const updateContentsCBs = await Promise.all([
         buildHighlightDelta(quill.getText().length, highlights),
         buildHighlightDeltaAdverbs(
           quill.getText().length,
           highlightsAdv.matches
         ),
-      ]);
-      const delta = updateContentsCBs[0].compose(updateContentsCBs[1]);
-      quill?.updateContents(delta, "silent");
+      ])
+      const delta = updateContentsCBs[0].compose(updateContentsCBs[1])
+      quill?.updateContents(delta, "silent")
     } else {
-      quill.setContents(newDelta.ops, "silent");
+      quill.setContents(newDelta.ops, "silent")
       const delta = await buildHighlightDelta(
         quill.getText().length,
         highlights
-      );
-      quill?.updateContents(delta, "silent");
+      )
+      quill?.updateContents(delta, "silent")
     }
 
     // Restore selection if it existed
     if (currentSelection) {
-      quill.setSelection(currentSelection, "silent");
+      quill.setSelection(currentSelection, "silent")
     }
   } catch (error) {
-    console.error("Error in applyHighlights:", error);
+    console.error("Error in applyHighlights:", error)
   }
 }
