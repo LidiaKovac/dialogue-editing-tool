@@ -21,7 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     },
     {
-      url: "https://editingthing.com/seo",
+      url: "https://editingthing.com/faq",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.5,

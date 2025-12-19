@@ -7,8 +7,6 @@ import { Footer } from "./components/Footer/Footer"
 import metadataObj from "./metadata"
 import { font } from "./lib/fonts"
 
-
-
 export const metadata: Metadata = metadataObj
 
 export default function RootLayout({
