@@ -108,39 +108,45 @@ export async function applyHighlights(
     const newDelta = {
       ops: currentContents.ops.map(removeHighlightFromOp),
     }
-console.log(quill.getText().length)
-const res = await fetch(
-  process.env.NEXT_PUBLIC_URL + "api/highlights/dialogue",
-  {
-    method: "POST",
-    body: JSON.stringify({
-      text: quill.getText(),
-      chars: Rules.CHARACTERS,
-    }),
-  }
-)
-const highlights = await res.json()
-if (adv) {
-  const resAdv = await fetch(
-    process.env.NEXT_PUBLIC_URL + "api/highlights/adverbs",
-    {
-      method: "POST",
-      body: quill.getText(),
+
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_URL + "api/highlights/dialogue",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          text: quill.getText(),
+          chars: Rules.CHARACTERS,
+        }),
+      }
+    )
+    const highlights = await res.json()
+    if (adv) {
+      const resAdv = await fetch(
+        process.env.NEXT_PUBLIC_URL + "api/highlights/adverbs",
+        {
+          method: "POST",
+          body: JSON.stringify({ text: quill.getText() }),
+        }
+      )
+      const highlightsAdv = await resAdv.json()
+      quill.setContents(newDelta.ops, "silent")
+      const updateContentsCBs = await Promise.all([
+        buildHighlightDelta(quill.getText().length, highlights),
+        buildHighlightDeltaAdverbs(
+          quill.getText().length,
+          highlightsAdv.matches
+        ),
+      ])
+      const delta = updateContentsCBs[0].compose(updateContentsCBs[1])
+      quill?.updateContents(delta, "silent")
+    } else {
+      quill.setContents(newDelta.ops, "silent")
+      const delta = await buildHighlightDelta(
+        quill.getText().length,
+        highlights
+      )
+      quill?.updateContents(delta, "silent")
     }
-  )
-  const highlightsAdv = await resAdv.json()
-  quill.setContents(newDelta.ops, "silent")
-  const updateContentsCBs = await Promise.all([
-    buildHighlightDelta(quill.getText().length, highlights),
-    buildHighlightDeltaAdverbs(quill.getText().length, highlightsAdv.matches),
-  ])
-  const delta = updateContentsCBs[0].compose(updateContentsCBs[1])
-  quill?.updateContents(delta, "silent")
-} else {
-  quill.setContents(newDelta.ops, "silent")
-  const delta = await buildHighlightDelta(quill.getText().length, highlights)
-  quill?.updateContents(delta, "silent")
-}
 
     // Restore selection if it existed
     if (currentSelection) {
