@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { __TEST__resetCache, POST } from "../app/api/names/route"; // Adjust path to your endpoint
+import { __TEST__resetCache, POST } from "../../app/api/names/route"; // Adjust path to your endpoint
 import { LRUCache } from "lru-cache";
-import * as nlpUtils from "../app/lib/nlp/nlp.utils";
-import { getTaggerSingleton } from "../app/api/lib/tagger.singleton";
+import * as nlpUtils from "../../app/lib/nlp/nlp.utils";
+import { getTaggerSingleton } from "../../app/api/lib/tagger.singleton";
 // Mock the dependencies
 jest.mock("lru-cache");
 jest.mock("../app/api/lib/tagger.singleton");

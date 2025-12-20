@@ -4,47 +4,38 @@ import { Toggle } from "../Toggle/Toggle.component"
 import { useQuillEditor } from "../../hooks/quill/editor-init.hooks"
 import { ToolTip } from "@/app/components/Tooltip/Tooltip.component"
 import { getAriLabel, getLIXLabel } from "./options.fn"
+import { Metrics } from "./components/Metrics.component"
 
 export const Options = () => {
-  const { lix, dialogueDensity, options:{
-    chars,
-    handleCharChange,
-    tags,
-    handleTagsChange,
-    enableAdv,
-    setEnableAdv,
-  } } = useQuillEditor()
+  const {
+    lix,
+    dialogueDensity,
+    options: {
+      chars,
+      handleCharChange,
+      tags,
+      handleTagsChange,
+      enableAdv,
+      setEnableAdv,
+    },
+  } = useQuillEditor()
   const handleAdvChange = (checked: any) => {
     setEnableAdv(checked)
   }
   return (
     <div className="editor__options" tabIndex={0}>
-      <h3 className="mt-3">Readability scores</h3>
-      ARI{" "}
-      <ToolTip
-        data={
-          "Automated Readability Index, approximate representation of the US grade level needed to comprehend the text."
-        }
-      />
-      : {lix?.ari ?? 0} - {lix?.ari && getAriLabel(lix.ari)} <br />
-      LIX{" "}
-      <ToolTip
-        data={
-          "Läsbarhetsindex, based on number of sentences and number of words, with particular weight on long words."
-        }
-      />
-      : {lix?.lix ?? 0} - {lix?.lix && getLIXLabel(lix.lix)}
-      <h3 className="mt-3">Density</h3>
-      <p>
-        Dialogue density:
-        <span className={dialogueDensity > 50 ? "text-red-600" : ""}>
-          &nbsp;
-          {dialogueDensity}%
-        </span>
-      </p>
+      <Metrics dialogueDensity={dialogueDensity} lix={lix} />
       <h3 className="text-xl mt-3"> Options </h3>
       <h4>
-        <label htmlFor="characters"> Character names</label>
+        <label htmlFor="characters">
+          {" "}
+          Character names
+          <ToolTip
+            data={
+              "This is not perfect. Some names that are also nouns (e.g. Dean, which could be Dean Winchester or the Dean of a school), might not be recognized. Feel free to add them manually."
+            }
+          />
+        </label>
       </h4>
       <div className="textarea__wrap">
         <textarea

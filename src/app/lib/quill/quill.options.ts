@@ -8,3 +8,6 @@ export const quillOptions: QuillOptions = {
   readOnly: false,
   formats: ["bold", "italic", "underline", "strike", "highlight", "adv_highlight"],
 };
+
+
+export const QUILL_DEBOUNCE_TIMER = 1000

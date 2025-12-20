@@ -4,6 +4,7 @@ import {
   calculateReadabilityScore,
   calculateWordDensity,
 } from "../../utils/readability/lix.fn"
+import { QUILL_DEBOUNCE_TIMER } from "@/app/lib/quill/quill.options"
 
 export const useEditorMetrics = (quill: QuillType | null) => {
   const [metrics, setMetrics] = useState({
@@ -27,7 +28,7 @@ export const useEditorMetrics = (quill: QuillType | null) => {
         lix: calculateReadabilityScore(text),
         dialogueDensity: calculateWordDensity(text),
       })
-    }, 500)
+    }, QUILL_DEBOUNCE_TIMER)
   }, [quill])
 
   useEffect(() => {

@@ -108,7 +108,6 @@ export async function applyHighlights(
     const newDelta = {
       ops: currentContents.ops.map(removeHighlightFromOp),
     }
-console.log(quill.getText().length)
 const res = await fetch(
   process.env.NEXT_PUBLIC_URL + "api/highlights/dialogue",
   {

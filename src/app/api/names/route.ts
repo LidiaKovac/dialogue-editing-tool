@@ -32,7 +32,6 @@ export async function POST(body: NextRequest) {
   }
 
   const text = await body.text()
-  console.log(text.length)
 
   if (cache.has(text)) {
     return NextResponse.json([...(cache.get(text) ?? [])])
