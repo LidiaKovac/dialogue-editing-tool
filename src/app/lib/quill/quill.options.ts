@@ -6,8 +6,16 @@ export const quillOptions: QuillOptions = {
     toolbar: [["bold", "italic", "underline", "strike"]],
   },
   readOnly: false,
-  formats: ["bold", "italic", "underline", "strike", "highlight", "adv_highlight"],
-};
+  formats: [
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "highlight",
+    "adv_highlight",
+    "sdt_highlight",
+  ],
+}
 
 
 export const QUILL_DEBOUNCE_TIMER = 1000

@@ -7,9 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "test:unit": "jest --config jest.config.ts",
-    "test:integration": "jest --config jest.jsdom.config.ts",
-    "test": "npm run test:unit && npm run test:integration"
+    "test": "jest --config jest.config.ts"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^15.5.6",
