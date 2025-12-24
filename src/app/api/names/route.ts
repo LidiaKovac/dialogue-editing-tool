@@ -1,7 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { preprocessText } from "../../lib/nlp/nlp.utils";
-import { LRUCache } from "lru-cache";
-import { getTaggerSingleton } from "../lib/tagger.singleton";
+import { NextRequest, NextResponse } from "next/server"
+import { LRUCache } from "lru-cache"
 import { TaggerResponse } from "../api"
 import nlp from "compromise/two"
 
@@ -24,12 +22,11 @@ export function __TEST__resetCache(to?: LRUCache<string, Set<string>>) {
  * @returns {Promise<NextResponse>} JSON response with extracted proper names.
  */
 export async function POST(body: NextRequest) {
-  if (!cache) {
-    cache = new LRUCache<string, Set<string>>({
-      size: 500,
-      max: 2000 * 60 * 60,
-    })
-  }
+  let cache
+  cache ??= new LRUCache<string, Set<string>>({
+    size: 500,
+    max: 2000 * 60 * 60,
+  })
 
   const text = await body.text()
 
@@ -43,7 +40,9 @@ export async function POST(body: NextRequest) {
     .unique()
     .json()
     .flatMap((sentence: TaggerResponse) => sentence.terms)
-    .map((name: TaggerResponse["terms"][number]) => name.normal)
+    .map((name: TaggerResponse["terms"][number]) => {
+      return name.normal.slice(0, 1).toLocaleUpperCase() + name.normal.slice(1)
+    })
 
   cache.set(text, new Set(tagged))
 

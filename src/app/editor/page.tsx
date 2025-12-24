@@ -21,6 +21,7 @@ const FalsePositives = dynamic(
 const Editor = dynamic(() => import("./components/Editor/Editor.component"), {
   loading: () => <div>Loading editor...</div>,
 })
+
 export default function Home() {
   return (
     <main className="flex gap-4">
