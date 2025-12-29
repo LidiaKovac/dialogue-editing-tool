@@ -1,5 +1,5 @@
 import type QuillType from "quill"
-import { type Op } from "quill"
+import { Delta, type Op } from "quill"
 import Rules from "../regex/regex.utils"
 
 /**
@@ -88,16 +88,48 @@ export async function buildHighlightDeltaAdverbs(
   return delta
 }
 
-/**
- * Apply highlights using a different approach - directly manipulating the Delta
- */
+export async function buildHighlightDeltaSDT(
+  textLength: number,
+  highlights: { start: number; length: number }[]
+) {
+  console.log(highlights)
+
+  const Delta = (await import("quill")).Delta
+  const delta = new Delta()
+  let currentPos = 0
+  highlights?.sort((a, b) => a.start - b.start)
+
+  for (const { start, length } of highlights) {
+    if (start > currentPos) {
+      delta.retain(start - currentPos)
+      currentPos = start
+    }
+
+    delta.retain(length, { sdt_highlight: true })
+    currentPos += length
+  }
+
+  if (currentPos < textLength) {
+    delta.retain(textLength - currentPos)
+  }
+
+  return delta
+}
+
+export const resetDelta = (content: Delta) => {
+  return {
+    ops: content.ops.map(removeHighlightFromOp),
+  }
+}
+
 export async function applyHighlights(
   quill: QuillType | null,
   patterns: { id: string; regex: RegExp }[],
-  adv: boolean
+  adv: boolean,
+  tense: "past" | "present" = "past"
 ) {
   if (!quill || !patterns?.length) return
-
+  //TODO: make the tre requests concurrent with each applying highlights when it ends instead of waiting
   try {
     const currentSelection = quill.getSelection()
     const currentContents = quill.getContents()
@@ -105,48 +137,44 @@ export async function applyHighlights(
       return
     }
     // Create a new delta without highlights
-    const newDelta = {
-      ops: currentContents.ops.map(removeHighlightFromOp),
-    }
+    const newDelta = resetDelta(currentContents)
 
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_URL + "api/highlights/dialogue",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          text: quill.getText(),
-          chars: Rules.CHARACTERS,
-        }),
-      }
-    )
-    const highlights = await res.json()
-    if (adv) {
-      const resAdv = await fetch(
-        process.env.NEXT_PUBLIC_URL + "api/highlights/adverbs",
-        {
+    const promises = [
+      "api/highlights/dialogue",
+      adv ? "api/highlights/adverbs" : "",
+      `api/highlights/show-dont-tell?tense=${tense}`,
+    ]
+      .filter((url) => url.length > 0)
+      .map((url) =>
+        fetch(`${process.env.NEXT_PUBLIC_URL}${url}`, {
           method: "POST",
-          body: JSON.stringify({ text: quill.getText() }),
-        }
+          body: url.includes("dialogue")
+            ? JSON.stringify({
+                text: quill.getText(),
+                chars: Rules.CHARACTERS,
+              })
+            : quill.getText(),
+        })
       )
-      const highlightsAdv = await resAdv.json()
-      quill.setContents(newDelta.ops, "silent")
-      const updateContentsCBs = await Promise.all([
-        buildHighlightDelta(quill.getText().length, highlights),
-        buildHighlightDeltaAdverbs(
-          quill.getText().length,
-          highlightsAdv.matches
-        ),
-      ])
-      const delta = updateContentsCBs[0].compose(updateContentsCBs[1])
-      quill?.updateContents(delta, "silent")
-    } else {
-      quill.setContents(newDelta.ops, "silent")
-      const delta = await buildHighlightDelta(
-        quill.getText().length,
-        highlights
-      )
-      quill?.updateContents(delta, "silent")
-    }
+
+    const responses = await Promise.all(promises)
+    console.log(responses)
+    const highlights = await responses[0]?.json()
+    const highlightsAdv = adv ? await responses[1]?.json() : null
+    const highlightsSDT = adv
+      ? await responses[2]?.json()
+      : await responses[1]?.json()
+
+    quill.setContents(newDelta.ops, "silent")
+    const updateContentsCBs = await Promise.all([
+      buildHighlightDelta(quill.getText().length, highlights),
+      buildHighlightDeltaAdverbs(quill.getText().length, highlightsAdv.matches),
+      buildHighlightDeltaSDT(quill.getText().length, highlightsSDT),
+    ])
+    const delta = updateContentsCBs[0]
+      .compose(updateContentsCBs[1])
+      .compose(updateContentsCBs[2])
+    quill?.updateContents(delta, "silent")
 
     // Restore selection if it existed
     if (currentSelection) {

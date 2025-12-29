@@ -5,6 +5,7 @@ import { registerDialogueBlot } from "../../utils/blots/DialogueBlot.class"
 import { registerAdvBlot } from "../../utils/blots/AdverbBlot.class"
 import { useQuillSingleton } from "./editor-singleton.hooks"
 import { quillOptions } from "@/app/lib/quill/quill.options"
+import { registerSdtBlot } from "../../utils/blots/SDTBlot.class"
 
 export const useQuillInstance = (
   editorRef: React.RefObject<HTMLDivElement | null>
@@ -19,6 +20,7 @@ export const useQuillInstance = (
 
       registerDialogueBlot(Quill)
       registerAdvBlot(Quill)
+      registerSdtBlot(Quill)
 
       const instance = new Quill(
         editorRef.current,

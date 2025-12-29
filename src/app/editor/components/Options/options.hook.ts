@@ -6,6 +6,7 @@ import {
   useState,
 } from "react"
 import Rules from "../../utils/regex/regex.utils"
+import { QUILL_DEBOUNCE_TIMER } from "@/app/lib/quill/quill.options"
 
 export const useOptions = () => {
   const [chars, setChars] = useState<string>(Rules.CHARACTERS.join(", "))
@@ -17,12 +18,10 @@ export const useOptions = () => {
   const handleChars = useCallback((cs: string[]) => {
     setChars(cs.join(", "))
   }, [])
-  let mountCount = 0
 
   useEffect(() => {
     Rules.subscribeToChars(handleChars)
   }, [handleChars])
-
 
   const handleCharChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setChars(e.target.value)
@@ -41,7 +40,7 @@ export const useOptions = () => {
       Rules.setCharacters(newChars)
 
       charTimeoutRef.current = null
-    }, 500)
+    }, QUILL_DEBOUNCE_TIMER)
   }
 
   const handleTagsChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -60,7 +59,7 @@ export const useOptions = () => {
       Rules.setDialogueTags(newTags)
 
       tagTimeoutRef.current = null
-    }, 500)
+    }, QUILL_DEBOUNCE_TIMER)
   }
 
   return {

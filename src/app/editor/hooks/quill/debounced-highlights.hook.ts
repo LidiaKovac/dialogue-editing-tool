@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from "react"
 import type QuillType from "quill"
 import { applyHighlights } from "../../utils/highlights/highlights.utils"
 import Rules from "../../utils/regex/regex.utils"
+import { QUILL_DEBOUNCE_TIMER } from "../../../../app/lib/quill/quill.options"
 
 export const useDebouncedHighlights = (
   quill: QuillType | null,
@@ -38,7 +39,7 @@ export const useDebouncedHighlights = (
 
       highlightTimer.current = setTimeout(async () => {
         await applyHighlightsCB()
-      }, 500)
+      }, QUILL_DEBOUNCE_TIMER)
     }
 
     quill.on("text-change", onTextChange)

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getTaggerSingleton } from "../../lib/tagger.singleton";
-import { preprocessText } from "@/app/lib/nlp/nlp.utils";
+import nlp from "compromise/two"
+import { TaggerResponse } from "../../api"
 
 /**
  * POST handler to scan text and find matching substrings based on configured regex rules.
@@ -9,31 +9,25 @@ import { preprocessText } from "@/app/lib/nlp/nlp.utils";
  * @returns {Promise<NextResponse>} JSON response with array of match objects containing `start` and `length`.
  */
 export const POST = async (body: NextRequest) => {
-  const { text } = await body.json();
-
-  const clean = preprocessText(text);
-  const tagger = getTaggerSingleton();
-  const tagged = tagger.tag(clean);
-  const adverbs = new Set<string>();
-  const matches: { start: number; length: number }[] = [];
-
-  for (const word of tagged.taggedWords) {
-    if (word.tag == "RB" && word.token.endsWith("ly")) adverbs.add(word.token);
-  }
-
-  const percentage = ((100 * adverbs.size) / text.length).toFixed(2);
-
+  const text = await body.text()
+  const doc = nlp(text)
+  const adverbs = doc
+    .match("#Adverb")
+    .unique()
+    .json()
+    .flatMap((adv: TaggerResponse) => adv.terms)
+    .filter((term: TaggerResponse["terms"][0]) => term.normal.endsWith("ly"))
+  const matches: { start: number; length: number }[] = []
   for (const adv of adverbs) {
-    let searchPos = 0;
-    while (true) {
-      // Find adverb in the cleaned text (could use original text if you want exact original indices)
-      const idx = text.indexOf(adv, searchPos);
-      if (idx === -1) break;
-      matches.push({ start: idx, length: adv.length });
-      searchPos = idx + adv.length;
+    // const escaped = adv.text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+    const regex = new RegExp(`\\b${adv.normal}\\b`, "gi")
+    let match
+    while ((match = regex.exec(text)) !== null) {
+      matches.push({ start: match.index, length: match[0].length })
     }
   }
-
-
-  return NextResponse.json({ matches, percentage });
-};
+  return NextResponse.json({
+    matches,
+    percentage: ((100 * adverbs.length) / doc.wordCount()).toFixed(2),
+  })
+}
