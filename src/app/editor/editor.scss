@@ -6,6 +6,10 @@ main {
   div:not([class]) {
     height: 100%;
     width: 75%;
+    [contenteditable] {
+      height: 90%;
+      min-height: 80vh;
+    }
     .disable-foreground {
       position: absolute;
       background-color: rgb(255, 255, 255, 0.4);
@@ -126,7 +130,6 @@ main {
       div:not([class]) {
         height: unset;
       }
-      
     }
   }
 }

@@ -12,7 +12,7 @@ export default function Editor() {
   const fetchNames = useCallback(async () => {
     try {
       setLoading(true)
-      const res = await fetch(process.env.NEXT_PUBLIC_URL + "api/names", {
+      const res = await fetch(process.env.NEXT_PUBLIC_URL + "api/v1/names", {
         method: "POST",
         body: text,
       })

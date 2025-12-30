@@ -43,8 +43,6 @@ footer {
   height: 20vh;
 }
 
-
-
 body {
   &:not(:has(.blog)) {
     font-family: var(--roboto_mono-font);
@@ -55,19 +53,20 @@ body {
 nav {
   padding: 20px;
   padding-inline: 40px;
-  a,h1 {
+  a,
+  h1 {
     text-decoration: underline solid;
     font-size: 10pt;
     line-height: normal;
-    margin: 0
+    margin: 0;
   }
   h1 {
     font-size: 12pt;
   }
 }
 main {
-   padding-inline: 30px;
-   padding-block: 10px;
+  padding-inline: 30px;
+  padding-block: 10px;
 }
 
 * {
@@ -93,7 +92,7 @@ h2 {
 
 h3 {
   @apply text-2xl;
-  @apply mt-3; 
+  @apply mt-3;
   @apply mb-2;
 }
 

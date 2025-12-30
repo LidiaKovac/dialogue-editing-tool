@@ -16,7 +16,6 @@
     "compromise": "^14.14.5",
     "date-fns": "^4.1.0",
     "lru-cache": "^11.2.2",
-    "natural": "^8.1.0",
     "next": "^15.5.7",
     "quill": "^2.0.3",
     "react": "19.1.0",
