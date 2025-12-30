@@ -1,118 +1,109 @@
 @use "sass:math";
+@use "./blots";
 main {
-  // height: calc(100vh - 40px);
-  $height: calc(100vh - 40px - 350px);
+  min-height: 90vh;
 
-  .editor {
-    overflow-y: auto;
-    min-height: 100%;
-    height: 90vh;
+  div:not([class]) {
+    height: 100%;
     width: 75%;
-    border-right: 1px solid black;
-    .ql-toolbar,
-    .ql-container {
-      border-color: black;
+    .disable-foreground {
+      position: absolute;
+      background-color: rgb(255, 255, 255, 0.4);
+      width: 100%;
+      height: 120%;
+      top: 0;
+      left: 0;
+      z-index: 2;
     }
-    small {
-      span {
-        color: red;
+  }
+  .ql-container.ql-snow {
+    border-color: transparent;
+  }
+  .ql-toolbar.ql-snow {
+    border-color: transparent;
+    border-bottom-color: lightgray;
+  }
+  :has(.ql-snow) {
+    font-family: var(--roboto_mono-font);
+    padding-inline: 10px 20px;
+    padding-block: 10px;
+    * {
+      white-space: pre-wrap;
+      tab-size: 5;
+    }
+  }
+  .editor__options {
+    position: fixed;
+    right: 20px;
+    top: 50px;
+    width: 25%;
+    max-height: calc(100vh - 100px);
+    padding-inline: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-block-end: 20px;
+    font-size: 10pt;
+    h3 {
+      font-size: 13pt;
+    }
+    h4 {
+      font-size: 11pt;
+    }
+    .textarea__wrap {
+      margin-block-end: 20px;
+
+      textarea {
+        width: 100%;
+        font-size: inherit;
+        padding: 5px;
+        background-color: white;
+
+        //TODO: add focus styles
       }
     }
-    &__wrap {
-      padding-right: 20px;
+    .toggle {
+      background-color: white;
+      border: 2px solid black;
       position: relative;
-      div:not([class]) {
-
-      .disable-foreground {
+      $width: 40px;
+      width: $width;
+      height: math.div($width, 2);
+      border-radius: math.div($width, 2);
+      &__handle {
+        border-radius: 100px;
+        width: math.div($width, 2);
+        aspect-ratio: 1/1;
+        background-color: black;
         position: absolute;
-        background-color: rgb(255,255,255,0.4);
-        width: 100%;
-        height: 120%;
-        top:0; left: 0;
-        z-index: 2;
-      }
-      }
-      :has(.ql-toolbar) {
-        height: $height;
-        border-color: black;
-        font-family: var(--roboto_mono-font);
-
-        padding-inline: 10px 20px;
-        padding-block: 10px;
-        * {
-          white-space: pre-wrap;
-          tab-size: 5;
-        }
-        .ql-highlight {
-          background-color: yellow;
-        }
-        .adv-highlight {
-          background-color: greenyellow;
-        }
-        .sdt-highlight {
-          background-color: cyan;
+        left: -2px;
+        top: -2px;
+        transition: 0.3s;
+        &.enabled {
+          transform: translateX(100%);
         }
       }
     }
-    &__options {
-      width: 25%;
-      padding-block-end: 20px;
-      .textarea__wrap {
-        margin-block-end: 20px;
-
-        textarea {
-          width: 100%;
-          font-size: inherit;
-          padding: 5px;
-          background-color: white;
-
-          //TODO: add focus styles
-        }
-      }
-      .toggle {
-        background-color: white;
-        border: 2px solid black;
-        position: relative;
-        $width: 50px;
-        width: $width;
-        height: math.div($width, 2);
-        border-radius: math.div($width, 2);
-        &__handle {
-          border-radius: 100px;
-          width: math.div($width, 2);
-          aspect-ratio: 1/1;
-          background-color: black;
-          position: absolute;
-          left: -2px;
-          top: -2px;
-          transition: 0.3s;
-          &.enabled {
-            transform: translateX(100%);
-          }
-        }
-      }
-      button {
+    button {
+      width: 100%;
+      padding-block: 10px;
+      background-color: white;
+    }
+    textarea,
+    button {
+      border: 2px solid black;
+    }
+    .textarea__wrap,
+    button {
+      position: relative;
+      &::before {
+        content: "";
         width: 100%;
-        padding-block: 10px;
-        background-color: white;
-      }
-      textarea,
-      button {
-        border: 2px solid black;
-      }
-      .textarea__wrap,
-      button {
-        position: relative;
-        &::before {
-          content: "";
-          width: 100%;
-          height: calc(100% - 5px);
-          left: 5px;
-          top: 5px;
-          position: absolute;
-          background-color: black;
-          z-index: -1;
-        }
+        height: calc(100% - 5px);
+        left: 5px;
+        top: 5px;
+        position: absolute;
+        background-color: black;
+        z-index: -1;
       }
     }
   }
@@ -121,15 +112,21 @@ main {
 @media screen and (max-width: 1000px) {
   main {
     flex-direction: column;
-    .editor {
+    height: unset;
+    div:not([class]) {
       width: 100%;
-      border-right: unset;
+      height: 80vh;
+      [role="textbox"] {
+        height: 90%;
+      }
     }
     .editor__options {
       width: 100%;
-    }
-    .editor__wrap {
-      padding: 0;
+      position: static;
+      div:not([class]) {
+        height: unset;
+      }
+      
     }
   }
 }

@@ -2,11 +2,10 @@ import Link from "next/link"
 
 export const Navbar = () => {
     return <nav className="flex gap-5">
-        <div className="nav__item">
-            <Link href="/">
-                Home
-            </Link>
-        </div>
+        <Link href="/">
+            <h1 className="nav__item">The Dialogue Thing</h1>
+        </Link>
+
         <div className="nav__item">
             <Link href="/editor">Editor</Link>
         </div>

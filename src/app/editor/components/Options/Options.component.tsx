@@ -25,7 +25,7 @@ export const Options = () => {
   return (
     <div className="editor__options" tabIndex={0}>
       <Metrics dialogueDensity={dialogueDensity} lix={lix} />
-      <h3 className="text-xl mt-3"> Options </h3>
+      <h3 className="text-xl"> Options </h3>
       <h4>
         <label htmlFor="characters">
           {" "}
@@ -80,7 +80,6 @@ export const Options = () => {
       >
         Buy me a coffee ☕🍵
       </Link>
-      {/* <button>Apply</button> */}
     </div>
   )
 }

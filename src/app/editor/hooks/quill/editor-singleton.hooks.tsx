@@ -1,8 +1,6 @@
-// hooks/useQuillSingleton.ts
 import { useRef, useCallback, useState, useEffect } from "react";
 import type QuillType from "quill";
 
-// Module-level singleton - not global, but scoped to this module
 class QuillSingleton {
   private instance: QuillType | null = null;
   private readonly subscribers: Set<() => void> = new Set();

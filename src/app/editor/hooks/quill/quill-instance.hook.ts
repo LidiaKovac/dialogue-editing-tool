@@ -26,8 +26,6 @@ export const useQuillInstance = (
         editorRef.current,
         quillOptions as QuillOptions
       )
-      //   instance.root.setAttribute("spellcheck", "false")
-
       quillRef.current = instance
       setQuill(instance)
       isQuillCreated.current = true

@@ -22,10 +22,10 @@ export default function RootLayout({
           content="rE38Kd_bfIAsyV3_C-Bb5HVD75iG09H12kCa2Olwkfg"
         />
       </head>
-      <body className={`${font.variable}  antialiased`}>
+      <body className={`${font.variable}  antialiased flex flex-col`}>
         <Navbar />
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   )

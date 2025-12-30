@@ -10,7 +10,7 @@ export const Metrics = ({
 }) => {
   return (
     <>
-      <h3 className="mt-3">Readability scores</h3>
+      <h3>Readability scores</h3>
       ARI{" "}
       <ToolTip
         data={
@@ -25,7 +25,7 @@ export const Metrics = ({
         }
       />
       : {lix?.lix ?? 0} - {lix?.lix && getLIXLabel(lix.lix)}
-      <h3 className="mt-3">Density</h3>
+      <h3>Density</h3>
       <p>
         Dialogue density:{" "}
         <span className={dialogueDensity > 50 ? "text-red-600" : ""}>
