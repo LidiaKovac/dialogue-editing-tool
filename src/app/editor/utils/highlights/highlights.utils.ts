@@ -3,124 +3,110 @@ import Quill, { Delta, type Op } from "quill";
 import Rules from "../regex/regex.utils";
 
 /**
- * Remove highlight attributes from an operation
- */
-function removeHighlightFromOp(op: Op): Op {
-  if (op.insert && typeof op.insert === "string") {
-    const attributes = { ...op.attributes };
-    delete attributes.highlight;
-    delete attributes.adv_highlight;
-    return {
-      insert: op.insert,
-      attributes: Object.keys(attributes).length > 0 ? attributes : undefined,
-    };
-  }
-  return op;
-}
-
-
-
-/**
  * Build a Delta that applies highlight attributes for given ranges.
  * @param textLength Length of the whole text
  * @param highlights Array of { start: number, length: number } to highlight
  */
 export async function buildHighlightDelta(
-  className: "adv_highlight" | "highlight" | "sdt_highlight",
+  highlightsMap: Record<string, { start: number; length: number }[]>, // e.g. {highlight: [...], adv_highlight: [...]}
   s: number,
-  e: number,
-  highlights: { start: number; length: number }[]
+  e: number
 ) {
   const Delta = (await import("quill")).Delta;
   const delta = new Delta();
-  let currentPos = s;
-  console.log(highlights)
-  // Sort highlights by start position to process in order
-  highlights?.sort((a, b) => a.start - b.start);
+  let currentPos = 0;
+console.log(highlightsMap)
+  // Flatten and sort all absolute positions
+  const allHighlights = Object.entries(highlightsMap).flatMap(([className, hs]) =>
+    hs.map((h) => ({ start: h.start + s, length: h.length, className }))
+  );
 
-  for (const { start, length } of highlights) {
-    // Retain text before highlight (unformatted)
-    if (start > currentPos) {
-      delta.retain(start - currentPos);
-      currentPos = start;
+  allHighlights.sort((a, b) => a.start - b.start);
+
+  for (const h of allHighlights) {
+    if (h.start > currentPos) {
+      delta.retain(h.start - currentPos);
+      currentPos = h.start;
     }
-
-    // Retain the highlight range with the highlight attribute
-    delta.retain(length, { [className]: true });
-    currentPos += length;
+    const attrs: Record<string, true> = { [h.className]: true };
+    delta.retain(h.length, attrs);
+    currentPos += h.length;
   }
-
-  // Retain rest of the text unformatted
-  if (currentPos < e) {
-    delta.retain(e - currentPos);
-  }
-console.log(delta)
+  if (currentPos < e) delta.retain(e - currentPos);
   return delta;
 }
 
+export const resetDelta = async (chunkStart: number, chunkEnd: number) => {
+  const Delta = (await import("quill")).Delta;
+  const resetDelta = new Delta().retain(chunkStart).retain(chunkEnd - chunkStart, {
+    highlight: null,
+    adv_highlight: null,
+    sdt_highlight: null,
+  });
 
-export const resetDelta = (content: Delta) => {
-  return {
-    ops: content.ops.map(removeHighlightFromOp),
+  return resetDelta;
+};
+let latestRequestId = 0;
+
+const highlightChunk = async (
+  quill: QuillType,
+  adv: boolean,
+  chunk: string,
+  chunkStart: number,
+  chunkEnd: number
+) => {
+  const responses = await fetch(`${process.env.NEXT_PUBLIC_URL}api/v2/analyze?adverb=${adv ? "true" : "false"}`, {
+    method: "POST",
+    body: chunk,
+  });
+  const json = await responses.json();
+  const highlights = json.dialogue;
+  const highlightsAdv = json.adverbs;
+  const highlightsSDT = json.showdonttell;
+  const resetChunkDelta = await resetDelta(chunkStart, chunkEnd);
+  quill.updateContents(resetChunkDelta, "silent");
+  const highlightMap = {
+    highlight: highlights,
+    adv_highlight: highlightsAdv,
+    sdt_hightlight: highlightsSDT,
   };
+  const delta = await buildHighlightDelta(highlightMap, chunkStart, chunkEnd);
+  quill.updateContents(delta, "silent");
+  return json.names
 };
 
 export async function applyHighlights(
   quill: Quill,
   chunk: string,
-  chunkStart: number,
-  chunkEnd: number,
-  adv: boolean,
-  tense: "past" | "present" = "past"
+  adv: boolean
 ) {
   // if (!quill || !patterns?.length) return
   //TODO: make the tre requests concurrent with each applying highlights when it ends instead of waiting
   try {
-    quill.disable()
-    const currentSelection = quill.getSelection();
-    const currentContents = quill.getContents();
-    if (currentContents.length() < 1 || quill.getText() === "\n") {
+    const requestId = Date.now();
+    latestRequestId = requestId;
+    if (requestId !== latestRequestId) {
+      console.log("Stale request, discarding highlights");
       return;
     }
-    //Create a new delta without highlights
-    // const newDelta = resetDelta(currentContents);
+    const currentSelection = quill.getSelection();
+    if (quill.getLength() < 1 || quill.getText() === "\n") {
+      return;
+    }
 
-    const promises = [
-      "api/v2/dialogue",
-      adv ? "api/v2/adverbs" : "",
-      `api/v2/show-dont-tell?tense=${tense}`,
-    ]
-      .filter((url) => url.length > 0)
-      .map((url) =>
-        fetch(`${process.env.NEXT_PUBLIC_URL}${url}`, {
-          method: "POST",
-          body: chunk,
-        })
-      );
-
-    const responses = await Promise.all(promises);
-    console.log(responses);
-    const highlights = await responses[0]?.json();
-    const highlightsAdv = adv ? await responses[1]?.json() : null;
-    const highlightsSDT = adv
-      ? await responses[2]?.json()
-      : await responses[1]?.json();
-
-    // quill.setContents(newDelta.ops, "silent");
-    const updateContentsCBs = await Promise.all([
-      buildHighlightDelta("highlight", chunkStart, chunkEnd, highlights.matches),
-      buildHighlightDelta(
-        "adv_highlight",
-        chunkStart,
-        chunkEnd,
-        highlightsAdv
-      ),
-      buildHighlightDelta("sdt_highlight", chunkStart, chunkEnd, highlightsSDT),
-    ]);
-    const delta = updateContentsCBs[0]
-      .compose(updateContentsCBs[1])
-      .compose(updateContentsCBs[2]);
-    quill?.updateContents(delta, "silent");
+    // Analyze chunks in parallel, not sequential
+    const chunkSize = 1000;
+    const allNames = []
+    for (let i = 0; i < chunk.length; i += chunkSize) {
+      const names = await highlightChunk(
+        quill, 
+        adv, 
+        chunk.slice(i, Math.min(i + chunkSize, chunk.length)), 
+        i, Math.min(i + chunkSize, chunk.length))
+        allNames.push(...names)
+    }
+    const uniqueNames = [...new Set(allNames)];
+    Rules.setCharacters(uniqueNames)
 
     // Restore selection if it existed
     if (currentSelection) {
@@ -128,8 +114,5 @@ export async function applyHighlights(
     }
   } catch (error) {
     console.error("Error in applyHighlights:", error);
-  }
-  finally {
-    quill.enable(true)
   }
 }

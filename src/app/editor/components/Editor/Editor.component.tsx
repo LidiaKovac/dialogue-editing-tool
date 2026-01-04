@@ -9,31 +9,31 @@ export default function Editor() {
   const [names, setNames] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const fetchNames = useCallback(async () => {
-    try {
-      setLoading(true)
-      const res = await fetch(process.env.NEXT_PUBLIC_URL + "api/v1/names", {
-        method: "POST",
-        body: text,
-      })
-      const result = await res.json()
-      setNames(result)
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setLoading(false)
-    }
-  }, [text])
+  // const fetchNames = useCallback(async () => {
+  //   try {
+  //     setLoading(true)
+  //     const res = await fetch(process.env.NEXT_PUBLIC_URL + "api/v1/names", {
+  //       method: "POST",
+  //       body: text,
+  //     })
+  //     const result = await res.json()
+  //     setNames(result)
+  //   } catch (error) {
+  //     console.error(error)
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }, [text])
 
-  useEffect(() => {
-    if (!text) return // guard clause if text is empty
+  // useEffect(() => {
+  //   if (!text) return // guard clause if text is empty
 
-    fetchNames()
-  }, [text])
-  useEffect(() => {
-    if (!names) return
-    Rules.setCharacters(names)
-  }, [names])
+  //   fetchNames()
+  // }, [text])
+  // useEffect(() => {
+  //   if (!names) return
+  //   Rules.setCharacters(names)
+  // }, [names])
   return (
     <div>
       {(loading || loadingEditor) && <div className="disable-foreground"></div>}

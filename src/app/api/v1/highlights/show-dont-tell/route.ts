@@ -1,7 +1,6 @@
 import nlp from "compromise/two"
 import { LRUCache } from "lru-cache"
 import { NextRequest, NextResponse } from "next/server"
-import { TaggerResponse } from "../../api"
 let cache:
   | LRUCache<
       string,
@@ -54,7 +53,7 @@ export async function POST(body: NextRequest) {
     .match(tense === "past" ? "#PastTense" : "#PresentTense") //TODO: make sure dialogues are checked even if present tense
   const matches = copulas
     .out("offset")
-    .map((row) => ({ start: row.offset.start, length: row.offset.length }))
+    .map((row:{offset: {start: string, length: string}}) => ({ start: row.offset.start, length: row.offset.length }))
   //TODO: only match non dialogue text
   //TODO: refine
   cache.set(text, matches)
