@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { LRUCache } from "lru-cache"
-import { TaggerResponse } from "../api"
 import nlp from "compromise/two"
+import { TaggerResponse } from "../../api"
 
 let cache: LRUCache<string, Set<string>> | undefined
 
@@ -36,6 +36,7 @@ export async function POST(body: NextRequest) {
   const tagged = res
     .match("#Person")
     .match("#FirstName")
+    .match("!#Possessive")
     .unique()
     .json()
     .flatMap((sentence: TaggerResponse) => sentence.terms)

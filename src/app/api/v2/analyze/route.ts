@@ -21,21 +21,13 @@ type Match = { start: number; length: number };
  * @returns {Promise<NextResponse>} JSON response with array of match objects containing `start` and `length`.
  */
 export const POST = async (body: NextRequest) => {
-  const text = await body.text();
+  const {chunk:text, names} = await body.json();
 
   //!FIND NAMES
   const doc = nlp(text.toLowerCase());
-  const tagged = doc
-    .people()
-    .unique()
-    .match("!#Possessive")
-    .json()
-    .flatMap((sentence: TaggerResponse) => sentence.terms)
-    .map((name: TaggerResponse["terms"][number]) => {
-      return name.normal.slice(0, 1).toLocaleUpperCase() + name.normal.slice(1);
-    });
 
   //!FIND DIALOGUE RULES:
+  Rules.setCharacters(names)
   const rules = Rules.getRules();
 
   let match;
@@ -89,7 +81,6 @@ export const POST = async (body: NextRequest) => {
 
   return NextResponse.json({
     dialogue: matches,
-    names: tagged,
     adverbs: matchesAdv ?? [],
     showdonttell: sdt,
   });

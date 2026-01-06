@@ -4,10 +4,7 @@ import { applyHighlights } from "../../utils/highlights/highlights.utils";
 import { QUILL_DEBOUNCE_TIMER } from "../../../../app/lib/quill/quill.options";
 import { Delta } from "quill";
 
-export const useDebouncedHighlights = (
-  quill: QuillType | null,
-  enableAdv: boolean
-) => {
+export const useDebouncedHighlights = (quill: QuillType | null, enableAdv: boolean) => {
   const highlightTimer = useRef<NodeJS.Timeout | null>(null);
   const isApplyingHighlights = useRef(false);
 
@@ -23,8 +20,6 @@ export const useDebouncedHighlights = (
       await applyHighlights(
         quill,
         latestChunk.current,
-        latestStart.current,
-        latestEnd.current,
         enableAdv
       );
       return true;
@@ -67,10 +62,7 @@ export const useDebouncedHighlights = (
       latestStart.current = Math.max(0, index - 200);
       latestEnd.current = Math.min(newText.length, index + inserted + 200); // Use inserted, not deleted
 
-      const chunkForAnalysis = newText.slice(
-        latestStart.current,
-        latestEnd.current
-      );
+      const chunkForAnalysis = newText.slice(latestStart.current, latestEnd.current);
       latestChunk.current = chunkForAnalysis;
 
       highlightTimer.current = setTimeout(async () => {

@@ -1,5 +1,6 @@
 import type QuillType from "quill";
 import Quill, { Delta, type Op } from "quill";
+import { getAnalysisWorker } from "./highlight.worker";
 import Rules from "../regex/regex.utils";
 
 /**
@@ -15,7 +16,7 @@ export async function buildHighlightDelta(
   const Delta = (await import("quill")).Delta;
   const delta = new Delta();
   let currentPos = 0;
-console.log(highlightsMap)
+  console.log(highlightsMap);
   // Flatten and sort all absolute positions
   const allHighlights = Object.entries(highlightsMap).flatMap(([className, hs]) =>
     hs.map((h) => ({ start: h.start + s, length: h.length, className }))
@@ -33,6 +34,7 @@ console.log(highlightsMap)
     currentPos += h.length;
   }
   if (currentPos < e) delta.retain(e - currentPos);
+  console.log(delta);
   return delta;
 }
 
@@ -43,43 +45,47 @@ export const resetDelta = async (chunkStart: number, chunkEnd: number) => {
     adv_highlight: null,
     sdt_highlight: null,
   });
-
+  console.log(chunkStart);
   return resetDelta;
 };
 let latestRequestId = 0;
 
-const highlightChunk = async (
+export const highlightChunk = async (
   quill: QuillType,
   adv: boolean,
+  names: string[],
   chunk: string,
   chunkStart: number,
   chunkEnd: number
 ) => {
-  const responses = await fetch(`${process.env.NEXT_PUBLIC_URL}api/v2/analyze?adverb=${adv ? "true" : "false"}`, {
-    method: "POST",
-    body: chunk,
-  });
+
+
+  const responses = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}api/v2/analyze?adverb=${adv ? "true" : "false"}`,
+    {
+      method: "POST",
+      body: JSON.stringify({ chunk, names }),
+    }
+  );
   const json = await responses.json();
   const highlights = json.dialogue;
   const highlightsAdv = json.adverbs;
   const highlightsSDT = json.showdonttell;
   const resetChunkDelta = await resetDelta(chunkStart, chunkEnd);
   quill.updateContents(resetChunkDelta, "silent");
-  const highlightMap = {
-    highlight: highlights,
-    adv_highlight: highlightsAdv,
-    sdt_hightlight: highlightsSDT,
-  };
-  const delta = await buildHighlightDelta(highlightMap, chunkStart, chunkEnd);
-  quill.updateContents(delta, "silent");
-  return json.names
+  if ([highlights, highlightsAdv, highlightsSDT].some((h) => h.length > 0)) {
+    const highlightMap = {
+      highlight: highlights,
+      adv_highlight: highlightsAdv,
+      sdt_hightlight: highlightsSDT,
+    };
+    const delta = await buildHighlightDelta(highlightMap, chunkStart, chunkEnd);
+    // quill.updateContents(delta, "silent");
+    return delta;
+  }
 };
 
-export async function applyHighlights(
-  quill: Quill,
-  chunk: string,
-  adv: boolean
-) {
+export async function applyHighlights(quill: Quill, chunk: string, adv: boolean) {
   // if (!quill || !patterns?.length) return
   //TODO: make the tre requests concurrent with each applying highlights when it ends instead of waiting
   try {
@@ -89,24 +95,16 @@ export async function applyHighlights(
       console.log("Stale request, discarding highlights");
       return;
     }
+
     const currentSelection = quill.getSelection();
     if (quill.getLength() < 1 || quill.getText() === "\n") {
       return;
     }
 
-    // Analyze chunks in parallel, not sequential
-    const chunkSize = 1000;
-    const allNames = []
-    for (let i = 0; i < chunk.length; i += chunkSize) {
-      const names = await highlightChunk(
-        quill, 
-        adv, 
-        chunk.slice(i, Math.min(i + chunkSize, chunk.length)), 
-        i, Math.min(i + chunkSize, chunk.length))
-        allNames.push(...names)
-    }
-    const uniqueNames = [...new Set(allNames)];
-    Rules.setCharacters(uniqueNames)
+    //call worker
+    const worker = getAnalysisWorker(quill);
+    console.log(worker);
+    worker.postMessage({ chunk, adv });
 
     // Restore selection if it existed
     if (currentSelection) {
