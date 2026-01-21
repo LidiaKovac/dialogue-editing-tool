@@ -18,7 +18,7 @@ export default function Landing() {
           Where writers edit their <br /> <Typewriter />
         </h2>
         <Link
-          className="inline-block mt-5 text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+          className="inline-block mt-5 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
           href={"/editor"}
         >
           Get started for free

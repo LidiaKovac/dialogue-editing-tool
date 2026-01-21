@@ -43,12 +43,16 @@
   & > div {
     min-width: 200px;
   }
+  a {
+    background-color: var(--primary);
+    color: var(--bg);
+  }
 }
 
-footer, footer * {
-  background-color: var(--primary);
-  color: var(--bg);
+footer {
+  border-top: 1px solid var(--primary)
 }
+
 
 body {
   background-color: var(--bg);
