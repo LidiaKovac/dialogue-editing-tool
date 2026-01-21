@@ -2,6 +2,7 @@ import nlp from "compromise/two"
 import { LRUCache } from "lru-cache"
 import { NextRequest, NextResponse } from "next/server"
 import { TaggerResponse } from "../../api"
+
 let cache:
   | LRUCache<
       string,
@@ -44,19 +45,16 @@ export async function POST(body: NextRequest) {
   const text = await body.text()
 
   if (cache.has(text)) {
-    // return NextResponse.json(cache.get(text))
+    return NextResponse.json(cache.get(text))
   }
   const res = nlp(text.toLowerCase())
   const matches1 = res.match("#Noun #Copula #Adverb? #Adjective")
   const clean = matches1.match("#Adjective").not("#Verb #Gerund").not("#Adverb")
-  const copulas = clean
-    .lookBehind("#Copula")
-    .match(tense === "past" ? "#PastTense" : "#PresentTense") //TODO: make sure dialogues are checked even if present tense
-  const matches = copulas
-    .out("offset")
-    .map((row) => ({ start: row.offset.start, length: row.offset.length }))
-  //TODO: only match non dialogue text
-  //TODO: refine
+  const copulas = clean.lookBehind("#Copula")
+  const matches = copulas.out("offset").map((row: any) => ({
+    start: row.offset.start,
+    length: row.offset.length,
+  }))
   cache.set(text, matches)
   return NextResponse.json(matches)
 }

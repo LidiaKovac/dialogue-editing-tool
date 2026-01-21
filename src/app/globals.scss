@@ -1,5 +1,13 @@
 @use "tailwindcss";
 
+@use "./theme" as *;
+
+*,
+* > * {
+  color: var(--primary);
+  box-sizing: border-box;
+}
+
 #landing {
   width: 75%;
   height: 100%;
@@ -8,21 +16,21 @@
       font-size: 3rem;
     }
     .badge {
-      border: 2px solid black;
+      border: 2px solid var(--primary);
       rotate: -10deg;
       left: -25px;
       top: -40px;
       font-size: 2rem;
       div {
         padding: 2px 5px;
-        background-color: white;
+        background-color: var(--bg);
         position: relative;
         height: 100%;
         z-index: 1;
       }
       &::before {
         position: absolute;
-        background-color: black;
+        background-color: var(--primary);
         content: "";
         left: 3px;
         top: 3px;
@@ -37,14 +45,13 @@
   }
 }
 
-footer {
-  background-color: black;
-  color: white;
+footer, footer * {
+  background-color: var(--primary);
+  color: var(--bg);
 }
 
-
-
 body {
+  background-color: var(--bg);
   &:not(:has(.blog)) {
     font-family: var(--roboto_mono-font);
   }
@@ -59,12 +66,8 @@ nav {
   }
 }
 main {
-   padding-inline: 30px;
-   padding-block: 10px;
-}
-
-* {
-  box-sizing: border-box;
+  padding-inline: 30px;
+  padding-block: 10px;
 }
 
 h1,
@@ -119,7 +122,7 @@ header {
     padding: 20px;
     width: fit-content;
     blockquote {
-      border-left: 2px solid black;
+      border-left: 2px solid var(--primary);
       padding-inline-start: 20px;
       margin-block: 5px;
       font-style: italic;

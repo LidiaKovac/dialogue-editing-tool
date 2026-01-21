@@ -1,0 +1,20 @@
+:root {
+  --primary: black;
+  --bg: white;
+}
+
+html[data-theme="light"] {
+  --primary: black;
+  --bg: white;
+  --adv: greenyellow;
+  --dialogue: yellow;
+  --sdt: cyan;
+}
+
+html[data-theme="dark"] {
+  --primary: white;
+  --bg: black;
+  --adv: green;
+  --dialogue: rgb(255, 60, 0);
+  --sdt: blue;
+}

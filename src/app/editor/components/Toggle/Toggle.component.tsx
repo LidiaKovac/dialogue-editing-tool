@@ -2,7 +2,7 @@ import {
   Dispatch,
   SetStateAction,
 } from "react"
-
+import "./toggle.scss"
 export const Toggle = ({
   onChange,
   checked,
