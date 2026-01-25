@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import nlp from "compromise/two"
-import { TaggerResponse } from "../../api"
+import type { TaggerResponse } from "../../api"
 
 /**
  * POST handler to scan text and find matching substrings based on configured regex rules.
@@ -28,6 +28,6 @@ export const POST = async (body: NextRequest) => {
   }
   return NextResponse.json({
     matches,
-    percentage: ((100 * adverbs.length) / doc.wordCount()).toFixed(2),
+    percentage: ((100 * adverbs.length) / (doc.wordCount() ?? 1)).toFixed(2),
   })
 }
