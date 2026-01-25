@@ -1,5 +1,5 @@
 import type QuillType from "quill"
-import { Delta, type Op } from "quill"
+import { type Op } from "quill"
 import Rules from "../regex/regex.utils"
 
 /**
@@ -126,7 +126,6 @@ export async function applyHighlights(
   quill: QuillType | null,
   patterns: { id: string; regex: RegExp }[],
   adv: boolean,
-  tense: "past" | "present" = "past"
 ) {
   if (!quill || !patterns?.length) return
   //TODO: make the three requests concurrent with each applying highlights when it ends instead of waiting
@@ -142,7 +141,7 @@ export async function applyHighlights(
     const promises = [
       "api/highlights/dialogue",
       adv ? "api/highlights/adverbs" : "",
-      `api/highlights/show-dont-tell?tense=${tense}`,
+      `api/highlights/show-dont-tell`,
     ]
       .filter((url) => url.length > 0)
       .map((url) =>

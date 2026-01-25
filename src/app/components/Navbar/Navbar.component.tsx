@@ -4,7 +4,7 @@ import { useDarkMode } from "@/app/editor/hooks/darkmode.hook"
 import Link from "next/link"
 
 export const Navbar = () => {
-  const { theme, toggleTheme } = useDarkMode()
+  const { theme, toggleTheme, mounted } = useDarkMode()
   return (
     <nav className="flex gap-5">
       <div className="nav__item">
@@ -17,11 +17,11 @@ export const Navbar = () => {
         <Link href="/blog">Blog</Link>
       </div>
       <div className="nav__item">
-        <Toggle
+        {mounted && <Toggle
           checked={theme === "dark"}
           label="Dark mode"
           onChange={() => toggleTheme()}
-        />
+        />}
       </div>
     </nav>
   )

@@ -19,10 +19,15 @@ export const POST = async (body: NextRequest) => {
     .filter((term: TaggerResponse["terms"][0]) => term.normal.endsWith("ly"))
   const matches: { start: number; length: number }[] = []
   for (const adv of adverbs) {
-    // const escaped = adv.text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-    const regex = new RegExp(`\\b${adv.normal}\\b`, "gi")
+    
+    const escaped = adv.normal.replaceAll(/[.*+?^${}()|[\]\\]/g, /\$&/)  
+    const regex = new RegExp(`\\b${escaped}\\b`, "gi")
     let match
     while ((match = regex.exec(text)) !== null) {
+      if (match[0].length === 0) {  
+        regex.lastIndex++  
+        continue  
+      }  
       matches.push({ start: match.index, length: match[0].length })
     }
   }

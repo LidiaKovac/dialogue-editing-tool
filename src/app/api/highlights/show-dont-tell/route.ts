@@ -36,7 +36,7 @@ export async function POST(body: NextRequest) {
       length: number
     }[]
   >({
-    maxSize: 500,
+    max: 500,
     ttl: 2000 * 60 * 60,
   })
 

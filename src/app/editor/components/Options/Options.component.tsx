@@ -27,7 +27,7 @@ export const Options = () => {
       <h3 className="text-xl mt-3"> Options </h3>
       <h4>
         <label htmlFor="characters">
-          {" "}
+          
           Character names
           <ToolTip
             data={
