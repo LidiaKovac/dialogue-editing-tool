@@ -1,5 +1,5 @@
 import type QuillType from "quill"
-import { type Op } from "quill"
+import { Delta, type Op } from "quill"
 import Rules from "../regex/regex.utils"
 
 /**
