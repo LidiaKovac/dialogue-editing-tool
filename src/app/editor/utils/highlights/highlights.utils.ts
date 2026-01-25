@@ -10,6 +10,7 @@ function removeHighlightFromOp(op: Op): Op {
     const attributes = { ...op.attributes }
     delete attributes.highlight
     delete attributes.adv_highlight
+    delete attributes.sdt_highlight
     return {
       insert: op.insert,
       attributes: Object.keys(attributes).length > 0 ? attributes : undefined,
@@ -92,7 +93,6 @@ export async function buildHighlightDeltaSDT(
   textLength: number,
   highlights: { start: number; length: number }[]
 ) {
-  console.log(highlights)
 
   const Delta = (await import("quill")).Delta
   const delta = new Delta()
@@ -129,7 +129,7 @@ export async function applyHighlights(
   tense: "past" | "present" = "past"
 ) {
   if (!quill || !patterns?.length) return
-  //TODO: make the tre requests concurrent with each applying highlights when it ends instead of waiting
+  //TODO: make the three requests concurrent with each applying highlights when it ends instead of waiting
   try {
     const currentSelection = quill.getSelection()
     const currentContents = quill.getContents()
@@ -146,7 +146,7 @@ export async function applyHighlights(
     ]
       .filter((url) => url.length > 0)
       .map((url) =>
-        fetch(`${process.env.NEXT_PUBLIC_URL}${url}`, {
+        fetch(new URL(url, process.env.NEXT_PUBLIC_URL), {
           method: "POST",
           body: url.includes("dialogue")
             ? JSON.stringify({
@@ -158,7 +158,6 @@ export async function applyHighlights(
       )
 
     const responses = await Promise.all(promises)
-    console.log(responses)
     const highlights = await responses[0]?.json()
     const highlightsAdv = adv ? await responses[1]?.json() : null
     const highlightsSDT = adv
@@ -168,11 +167,11 @@ export async function applyHighlights(
     quill.setContents(newDelta.ops, "silent")
     const updateContentsCBs = await Promise.all([
       buildHighlightDelta(quill.getText().length, highlights),
-      buildHighlightDeltaAdverbs(quill.getText().length, highlightsAdv.matches),
+      adv ? buildHighlightDeltaAdverbs(quill.getText().length, highlightsAdv.matches) : null,
       buildHighlightDeltaSDT(quill.getText().length, highlightsSDT),
     ])
     const delta = updateContentsCBs[0]
-      .compose(updateContentsCBs[1])
+      .compose(updateContentsCBs[1] || new Delta())
       .compose(updateContentsCBs[2])
     quill?.updateContents(delta, "silent")
 

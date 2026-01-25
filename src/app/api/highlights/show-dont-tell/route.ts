@@ -1,7 +1,6 @@
 import nlp from "compromise/two"
 import { LRUCache } from "lru-cache"
 import { NextRequest, NextResponse } from "next/server"
-import { TaggerResponse } from "../../api"
 
 let cache:
   | LRUCache<
@@ -37,11 +36,10 @@ export async function POST(body: NextRequest) {
       length: number
     }[]
   >({
-    size: 500,
-    max: 2000 * 60 * 60,
+    maxSize: 500,
+    ttl: 2000 * 60 * 60,
   })
 
-  const tense = body.nextUrl.searchParams.get("tense")
   const text = await body.text()
 
   if (cache.has(text)) {

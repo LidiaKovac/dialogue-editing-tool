@@ -3,7 +3,6 @@ import Link from "next/link"
 import { Toggle } from "../Toggle/Toggle.component"
 import { useQuillEditor } from "../../hooks/quill/editor-init.hooks"
 import { ToolTip } from "@/app/components/Tooltip/Tooltip.component"
-import { getAriLabel, getLIXLabel } from "./options.fn"
 import { Metrics } from "./components/Metrics.component"
 
 export const Options = () => {

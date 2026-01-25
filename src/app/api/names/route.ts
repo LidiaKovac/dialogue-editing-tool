@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { LRUCache } from "lru-cache"
-import { TaggerResponse } from "../api"
+import type { TaggerResponse } from "../api"
 import nlp from "compromise/two"
 
 let cache: LRUCache<string, Set<string>> | undefined
@@ -23,8 +23,8 @@ export function __TEST__resetCache(to?: LRUCache<string, Set<string>>) {
  */
 export async function POST(body: NextRequest) {
   cache ??= new LRUCache<string, Set<string>>({
-    size: 500,
-    max: 2000 * 60 * 60,
+    maxSize: 500,
+    ttl: 2000 * 60 * 60,
   })
 
   const text = await body.text()

@@ -21,7 +21,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-    jest.useFakeTimers()
   jest.runOnlyPendingTimers()
+  jest.useRealTimers()
   jest.clearAllMocks()
 })

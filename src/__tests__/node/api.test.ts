@@ -5,7 +5,7 @@ import { LRUCache } from "lru-cache"
 jest.mock("lru-cache")
 
 function createMockRequest(body: string): NextRequest {
-  return new NextRequest(process.env.NEXT_PUBLIC_URL + "api/names", {
+  return new NextRequest(process.env.NEXT_PUBLIC_URL ?? "http://localhost:3000/" + "api/names", {
     method: "POST",
     body,
   })
