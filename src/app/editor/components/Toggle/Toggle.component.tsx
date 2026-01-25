@@ -2,7 +2,7 @@ import {
   Dispatch,
   SetStateAction,
 } from "react"
-
+import "./toggle.scss"
 export const Toggle = ({
   onChange,
   checked,
@@ -21,8 +21,8 @@ export const Toggle = ({
 
   return (
     <>
-      <h4>{label}</h4>
-      <label htmlFor={label.toLowerCase().replaceAll(" ", "_")}>
+      <label htmlFor={label.toLowerCase().replaceAll(" ", "_")} className="flex gap-3">
+      <div className="text-sm">{label}</div>
         <input
           checked={checked}
           aria-hidden

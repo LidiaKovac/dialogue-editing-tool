@@ -18,14 +18,14 @@ export default function Landing() {
           Where writers edit their <br /> <Typewriter />
         </h2>
         <Link
-          className="inline-block mt-5 text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+          className="inline-block mt-5 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
           href={"/editor"}
         >
           Get started for free
         </Link>
       </div>
       <p className="md:flex-1 text-sm/6">
-        Looking for an <b> AI-free editing tool </b>? Look no further. <br />
+        Looking for an <b> AI-free editing tool</b>? Look no further. <br />
         The Dialogue Thing can help you edit your dialogue <b> for free </b>, no
         word limit, no AI. <br /> <b> Recognize </b> and fix{" "}
         <b>incorrect dialogue patterns</b>, formatting and adverbs. <br />{" "}

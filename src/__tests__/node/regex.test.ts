@@ -1,4 +1,4 @@
-import Rules from "../app/editor/utils/regex/regex.utils"
+import Rules from "../../app/editor/utils/regex/regex.utils"
 
 it("cached regexes reuse same object when input unchanged", () => {
   Rules.setCharacters(["Alice", "Bob"])

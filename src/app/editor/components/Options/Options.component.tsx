@@ -3,48 +3,38 @@ import Link from "next/link"
 import { Toggle } from "../Toggle/Toggle.component"
 import { useQuillEditor } from "../../hooks/quill/editor-init.hooks"
 import { ToolTip } from "@/app/components/Tooltip/Tooltip.component"
-import { getAriLabel, getLIXLabel } from "./options.fn"
+import { Metrics } from "./components/Metrics.component"
 
 export const Options = () => {
-  const { lix, dialogueDensity, options:{
-    chars,
-    handleCharChange,
-    tags,
-    handleTagsChange,
-    enableAdv,
-    setEnableAdv,
-  } } = useQuillEditor()
+  const {
+    lix,
+    dialogueDensity,
+    options: {
+      chars,
+      handleCharChange,
+      tags,
+      handleTagsChange,
+      enableAdv,
+      setEnableAdv,
+    },
+  } = useQuillEditor()
   const handleAdvChange = (checked: any) => {
     setEnableAdv(checked)
   }
   return (
     <div className="editor__options" tabIndex={0}>
-      <h3 className="mt-3">Readability scores</h3>
-      ARI{" "}
-      <ToolTip
-        data={
-          "Automated Readability Index, approximate representation of the US grade level needed to comprehend the text."
-        }
-      />
-      : {lix?.ari ?? 0} - {lix?.ari && getAriLabel(lix.ari)} <br />
-      LIX{" "}
-      <ToolTip
-        data={
-          "Läsbarhetsindex, based on number of sentences and number of words, with particular weight on long words."
-        }
-      />
-      : {lix?.lix ?? 0} - {lix?.lix && getLIXLabel(lix.lix)}
-      <h3 className="mt-3">Density</h3>
-      <p>
-        Dialogue density:
-        <span className={dialogueDensity > 50 ? "text-red-600" : ""}>
-          &nbsp;
-          {dialogueDensity}%
-        </span>
-      </p>
+      <Metrics dialogueDensity={dialogueDensity} lix={lix} />
       <h3 className="text-xl mt-3"> Options </h3>
       <h4>
-        <label htmlFor="characters"> Character names</label>
+        <label htmlFor="characters">
+          
+          Character names
+          <ToolTip
+            data={
+              "This is not perfect. Some names that are also nouns (e.g. Dean, which could be Dean Winchester or the Dean of a school), might not be recognized. Feel free to add them manually."
+            }
+          />
+        </label>
       </h4>
       <div className="textarea__wrap">
         <textarea
@@ -75,7 +65,7 @@ export const Options = () => {
         />
       </div>
       <Link
-        className="inline-block mt-5 text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+        className="inline-block mt-5 option-cta-btn hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
         href={"https://form.typeform.com/to/OEauYMEz"}
         target="blank"
       >
@@ -85,7 +75,7 @@ export const Options = () => {
       <Link
         href={"https://ko-fi.com/lidiacodes"}
         target="blank"
-        className="inline-block mt-2 text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+        className="inline-block mt-2 option-cta-btn hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
       >
         Buy me a coffee ☕🍵
       </Link>

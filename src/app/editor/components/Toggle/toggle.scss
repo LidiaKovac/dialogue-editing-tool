@@ -1,0 +1,24 @@
+@use "sass:math";
+
+.toggle {
+  background-color: var(--bg);
+  border: 2px solid var(--primary);
+  position: relative;
+  $width: 50px;
+  width: $width;
+  height: math.div($width, 2);
+  border-radius: math.div($width, 2);
+  &__handle {
+    border-radius: 100px;
+    width: math.div($width, 2);
+    aspect-ratio: 1/1;
+    background-color: var(--primary);
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    transition: 0.3s;
+    &.enabled {
+      transform: translateX(100%);
+    }
+  }
+}
