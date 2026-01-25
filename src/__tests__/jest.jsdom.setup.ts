@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom"
 
 // Add fetch polyfill
-global.fetch = jest.fn(() =>
+globalThis.fetch = jest.fn(() =>
   Promise.resolve({
     ok: true,
     status: 200,
@@ -17,7 +17,7 @@ beforeEach(() => {
   jest.useFakeTimers()
 
   // Reset fetch mock
-  ;(global.fetch as jest.Mock).mockClear()
+  ;(globalThis.fetch as jest.Mock).mockClear()
 })
 
 afterEach(() => {
