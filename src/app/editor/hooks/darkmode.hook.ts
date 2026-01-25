@@ -27,6 +27,7 @@ export const useDarkMode = () => {
   }, [])
 
   const applyTheme = (value: Theme) => {
+    if (typeof document === "undefined") return
     const root = document.documentElement
     root.dataset.theme = value
     globalThis.localStorage.setItem(STORAGE_KEY, value)
