@@ -65,7 +65,7 @@ export const Options = () => {
         />
       </div>
       <Link
-        className="inline-block mt-5 option-cta-btn hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+        className="inline-block mt-5 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
         href={"https://form.typeform.com/to/OEauYMEz"}
         target="blank"
       >
@@ -75,7 +75,7 @@ export const Options = () => {
       <Link
         href={"https://ko-fi.com/lidiacodes"}
         target="blank"
-        className="inline-block mt-2 option-cta-btn hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+        className="inline-block mt-2 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
       >
         Buy me a coffee ☕🍵
       </Link>

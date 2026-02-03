@@ -1,5 +1,7 @@
 @use "sass:math";
+@use "../theme";
 @use "./blots";
+
 main {
   min-height: 90vh;
 
@@ -23,13 +25,18 @@ main {
   .ql-toolbar.ql-snow {
     border-color: transparent;
     border-bottom-color: lightgray;
+    position: sticky;
+    top: 60px
   }
+  .ql-editor {
+    min-height: 80vh;
+  }  
   :has(.ql-snow) {
     font-family: var(--roboto_mono-font);
     padding-inline: 10px 20px;
     padding-block: 10px;
     * {
-      white-space: pre-wrap;
+      whitespace: pre-wrap;
       tab-size: 5;
     }
   }
@@ -50,6 +57,10 @@ main {
     h4 {
       font-size: 11pt;
     }
+    a {
+      background-color: var(--primary);
+      color: var(--bg)
+    }
     .textarea__wrap {
       margin-block-end: 20px;
 
@@ -57,27 +68,27 @@ main {
         width: 100%;
         font-size: inherit;
         padding: 5px;
-        background-color: white;
+        background-color: var(--bg);
 
         //TODO: add focus styles
       }
     }
     .toggle {
-      background-color: white;
+      background-color: var(--bg);
       border: 2px solid black;
       position: relative;
-      $width: 40px;
+      $width: 50px;
       width: $width;
-      height: math.div($width, 2);
+      height: math.div($width, 3);
       border-radius: math.div($width, 2);
       &__handle {
         border-radius: 100px;
-        width: math.div($width, 2);
+        width: math.div($width, 3);
         aspect-ratio: 1/1;
         background-color: black;
         position: absolute;
         left: -2px;
-        top: -2px;
+        top: -2.5px;
         transition: 0.3s;
         &.enabled {
           transform: translateX(100%);
@@ -87,7 +98,7 @@ main {
     button {
       width: 100%;
       padding-block: 10px;
-      background-color: white;
+      background-color: var(--bg);
     }
     textarea,
     button {
@@ -124,10 +135,12 @@ main {
     .editor__options {
       width: 100%;
       position: static;
+      a {
+        background-color: var(--primary);
+      }
       div:not([class]) {
         height: unset;
       }
-      
     }
   }
 }

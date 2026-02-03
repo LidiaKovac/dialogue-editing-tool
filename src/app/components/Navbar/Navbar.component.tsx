@@ -6,7 +6,7 @@ import Link from "next/link"
 export const Navbar = () => {
   const { theme, toggleTheme, mounted } = useDarkMode()
   return (
-    <nav className="flex justify-between items-center">
+    <nav className="flex justify-between items-center fixed w-full top-0 bg-white">
         
       <div className="flex gap-5">
         <Link href="/">

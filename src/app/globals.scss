@@ -1,5 +1,5 @@
 @use "tailwindcss";
-
+@use "./theme";
 #landing {
   width: 75%;
   height: 100%;
@@ -15,7 +15,7 @@
       font-size: 2rem;
       div {
         padding: 2px 5px;
-        background-color: white;
+        background-color: var(--bg);
         position: relative;
         height: 100%;
         z-index: 1;
@@ -38,13 +38,19 @@
 }
 
 footer {
-  background-color: black;
-  color: white;
+  background-color: var(--primary);
+  color: var(--bg);
   height: 20vh;
+  nav {
+    color: inherit;
+    background-color: inherit;
+  }
 }
 
 
 body {
+  background-color: var(--bg);
+  color: var(--primary);
   &:not(:has(.blog)) {
     font-family: var(--roboto_mono-font);
   }
@@ -52,6 +58,8 @@ body {
   font-size: 10pt;
 }
 nav {
+    background-color: var(--bg);
+  color: var(--primary);
   padding: 20px;
   padding-inline: 40px;
   a,h1 {
