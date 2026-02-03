@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <main className="flex gap-4">
       <div className="editor">
-        <header>
+        {/* <header>
           <h1>The Dialogue Thing</h1>
           <p>
             Paste your chapter in the area below ⬇️ and see everything that
@@ -40,7 +40,7 @@ export default function Home() {
           </small>
           <RulesCollapsable />
           <FalsePositives />
-        </header>
+        </header> */}
         <div className="editor__wrap">
           <Editor />
         </div>
