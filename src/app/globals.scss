@@ -1,13 +1,5 @@
 @use "tailwindcss";
 
-@use "./theme" as *;
-
-*,
-* > * {
-  color: var(--primary);
-  box-sizing: border-box;
-}
-
 #landing {
   width: 75%;
   height: 100%;
@@ -16,21 +8,21 @@
       font-size: 3rem;
     }
     .badge {
-      border: 2px solid var(--primary);
+      border: 2px solid black;
       rotate: -10deg;
       left: -25px;
       top: -40px;
       font-size: 2rem;
       div {
         padding: 2px 5px;
-        background-color: var(--bg);
+        background-color: white;
         position: relative;
         height: 100%;
         z-index: 1;
       }
       &::before {
         position: absolute;
-        background-color: var(--primary);
+        background-color: black;
         content: "";
         left: 3px;
         top: 3px;
@@ -43,31 +35,29 @@
   & > div {
     min-width: 200px;
   }
-  a {
-    background-color: var(--primary);
-    color: var(--bg);
-  }
 }
 
 footer {
-  border-top: 1px solid var(--primary);
+  background-color: black;
+  color: white;
+  height: 20vh;
 }
 
 
+
 body {
-  background-color: var(--bg);
   &:not(:has(.blog)) {
     font-family: var(--roboto_mono-font);
   }
-  height: 100vh;
-  font-size: 11pt;
+  min-height: 100vh;
+  font-size: 10pt;
 }
 nav {
   padding: 20px;
   padding-inline: 40px;
   a,h1 {
     text-decoration: underline solid;
-    font-size: 11pt;
+    font-size: 10pt;
     line-height: normal;
     margin: 0
   }
@@ -76,8 +66,12 @@ nav {
   }
 }
 main {
-  padding-inline: 30px;
-  padding-block: 10px;
+   padding-inline: 30px;
+   padding-block: 10px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 h1,
@@ -99,7 +93,8 @@ h2 {
 
 h3 {
   @apply text-2xl;
-  margin-block-end: 20px;
+  @apply mt-3; 
+  @apply mb-2;
 }
 
 h4 {
@@ -132,7 +127,7 @@ header {
     padding: 20px;
     width: fit-content;
     blockquote {
-      border-left: 2px solid var(--primary);
+      border-left: 2px solid black;
       padding-inline-start: 20px;
       margin-block: 5px;
       font-style: italic;
