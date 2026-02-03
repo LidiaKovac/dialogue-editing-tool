@@ -2,14 +2,16 @@ import { useCallback, useEffect, useRef } from "react"
 import type QuillType from "quill"
 import { applyHighlights } from "../../utils/highlights/highlights.utils"
 import Rules from "../../utils/regex/regex.utils"
+import { QUILL_DEBOUNCE_TIMER } from "../../../../app/lib/quill/quill.options"
 
 export const useDebouncedHighlights = (
   quill: QuillType | null,
-  enableAdv: boolean
+  enableAdv: boolean,
 ) => {
   const highlightTimer = useRef<NodeJS.Timeout | null>(null)
   const isApplyingHighlights = useRef(false)
   const tagsVersionRef = useRef(0)
+  const charsVersionRef = useRef(0)
 
   const applyHighlightsCB = useCallback(async () => {
     if (!quill || isApplyingHighlights.current) return false
@@ -45,6 +47,18 @@ export const useDebouncedHighlights = (
     Rules.subscribeToTags(handleTagsChange)
   }, [quill, applyHighlightsCB])
 
+  // Re-run analysis when characters change
+  useEffect(() => {
+    const handleCharsChange = () => {
+      charsVersionRef.current++
+      if (quill?.getText()) {
+        applyHighlightsCB()
+      }
+    }
+
+    Rules.subscribeToChars(handleCharsChange)
+  }, [quill, applyHighlightsCB])
+
   useEffect(() => {
     if (!quill) return
 
@@ -53,7 +67,7 @@ export const useDebouncedHighlights = (
 
       highlightTimer.current = setTimeout(async () => {
         await applyHighlightsCB()
-      }, 500)
+      }, QUILL_DEBOUNCE_TIMER)
     }
 
     quill.on("text-change", onTextChange)

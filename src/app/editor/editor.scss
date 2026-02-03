@@ -1,6 +1,5 @@
 @use "sass:math";
 main {
-  // height: calc(100vh - 40px);
   $height: calc(100vh - 40px - 350px);
 
   .editor {
@@ -8,10 +7,10 @@ main {
     min-height: 100%;
     height: 90vh;
     width: 75%;
-    border-right: 1px solid black;
+    border-right: 1px solid var(--primary);
     .ql-toolbar,
     .ql-container {
-      border-color: black;
+      border-color: var(--primary);
     }
     small {
       span {
@@ -22,19 +21,19 @@ main {
       padding-right: 20px;
       position: relative;
       div:not([class]) {
-
-      .disable-foreground {
-        position: absolute;
-        background-color: rgb(255,255,255,0.4);
-        width: 100%;
-        height: 120%;
-        top:0; left: 0;
-        z-index: 2;
-      }
+        .disable-foreground {
+          position: absolute;
+          background-color: rgb(255, 255, 255, 0.4);
+          width: 100%;
+          height: 120%;
+          top: 0;
+          left: 0;
+          z-index: 2;
+        }
       }
       :has(.ql-toolbar) {
         height: $height;
-        border-color: black;
+        border-color: var(--primary);
         font-family: var(--roboto_mono-font);
 
         padding-inline: 10px 20px;
@@ -44,10 +43,13 @@ main {
           tab-size: 5;
         }
         .ql-highlight {
-          background-color: yellow;
+          background-color: var(--dialogue);
         }
         .adv-highlight {
-          background-color: greenyellow;
+          background-color: var(--adv);
+        }
+        .sdt-highlight {
+          background-color: var(--sdt);
         }
       }
     }
@@ -61,41 +63,24 @@ main {
           width: 100%;
           font-size: inherit;
           padding: 5px;
-          background-color: white;
+          background-color: var(--bg);
 
           //TODO: add focus styles
         }
       }
-      .toggle {
-        background-color: white;
-        border: 2px solid black;
-        position: relative;
-        $width: 50px;
-        width: $width;
-        height: math.div($width, 2);
-        border-radius: math.div($width, 2);
-        &__handle {
-          border-radius: 100px;
-          width: math.div($width, 2);
-          aspect-ratio: 1/1;
-          background-color: black;
-          position: absolute;
-          left: -2px;
-          top: -2px;
-          transition: 0.3s;
-          &.enabled {
-            transform: translateX(100%);
-          }
-        }
-      }
+
       button {
         width: 100%;
         padding-block: 10px;
-        background-color: white;
+        background-color: var(--bg);
+      }
+      .option-cta-btn {
+        background-color: var(--primary);
+        color: var(--bg);
       }
       textarea,
       button {
-        border: 2px solid black;
+        border: 2px solid var(--primary);
       }
       .textarea__wrap,
       button {
@@ -107,7 +92,7 @@ main {
           left: 5px;
           top: 5px;
           position: absolute;
-          background-color: black;
+          background-color: var(--primary);
           z-index: -1;
         }
       }
