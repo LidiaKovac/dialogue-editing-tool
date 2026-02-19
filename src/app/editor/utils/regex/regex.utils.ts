@@ -1,7 +1,7 @@
 import { LRUCache } from "lru-cache";
 
-type Subscriber = (cs: string[]) => any;
-type TagSubscriber = (tags: string[]) => any;
+type Subscriber = (cs: string[]) => void;
+type TagSubscriber = (tags: string[]) => void;
 
 const cache = new LRUCache<string, Array<{ id: string; regex: RegExp }>>({
   size: 500,
@@ -140,7 +140,7 @@ export default class Rules {
 
   public static getRules(): Array<{ id: string; regex: RegExp }> {
     const key = getKey(this._characters, this._dialogueTags);
-    let cached = cache.get(key);
+    const cached = cache.get(key);
     if (cached) return cached;
     const rules = [
       { id: "comma-no-dialogue", regex: this.COMMA_WITH_NO_DIALOGUE_TAG },
