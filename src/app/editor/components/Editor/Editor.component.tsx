@@ -29,7 +29,7 @@ export default function Editor() {
     if (!text) return // guard clause if text is empty
 
     fetchNames()
-  }, [text])
+  }, [text, fetchNames])
   useEffect(() => {
     if (!names) return
     Rules.setCharacters(names)

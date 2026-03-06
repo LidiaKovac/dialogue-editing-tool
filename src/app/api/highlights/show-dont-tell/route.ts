@@ -49,10 +49,12 @@ export async function POST(body: NextRequest) {
   const matches1 = res.match("#Noun #Copula #Adverb? #Adjective")
   const clean = matches1.match("#Adjective").not("#Verb #Gerund").not("#Adverb")
   const copulas = clean.lookBehind("#Copula")
-  const matches = copulas.out("offset").map((row: any) => ({
-    start: row.offset.start,
-    length: row.offset.length,
-  }))
+  const matches = copulas
+    .out("offset")
+    .map((row: { offset: { start: number; length: number } }) => ({
+      start: row.offset.start,
+      length: row.offset.length,
+    }))
   cache.set(text, matches)
   return NextResponse.json(matches)
 }

@@ -9,7 +9,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const posts = await getBlogMetadata()
 
   const categories = posts.flatMap(
-    (post: Record<string, any>) => post.categories || []
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (post: Record<string, any>) => post.categories || [],
   )
   const uniqueCategories: string[] = Array.from(new Set(categories))
 
@@ -39,6 +40,7 @@ export default async function BlogLanding() {
       </p>{" "}
       {/* Add a descriptive intro paragraph */}
       <section aria-label="Blog posts" className="flex gap-2">
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {posts.map((post: Record<string, any>) => (
           <article key={post._id} className="card">
             <h2>{post.title}</h2>{" "}

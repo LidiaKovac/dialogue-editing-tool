@@ -27,8 +27,9 @@ describe("POST /api/names", () => {
 
     // Mock LRUCache
     mockCache = { has: jest.fn(), get: jest.fn(), set: jest.fn() }
-    ;(LRUCache as jest.MockedClass<typeof LRUCache>).mockImplementation(
-      () => mockCache as any
+    ;;(LRUCache as jest.MockedClass<typeof LRUCache>).mockImplementation(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      () => mockCache as any,
     )
     __TEST__resetCache()
     // Mock tagger

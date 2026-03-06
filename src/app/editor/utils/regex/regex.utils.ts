@@ -1,6 +1,7 @@
 import { LRUCache } from "lru-cache";
 
-type Subscriber = (cs: string[]) => any;
+type Subscriber = (cs: string[]) => void;
+type TagSubscriber = (tags: string[]) => void;
 
 const cache = new LRUCache<string, Array<{ id: string; regex: RegExp }>>({
   size: 500,
@@ -17,6 +18,7 @@ function getKey(chars: string[], tags: string[]): string {
 
 export default class Rules {
   private static readonly _subs: Subscriber[] = [];
+  private static readonly _tagSubs: TagSubscriber[] = [];
   private static _characters: string[] = [];
   private static _dialogueTags: string[] = [
     "said",
@@ -130,12 +132,15 @@ export default class Rules {
   public static setDialogueTags(tags: string[]): void {
     this._dialogueTags = [...tags];
     this._dialogueString = this._dialogueTags.map(escapeRegex).join("|");
+    for (const sub of this._tagSubs) {
+      sub(this._dialogueTags);
+    }
     cache.clear();
   }
 
   public static getRules(): Array<{ id: string; regex: RegExp }> {
     const key = getKey(this._characters, this._dialogueTags);
-    let cached = cache.get(key);
+    const cached = cache.get(key);
     if (cached) return cached;
     const rules = [
       { id: "comma-no-dialogue", regex: this.COMMA_WITH_NO_DIALOGUE_TAG },
@@ -157,5 +162,9 @@ export default class Rules {
 
   public static subscribeToChars(s: Subscriber) {
     this._subs.push(s);
+  }
+
+  public static subscribeToTags(s: TagSubscriber) {
+    this._tagSubs.push(s);
   }
 }

@@ -22,24 +22,24 @@
     margin-top: 20px;
     .card {
       position: relative;
-      background-color: white;
+      background-color: var(--bg);
       width: 100%;
-      border: 2px solid black;
+      border: 2px solid var(--primary);
       padding: 15px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       a {
         position: relative;
-        background-color: white;
-        border: 2px solid black;
+        background-color: var(--bg);
+        border: 2px solid var(--primary);
         display: block;
         width: fit-content;
         span {
           z-index: 2;
           position: relative;
           display: block;
-          background-color: white;
+          background-color: var(--bg);
           padding: 2px 10px;
         }
         .decoration {
@@ -48,7 +48,7 @@
           left: 3px;
           top: 3px;
           position: absolute;
-          background-color: black;
+          background-color: var(--primary);
           z-index: 0;
         }
       }
@@ -59,7 +59,7 @@
         left: 5px;
         top: 5px;
         position: absolute;
-        background-color: black;
+        background-color: var(--primary);
         z-index: -1;
       }
     }
@@ -79,9 +79,9 @@
     }
   }
   blockquote {
-    border-left: 2px solid black;
+    border-left: 2px solid var(--primary);
     padding-left: 20px;
     margin-block: 20px;
-    color: rgb(0, 0, 0, 0.7);
+    color: rgb(var(--primary), 0.7);
   }
 }

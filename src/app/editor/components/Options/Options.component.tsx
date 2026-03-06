@@ -18,6 +18,7 @@ export const Options = () => {
       setEnableAdv,
     },
   } = useQuillEditor()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleAdvChange = (checked: any) => {
     setEnableAdv(checked)
   }
@@ -27,7 +28,6 @@ export const Options = () => {
       <h3 className="text-xl mt-3"> Options </h3>
       <h4>
         <label htmlFor="characters">
-          
           Character names
           <ToolTip
             data={
