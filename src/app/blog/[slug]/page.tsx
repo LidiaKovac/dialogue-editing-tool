@@ -46,6 +46,7 @@ export default async function BlogPost({
     <div className="blog">
       <JsonLD
         title={post.title}
+        categories={post.categories}
         date={post.date}
         author={post.author}
         url={`https://editingthing.com/blog/${post.slug.current}`}

@@ -1,4 +1,4 @@
-const softwareApplication = {
+export default {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: "The Dialogue Thing",
@@ -45,19 +45,3 @@ const softwareApplication = {
     "No account, tracking, or word limit for typical chapters",
   ],
 }
-
-const webSite = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "The Dialogue Thing",
-  url: "https://editingthing.com",
-  description:
-    "A free, AI-free dialogue editing tool for fanfiction writers and novelists.",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://editingthing.com/blog?q={search_term_string}",
-    "query-input": "required name=search_term_string",
-  },
-}
-
-export default [softwareApplication, webSite]
