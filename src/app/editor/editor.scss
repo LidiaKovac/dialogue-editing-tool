@@ -47,11 +47,10 @@ main {
     }
   }
   .editor__options {
-    position: fixed;
+    position: sticky;
     right: 20px;
     top: 50px;
     width: 25%;
-    max-height: calc(100vh - 100px);
     padding-inline: 10px;
     overflow-y: auto;
     overflow-x: hidden;
