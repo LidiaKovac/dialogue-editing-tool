@@ -67,14 +67,16 @@ export const Options = () => {
       <Link
         className="inline-block mt-5 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
         href={"https://form.typeform.com/to/OEauYMEz"}
-        target="blank"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         Report a bug 🪲🐛{" "}
       </Link>
       <div className="donate mt-5 ">Like the app? </div>
       <Link
         href={"https://ko-fi.com/lidiacodes"}
-        target="blank"
+        target="_blank"
+        rel="noopener noreferrer"
         className="inline-block mt-2 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
       >
         Buy me a coffee ☕🍵

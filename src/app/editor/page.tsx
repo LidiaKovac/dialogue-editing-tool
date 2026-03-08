@@ -26,7 +26,7 @@ const Editor = dynamic(() => import("./components/Editor/Editor.component"), {
 
 export default function Home() {
   return (
-    <main className="flex gap-4 mt-10">
+    <main className="flex items-start gap-4 mt-10">
       <Editor />
       <Options />
     </main>
