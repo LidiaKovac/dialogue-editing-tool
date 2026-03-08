@@ -6,17 +6,17 @@ export const Footer = () => {
       <nav aria-label="Footer navigation">
         <ul>
           <li>
-            <Link target="_blank" href="/editor">
+            <Link href="/editor">
               Editor
             </Link>
           </li>
           <li>
-            <Link target="_blank" href="/blog">
+            <Link href="/blog">
               Blog
             </Link>
           </li>
           <li>
-            <Link target="_blank" href="/faq">
+            <Link href="/faq">
               FAQ
             </Link>
           </li>

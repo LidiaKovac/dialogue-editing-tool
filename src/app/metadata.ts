@@ -42,7 +42,7 @@ const metadata: Metadata = {
       "A free, AI‑free dialogue editor that highlights dialogue tag problems, formatting issues, and adverbs so you stay in control of your fanfiction or novel edits.",
     images: [
       {
-        url: `${siteUrl}/ogimage.png`,
+        url: `${siteUrl}/ogimage.jpg`,
         width: 1200,
         height: 630,
         alt: "The Dialogue Thing – Smart dialogue editing tool",
@@ -96,12 +96,12 @@ const metadata: Metadata = {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon.ico", sizes: "256x256", type: "image/x-icon" },
+      { url: "/favicon-32x32.png", sizes: "256x256", type: "image/png" },
     ],
     other: [
       {
         rel: "mask-icon",
-        url: "/safari-pinned-tab.svg",
+        url: "/favicon-32x32.png",
         color: "#000000",
       },
     ],

@@ -24,8 +24,7 @@ export const getAriLabel = (ari: number) => {
     case 14:
       return "College / University"
     default:
-      "Invalid ARI score"
-      break
+      return "Invalid ARI score"
   }
 }
 

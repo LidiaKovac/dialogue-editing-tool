@@ -1,5 +1,8 @@
-export const registerDialogueBlot = (Quill: any) => {
-    const Inline: any = Quill.import("blots/inline")
+import type QuillType from "quill"
+
+export const registerDialogueBlot = (Quill: typeof QuillType) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const Inline: any = Quill.import("blots/inline");
 
     class HighlightBlot extends Inline {
         static readonly blotName = "highlight"
@@ -19,7 +22,7 @@ export const registerDialogueBlot = (Quill: any) => {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        format(name: string, value: any) {
+        format(name: string, value: boolean | string) {
             const constructor = this.constructor as typeof HighlightBlot
             if (name === constructor.blotName && value) {
 

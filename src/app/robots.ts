@@ -4,9 +4,9 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
-      allow: '/',
+      allow: ['/', '/blog/*'],
       disallow: '/api',
     },
-    sitemap: 'https://dialogue-thing.netlify.app/sitemap.xml',
+    sitemap: 'https://editingthing.com/sitemap.xml',
   }
 }

@@ -38,7 +38,7 @@ export default async function BlogPost({
   if (!post)
     return (
       <div className="blog">
-        This blog post doesn't exist. <br />
+        This blog post doesn&apos;t exist. <br />
         <Link href={"/"}>Return to home </Link>
       </div>
     )
@@ -46,6 +46,7 @@ export default async function BlogPost({
     <div className="blog">
       <JsonLD
         title={post.title}
+        categories={post.categories}
         date={post.date}
         author={post.author}
         url={`https://editingthing.com/blog/${post.slug.current}`}
