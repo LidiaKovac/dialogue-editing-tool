@@ -1,22 +1,16 @@
 @use "tailwindcss";
-
-@use "./theme" as *;
-
-*,
-* > * {
-  color: var(--primary);
-  box-sizing: border-box;
-}
-
+@use "./theme";
+@use "sass:color";
 #landing {
   width: 75%;
-  height: 100%;
+  min-height: 100vh;
+  margin-top: 10vh;
   h1 {
     span:not(.badge span) {
       font-size: 3rem;
     }
     .badge {
-      border: 2px solid var(--primary);
+      border: 2px solid black;
       rotate: -10deg;
       left: -25px;
       top: -40px;
@@ -30,7 +24,7 @@
       }
       &::before {
         position: absolute;
-        background-color: var(--primary);
+        background-color: black;
         content: "";
         left: 3px;
         top: 3px;
@@ -43,35 +37,50 @@
   & > div {
     min-width: 200px;
   }
-  a {
-    background-color: var(--primary);
-    color: var(--bg);
-  }
 }
 
 footer {
-  border-top: 1px solid var(--primary);
+  background-color: var(--primary);
+  color: var(--bg);
+  height: 20vh;
+  nav {
+    color: inherit;
+    background-color: inherit;
+  }
 }
-
 
 body {
   background-color: var(--bg);
+  color: var(--primary);
   &:not(:has(.blog)) {
     font-family: var(--roboto_mono-font);
   }
-  height: 100vh;
+  min-height: 100vh;
   font-size: 10pt;
 }
 nav {
+  background-color: color-mix(in srgb, var(--bg) 60%, transparent);
+  color: var(--primary);
   padding: 20px;
-  padding-left: 40px;
-  a {
+  padding-inline: 40px;
+  a,
+  h1 {
     text-decoration: underline solid;
+    font-size: 10pt;
+    line-height: normal;
+    margin: 0;
+  }
+  h1 {
+    font-size: 12pt;
   }
 }
 main {
   padding-inline: 30px;
   padding-block: 10px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 h1,
@@ -93,7 +102,8 @@ h2 {
 
 h3 {
   @apply text-2xl;
-  margin-block-end: 20px;
+  @apply mt-3;
+  @apply mb-2;
 }
 
 h4 {
@@ -126,7 +136,7 @@ header {
     padding: 20px;
     width: fit-content;
     blockquote {
-      border-left: 2px solid var(--primary);
+      border-left: 2px solid black;
       padding-inline-start: 20px;
       margin-block: 5px;
       font-style: italic;

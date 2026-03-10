@@ -6,12 +6,12 @@ import Link from "next/link"
 export const Navbar = () => {
   const { theme, toggleTheme, mounted } = useDarkMode()
   return (
-    <nav className="flex justify-between items-center">
+    <nav className="z-5 backdrop-filter backdrop-blur-lg bg-opacity-20 flex justify-between items-center fixed w-full top-0">
+        
       <div className="flex gap-5">
-
-        <div className="nav__item">
-          <Link href="/">Home</Link>
-        </div>
+        <Link href="/">
+        <h1 className="nav__item">The Dialogue Thing</h1>
+      </Link>
         <div className="nav__item">
           <Link href="/editor">Editor</Link>
         </div>
@@ -20,11 +20,13 @@ export const Navbar = () => {
         </div>
       </div>
       <div className="nav__item">
-        {mounted && <Toggle
-          checked={theme === "dark"}
-          label="Dark mode"
-          onChange={() => toggleTheme()}
-        />}
+        {mounted && (
+          <Toggle
+            checked={theme === "dark"}
+            label="Dark mode"
+            onChange={() => toggleTheme()}
+          />
+        )}
       </div>
     </nav>
   )

@@ -26,25 +26,8 @@ const Editor = dynamic(() => import("./components/Editor/Editor.component"), {
 
 export default function Home() {
   return (
-    <main className="flex gap-4">
-      <div className="editor">
-        <header>
-          <h1>The Dialogue Thing</h1>
-          <p>
-            Paste your chapter in the area below ⬇️ and see everything that
-            doesn&apos;t match the default dialogue rules.
-          </p>
-          <small>
-            💡 Tip: when pasting back to google docs, use CTRL+SHIFT+V, or
-            &quot;Paste without formatting&quot;
-          </small>
-          <RulesCollapsable />
-          <FalsePositives />
-        </header>
-        <div className="editor__wrap">
-          <Editor />
-        </div>
-      </div>
+    <main className="flex items-start gap-4 mt-10">
+      <Editor />
       <Options />
     </main>
   )
