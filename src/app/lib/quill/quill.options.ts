@@ -2,8 +2,6 @@ import { QuillOptions } from "quill";
 
 export const quillOptions: QuillOptions = {
   theme: "snow",
-  modules: {
-  },
   readOnly: false,
   placeholder: "Start typing your dialogue here...",
   formats: [
