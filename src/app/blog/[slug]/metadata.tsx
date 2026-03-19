@@ -1,5 +1,7 @@
 import Script from "next/script";
 
+const siteUrl = "https://editingthing.com"
+
 type Author = { name: string; image?: string }
 
 export const metadata = (
@@ -9,6 +11,7 @@ export const metadata = (
   slug: string,
   author: Author
 ) => ({
+  metadataBase: new URL(siteUrl),
   title: `${title} | The Editing Blog`,
   description: `Read "${title}" by ${author.name}. Categories: ${categories?.join(", ") || "Uncategorized"
     }.`,
@@ -24,7 +27,17 @@ export const metadata = (
     publishedTime: date,
     authors: "Lidia Kovac",
     tags: categories || [],
-    images: author.image ? [{ url: author.image }] : [],
+    images: author.image
+      ? [{ url: author.image }]
+      : [
+          {
+            url: `${siteUrl}/ogimage.jpg`,
+            width: 1200,
+            height: 630,
+            alt: "The Dialogue Thing - Editing blog",
+            type: "image/jpeg",
+          },
+        ],
   },
   keywords: [
     ...(categories || []),
@@ -35,7 +48,7 @@ export const metadata = (
     card: "summary_large_image",
     title: title,
     description: `Read "${title}" by ${author.name}`,
-    images: author.image ? [author.image] : undefined,
+    images: author.image ? [author.image] : [`${siteUrl}/ogimage.jpg`],
   },
 })
 
@@ -44,7 +57,7 @@ export const JsonLD = ({ title, description, categories, date, author, url }: { 
     "@context": "https://schema.org",
     "@type": "Article",
     headline: title,
-    description: description || `Read "${title}" – a blog post on dialogue editing by ${author.name}.`,
+    description: description || `Read "${title}" - a blog post on dialogue editing by ${author.name}.`,
     datePublished: date,
     dateModified: date,
     author: {
@@ -54,7 +67,7 @@ export const JsonLD = ({ title, description, categories, date, author, url }: { 
     publisher: {
       "@type": "Organization",
       name: "The Dialogue Thing",
-      url: "https://editingthing.com",
+      url: siteUrl,
     },
     articleSection: categories?.join(", ") || "Editing",
     image: author.image ? [author.image] : undefined,

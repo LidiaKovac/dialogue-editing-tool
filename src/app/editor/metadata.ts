@@ -4,14 +4,15 @@ const editorUrl = "https://editingthing.com/editor"
 const siteUrl = "https://editingthing.com"
 
 const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   alternates: {
     canonical: editorUrl,
   },
 
   title:
-    "Free Dialogue Editor – Fix Tags, Punctuation & Adverbs | The Dialogue Thing",
+    "Free Dialogue Editor - Fix Tags, Punctuation & Adverbs | The Dialogue Thing",
   description:
-    "Paste your chapter and instantly spot dialogue tag errors, punctuation mistakes, and overused adverbs. Free, AI‑free, no sign‑up required.",
+    "Paste your chapter and instantly spot dialogue tag errors, punctuation mistakes, and overused adverbs. Free, AI-free, no sign-up required.",
   keywords: [
     "free dialogue editor online",
     "dialogue tag checker",
@@ -32,9 +33,9 @@ const metadata: Metadata = {
     locale: "en_US",
     url: editorUrl,
     siteName: "The Dialogue Thing",
-    title: "Free Dialogue Editor – Fix Tags, Punctuation & Adverbs",
+    title: "Free Dialogue Editor - Fix Tags, Punctuation & Adverbs",
     description:
-      "Paste your chapter and instantly highlight dialogue tag issues, punctuation errors, and adverbs. No AI, no sign‑up, no word limit.",
+      "Paste your chapter and instantly highlight dialogue tag issues, punctuation errors, and adverbs. No AI, no sign-up, no word limit.",
     images: [
       {
         url: `${siteUrl}/ogimage.jpg`,
