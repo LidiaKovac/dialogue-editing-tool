@@ -4,20 +4,27 @@ import structuredData from "./structuredData"
 const siteUrl = "https://editingthing.com"
 
 const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   alternates: {
     canonical: siteUrl,
   },
 
   // Basic meta
-  title:
-    "The Dialogue Thing – Free AI‑Free Dialogue Editor for Fanfiction and Novels",
+  title: {
+    default:
+      "The Dialogue Thing - Free AI-free Dialogue Editor for Fanfiction and Novels",
+    template: "%s | The Dialogue Thing",
+  },
   description:
-    "Edit your dialogue for free with The Dialogue Thing – an AI‑free tool that spots dialogue tag issues, punctuation mistakes, and overused adverbs. Built for fanfiction writers and novelists.",
+    "Edit your dialogue for free with The Dialogue Thing - an AI-free tool that spots dialogue tag issues, punctuation mistakes, and overused adverbs. Built for fanfiction writers and novelists.",
   keywords: [
     "dialogue editor",
     "fanfiction editing",
     "edit dialogue online",
     "novel dialogue formatting",
+    "fanfiction dialogue editor",
+    "dialogue punctuation checker",
+    "dialogue tag checker",
     "dialogue tags and action beats",
     "punctuation checker for dialogue",
     "adverb checker",
@@ -37,26 +44,26 @@ const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "The Dialogue Thing",
-    title: "The Dialogue Thing – Edit Your Dialogue for Free",
+    title: "The Dialogue Thing - Edit Your Dialogue for Free",
     description:
-      "A free, AI‑free dialogue editor that highlights dialogue tag problems, formatting issues, and adverbs so you stay in control of your fanfiction or novel edits.",
+      "A free, AI-free dialogue editor that highlights dialogue tag problems, formatting issues, and adverbs so you stay in control of your fanfiction or novel edits.",
     images: [
       {
         url: `${siteUrl}/ogimage.jpg`,
         width: 1200,
         height: 630,
-        alt: "The Dialogue Thing – Smart dialogue editing tool",
-        type: "image/png",
+        alt: "The Dialogue Thing - Smart dialogue editing tool",
+        type: "image/jpeg",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "The Dialogue Thing – Free AI‑Free Dialogue Editor",
+    title: "The Dialogue Thing - Free AI-free Dialogue Editor",
     description:
-      "Clean up your dialogue tags, action beats, and adverbs with a free AI‑free editor made for fanfiction writers and novelists.",
-    images: [`${siteUrl}/ogimage.png`],
+      "Clean up your dialogue tags, action beats, and adverbs with a free AI-free editor made for fanfiction writers and novelists.",
+    images: [`${siteUrl}/ogimage.jpg`],
     creator: "@", // add handle if you have one
   },
 

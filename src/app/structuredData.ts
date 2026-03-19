@@ -1,13 +1,28 @@
+const siteUrl = "https://editingthing.com"
+
+const organization = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${siteUrl}/#organization`,
+  name: "The Dialogue Thing",
+  url: siteUrl,
+  logo: `${siteUrl}/favicon-32x32.png`,
+  founder: {
+    "@type": "Person",
+    name: "Lidia Kovac",
+  },
+}
+
 const softwareApplication = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: "The Dialogue Thing",
-  url: "https://editingthing.com",
-  logo: "https://editingthing.com/favicon-32x32.png",
+  url: siteUrl,
+  logo: `${siteUrl}/favicon-32x32.png`,
   applicationCategory: "WritingTool",
   operatingSystem: "Web",
   softwareVersion: "1.0",
-  inLanguage: "en",
+  inLanguage: "en-US",
   author: {
     "@type": "Person",
     name: "Lidia Kovac",
@@ -16,9 +31,13 @@ const softwareApplication = {
     "@type": "Person",
     name: "Lidia Kovac",
   },
+  publisher: {
+    "@id": `${siteUrl}/#organization`,
+  },
   description:
-    "The Dialogue Thing is a free, AI‑free dialogue editor that highlights dialogue tag issues, punctuation mistakes, and overused adverbs for fanfiction writers and novelists.",
+    "The Dialogue Thing is a free, AI-free dialogue editor that highlights dialogue tag issues, punctuation mistakes, and overused adverbs for fanfiction writers and novelists.",
   datePublished: "2025-10-01",
+  dateModified: "2026-03-19",
   offers: {
     "@type": "Offer",
     price: "0",
@@ -26,6 +45,10 @@ const softwareApplication = {
   },
   isAccessibleForFree: true,
   applicationSubCategory: "TextEditor",
+  audience: {
+    "@type": "Audience",
+    audienceType: "Writers",
+  },
   keywords: [
     "dialogue editor",
     "fanfiction editing",
@@ -49,10 +72,14 @@ const softwareApplication = {
 const webSite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
   name: "The Dialogue Thing",
-  url: "https://editingthing.com",
+  url: siteUrl,
   description:
     "A free, AI-free dialogue editing tool for fanfiction writers and novelists.",
+  publisher: {
+    "@id": `${siteUrl}/#organization`,
+  },
   potentialAction: {
     "@type": "SearchAction",
     target: "https://editingthing.com/blog?q={search_term_string}",
@@ -60,4 +87,4 @@ const webSite = {
   },
 }
 
-export default [softwareApplication, webSite]
+export default [organization, softwareApplication, webSite]
