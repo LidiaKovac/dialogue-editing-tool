@@ -1,6 +1,7 @@
 // app/faq/layout.tsx
 import type { Metadata } from "next"
 import Script from "next/script"
+import { SITE_URL as siteUrl, SITE_NAME } from "../../lib/site"
 
 const siteUrl = "https://editingthing.com"
 const faqUrl = `${siteUrl}/faq`
@@ -21,30 +22,14 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: "website",
-    url: faqUrl,
-    title: "FAQ - The Dialogue Thing",
+    url: `${siteUrl}/faq`,
+    title: "FAQ – The Dialogue Thing",
     description:
       "Answers to common questions about The Dialogue Thing: features, privacy, pricing, and how to use the dialogue editing tool for fanfiction and novels.",
-    siteName: "The Dialogue Thing",
-    images: [
-      {
-        url: `${siteUrl}/ogimage.jpg`,
-        width: 1200,
-        height: 630,
-        alt: "The Dialogue Thing - FAQ",
-        type: "image/jpeg",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "FAQ - The Dialogue Thing",
-    description:
-      "Answers to common questions about The Dialogue Thing: features, privacy, pricing, and how to use the dialogue editing tool.",
-    images: [`${siteUrl}/ogimage.jpg`],
+    siteName: SITE_NAME,
   },
   alternates: {
-    canonical: faqUrl,
+    canonical: `${siteUrl}/faq`,
   },
 }
 
