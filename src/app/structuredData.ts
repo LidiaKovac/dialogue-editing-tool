@@ -1,11 +1,24 @@
-import { SITE_URL as siteUrl, SITE_NAME, DEFAULT_OG_IMAGE } from "../lib/site"
+const siteUrl = "https://editingthing.com"
+
+const organization = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${siteUrl}/#organization`,
+  name: "The Dialogue Thing",
+  url: siteUrl,
+  logo: `${siteUrl}/favicon-32x32.png`,
+  founder: {
+    "@type": "Person",
+    name: "Lidia Kovac",
+  },
+}
 
 const softwareApplication = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: SITE_NAME,
+  name: "The Dialogue Thing",
   url: siteUrl,
-  logo: `${siteUrl}${DEFAULT_OG_IMAGE}`,
+  logo: `${siteUrl}/favicon-32x32.png`,
   applicationCategory: "WritingTool",
   operatingSystem: "Web",
   softwareVersion: "1.0",
@@ -59,7 +72,8 @@ const softwareApplication = {
 const webSite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: SITE_NAME,
+  "@id": `${siteUrl}/#website`,
+  name: "The Dialogue Thing",
   url: siteUrl,
   description:
     "A free, AI-free dialogue editing tool for fanfiction writers and novelists.",
@@ -68,7 +82,7 @@ const webSite = {
   },
   potentialAction: {
     "@type": "SearchAction",
-    target: `${siteUrl}/blog?q={search_term_string}`,
+    target: "https://editingthing.com/blog?q={search_term_string}",
     "query-input": "required name=search_term_string",
   },
 }

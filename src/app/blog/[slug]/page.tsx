@@ -7,7 +7,6 @@ import {
   getSingleBlogPost,
 } from "@/app/lib/sanity/sanity.fn"
 import { JsonLD , metadata} from "./metadata"
-import { SITE_URL as siteUrl } from "../../../lib/site"
 
 type Props = { params: { slug: string } }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -50,7 +49,7 @@ export default async function BlogPost({
         categories={post.categories}
         date={post.date}
         author={post.author}
-        url={`${siteUrl}/blog/${post.slug.current}`}
+        url={`https://editingthing.com/blog/${post.slug.current}`}
       />
 
       {/* <h2>The Editing Blog</h2> */}

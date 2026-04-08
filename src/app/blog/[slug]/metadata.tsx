@@ -1,5 +1,4 @@
 import Script from "next/script";
-import { SITE_URL as siteUrl, SITE_NAME } from "../../../lib/site"
 
 const siteUrl = "https://editingthing.com"
 
@@ -16,14 +15,14 @@ export const metadata = (
   title: `${title} | The Editing Blog`,
   description: `Read "${title}" by ${author.name}. Categories: ${categories?.join(", ") || "Uncategorized"
     }.`,
-    alternates: {
-    canonical: `${siteUrl}/blog/${slug}`,
+  alternates: {
+    canonical: `https://editingthing.com/blog/${slug}`,
   },
   openGraph: {
     title: title,
     description: `A blog post by ${author.name
       } in categories: ${categories?.join(", ")}`,
-    url: `${siteUrl}/blog/${slug}`,
+    url: `https://editingthing.com/blog/${slug}`,
     type: "article",
     publishedTime: date,
     authors: "Lidia Kovac",
@@ -67,7 +66,7 @@ export const JsonLD = ({ title, description, categories, date, author, url }: { 
     },
     publisher: {
       "@type": "Organization",
-      name: SITE_NAME,
+      name: "The Dialogue Thing",
       url: siteUrl,
     },
     articleSection: categories?.join(", ") || "Editing",
@@ -86,13 +85,13 @@ export const JsonLD = ({ title, description, categories, date, author, url }: { 
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: siteUrl,
+        item: "https://editingthing.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Blog",
-        item: `${siteUrl}/blog`,
+        item: "https://editingthing.com/blog",
       },
       {
         "@type": "ListItem",

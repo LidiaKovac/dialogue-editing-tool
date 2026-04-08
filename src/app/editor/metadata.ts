@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
-import { SITE_URL as siteUrl, SITE_NAME, DEFAULT_OG_IMAGE } from "../../lib/site"
 
-const editorUrl = `${siteUrl}/editor`
+const editorUrl = "https://editingthing.com/editor"
+const siteUrl = "https://editingthing.com"
 
 const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -38,11 +38,11 @@ const metadata: Metadata = {
       "Paste your chapter and instantly highlight dialogue tag issues, punctuation errors, and adverbs. No AI, no sign-up, no word limit.",
     images: [
       {
-        url: `${siteUrl}${DEFAULT_OG_IMAGE}`,
+        url: `${siteUrl}/ogimage.jpg`,
         width: 1200,
         height: 630,
-        alt: `${SITE_NAME} – Free dialogue editing tool`,
-        type: "image/png",
+        alt: "The Dialogue Thing – Free dialogue editing tool",
+        type: "image/jpeg",
       },
     ],
   },
@@ -52,7 +52,7 @@ const metadata: Metadata = {
     title: "Free Dialogue Editor – The Dialogue Thing",
     description:
       "Paste your chapter and fix dialogue tags, punctuation, and adverbs for free. No AI, no account needed.",
-    images: [`${siteUrl}${DEFAULT_OG_IMAGE}`],
+    images: [`${siteUrl}/ogimage.jpg`],
   },
 
   robots: {

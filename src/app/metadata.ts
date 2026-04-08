@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import structuredData from "./structuredData"
-import { SITE_URL as siteUrl, SITE_NAME, TWITTER_HANDLE, DEFAULT_OG_IMAGE } from "../../lib/site"
+
+const siteUrl = "https://editingthing.com"
 
 const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -48,11 +49,11 @@ const metadata: Metadata = {
       "A free, AI-free dialogue editor that highlights dialogue tag problems, formatting issues, and adverbs so you stay in control of your fanfiction or novel edits.",
     images: [
       {
-        url: `${siteUrl}${DEFAULT_OG_IMAGE}`,
+        url: `${siteUrl}/ogimage.jpg`,
         width: 1200,
         height: 630,
-        alt: `${SITE_NAME} – Smart dialogue editing tool`,
-        type: "image/png",
+        alt: "The Dialogue Thing - Smart dialogue editing tool",
+        type: "image/jpeg",
       },
     ],
   },
@@ -61,9 +62,9 @@ const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Dialogue Thing - Free AI-free Dialogue Editor",
     description:
-      "Clean up your dialogue tags, action beats, and adverbs with a free AI‑free editor made for fanfiction writers and novelists.",
-    images: [`${siteUrl}${DEFAULT_OG_IMAGE}`],
-    creator: TWITTER_HANDLE, // set your Twitter handle in src/lib/site.ts
+      "Clean up your dialogue tags, action beats, and adverbs with a free AI-free editor made for fanfiction writers and novelists.",
+    images: [`${siteUrl}/ogimage.jpg`],
+    creator: "@", // add handle if you have one
   },
 
   robots: {
