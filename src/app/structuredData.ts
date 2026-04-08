@@ -66,11 +66,7 @@ const webSite = {
   publisher: {
     "@id": `${siteUrl}/#organization`,
   },
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteUrl}/blog?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
+  
 }
 
 export default [organization, softwareApplication, webSite]
