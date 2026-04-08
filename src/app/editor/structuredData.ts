@@ -1,9 +1,11 @@
+import { SITE_URL as siteUrl, SITE_NAME, DEFAULT_OG_IMAGE } from "../../lib/site"
+
 export default {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "The Dialogue Thing",
-  url: "https://editingthing.com",
-  logo: "https://editingthing.com/favicon-32x32.png",
+  name: SITE_NAME,
+  url: siteUrl,
+  logo: `${siteUrl}${DEFAULT_OG_IMAGE}`,
   applicationCategory: "WritingTool",
   operatingSystem: "Web",
   softwareVersion: "1.0",

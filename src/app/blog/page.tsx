@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Metadata } from "next"
+import { SITE_URL as siteUrl } from "../../lib/site"
 import "./blog.scss"
 import { fontBlog } from "../lib/fonts"
 import metadata from "./metadata"
@@ -19,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
       ? uniqueCategories.join(", ")
       : "editing, dialogue, and fanfiction writing"
 
-  const url = "https://editingthing.com/blog"
+  const url = `${siteUrl}/blog`
 
   return metadata(categoryString, url, uniqueCategories)
 }
