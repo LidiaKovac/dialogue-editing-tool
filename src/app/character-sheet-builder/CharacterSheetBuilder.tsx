@@ -1,48 +1,48 @@
-"use client"
+"use client";
 
-import { useEffect, useMemo, useState, type ChangeEvent } from "react"
-import "./character-sheet-builder.scss"
+import { useEffect, useMemo, useState, type ChangeEvent } from "react";
+import "./character-sheet-builder.scss";
 
-type FieldType = "text" | "textarea"
-type OptionalKey = "magic" | "tech"
+type FieldType = "text" | "textarea";
+type OptionalKey = "magic" | "tech";
 
 type FieldDefinition = {
-  label: string
-  type?: FieldType
-  rows?: number
-  placeholder?: string
-}
+  label: string;
+  type?: FieldType;
+  rows?: number;
+  placeholder?: string;
+};
 
 type SectionDefinition = {
-  id: string
-  title: string
-  description?: string
-  optionalKey?: OptionalKey
-  fields: FieldDefinition[]
-}
+  id: string;
+  title: string;
+  description?: string;
+  optionalKey?: OptionalKey;
+  fields: FieldDefinition[];
+};
 
-type Field = FieldDefinition & { key: string }
-type Section = Omit<SectionDefinition, "fields"> & { fields: Field[] }
+type Field = FieldDefinition & { key: string };
+type Section = Omit<SectionDefinition, "fields"> & { fields: Field[] };
 
 type RelationshipDeepDive = {
-  id: string
-  relationshipName: string
-  relationshipSummary: string
-  conflicts: string
-  agreements: string
-  secrets: string
-  howMet: string
-  changes: string
-}
+  id: string;
+  relationshipName: string;
+  relationshipSummary: string;
+  conflicts: string;
+  agreements: string;
+  secrets: string;
+  howMet: string;
+  changes: string;
+};
 
 type StoredState = {
-  version: 1
-  formData: Record<string, string>
-  optionalSections: Record<OptionalKey, boolean>
-  relationshipDeepDives: RelationshipDeepDive[]
-}
+  version: 1;
+  formData: Record<string, string>;
+  optionalSections: Record<OptionalKey, boolean>;
+  relationshipDeepDives: RelationshipDeepDive[];
+};
 
-const STORAGE_KEY = "character-sheet-builder:v1"
+const STORAGE_KEY = "character-sheet-builder:v1";
 
 const SECTION_DEFINITIONS: SectionDefinition[] = [
   {
@@ -317,8 +317,7 @@ const SECTION_DEFINITIONS: SectionDefinition[] = [
         rows: 3,
       },
       {
-        label:
-          "What do they believe will bring them happiness?",
+        label: "What do they believe will bring them happiness?",
         type: "textarea",
         rows: 3,
       },
@@ -422,10 +421,10 @@ const SECTION_DEFINITIONS: SectionDefinition[] = [
 ];
 
 const RELATIONSHIP_DEEP_DIVE_FIELDS: Array<{
-  key: keyof Omit<RelationshipDeepDive, "id">
-  label: string
-  type?: FieldType
-  rows?: number
+  key: keyof Omit<RelationshipDeepDive, "id">;
+  label: string;
+  type?: FieldType;
+  rows?: number;
 }> = [
   { key: "relationshipName", label: "Relationship name / who is this about?" },
   {
@@ -464,7 +463,7 @@ const RELATIONSHIP_DEEP_DIVE_FIELDS: Array<{
     type: "textarea",
     rows: 3,
   },
-]
+];
 
 const EMPTY_DEEP_DIVE: Omit<RelationshipDeepDive, "id"> = {
   relationshipName: "",
@@ -474,13 +473,13 @@ const EMPTY_DEEP_DIVE: Omit<RelationshipDeepDive, "id"> = {
   secrets: "",
   howMet: "",
   changes: "",
-}
+};
 
 const slugify = (value: string) =>
   value
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "")
+    .replace(/(^-|-$)/g, "");
 
 const buildSections = (definitions: SectionDefinition[]): Section[] =>
   definitions.map((section) => ({
@@ -489,70 +488,80 @@ const buildSections = (definitions: SectionDefinition[]): Section[] =>
       ...field,
       key: `${section.id}.${slugify(field.label)}`,
     })),
-  }))
+  }));
 
-const SECTIONS = buildSections(SECTION_DEFINITIONS)
+const SECTIONS = buildSections(SECTION_DEFINITIONS);
 const FIELD_KEYS = SECTIONS.flatMap((section) =>
-  section.fields.map((field) => field.key)
-)
+  section.fields.map((field) => field.key),
+);
 
 const DEFAULT_FORM_DATA = FIELD_KEYS.reduce<Record<string, string>>(
   (acc, key) => {
-    acc[key] = ""
-    return acc
+    acc[key] = "";
+    return acc;
   },
-  {}
-)
+  {},
+);
 
 const DEFAULT_OPTIONAL: Record<OptionalKey, boolean> = {
   magic: false,
   tech: false,
-}
+};
 
 const createDeepDiveId = () => {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
-    return crypto.randomUUID()
+    return crypto.randomUUID();
   }
-  return `rel-${Date.now()}-${Math.random().toString(16).slice(2)}`
-}
+  return `rel-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+};
+
+const downloadBlob = (blob: Blob, filename: string) => {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
+  window.setTimeout(() => URL.revokeObjectURL(url), 0);
+};
 
 export default function CharacterSheetBuilder() {
-  const [formData, setFormData] = useState<Record<string, string>>(
-    DEFAULT_FORM_DATA
-  )
-  const [optionalSections, setOptionalSections] = useState<
-    Record<OptionalKey, boolean>
-  >(DEFAULT_OPTIONAL)
+  const [formData, setFormData] =
+    useState<Record<string, string>>(DEFAULT_FORM_DATA);
+  const [optionalSections, setOptionalSections] =
+    useState<Record<OptionalKey, boolean>>(DEFAULT_OPTIONAL);
   const [relationshipDeepDives, setRelationshipDeepDives] = useState<
     RelationshipDeepDive[]
-  >([])
-  const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null)
-  const [hydrated, setHydrated] = useState(false)
+  >([]);
+  const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY)
+    const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
-        const parsed = JSON.parse(stored) as Partial<StoredState>
+        const parsed = JSON.parse(stored) as Partial<StoredState>;
         if (parsed.formData) {
-          setFormData({ ...DEFAULT_FORM_DATA, ...parsed.formData })
+          setFormData({ ...DEFAULT_FORM_DATA, ...parsed.formData });
         }
         if (parsed.optionalSections) {
-          setOptionalSections({ ...DEFAULT_OPTIONAL, ...parsed.optionalSections })
+          setOptionalSections({
+            ...DEFAULT_OPTIONAL,
+            ...parsed.optionalSections,
+          });
         }
         if (Array.isArray(parsed.relationshipDeepDives)) {
-          setRelationshipDeepDives(parsed.relationshipDeepDives)
+          setRelationshipDeepDives(parsed.relationshipDeepDives);
         }
       } catch {
-        setFormData(DEFAULT_FORM_DATA)
+        setFormData(DEFAULT_FORM_DATA);
       }
     }
-    setHydrated(true)
-  }, [])
+    setHydrated(true);
+  }, []);
 
   useEffect(() => {
     if (!hydrated) {
-      return
+      return;
     }
     const handle = window.setTimeout(() => {
       const payload: StoredState = {
@@ -560,72 +569,218 @@ export default function CharacterSheetBuilder() {
         formData,
         optionalSections,
         relationshipDeepDives,
-      }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload))
-      setLastSavedAt(new Date())
-    }, 300)
-    return () => window.clearTimeout(handle)
-  }, [formData, optionalSections, relationshipDeepDives, hydrated])
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      setLastSavedAt(new Date());
+    }, 300);
+    return () => window.clearTimeout(handle);
+  }, [formData, optionalSections, relationshipDeepDives, hydrated]);
 
   const visibleSections = useMemo(
     () =>
       SECTIONS.filter(
         (section) =>
-          !section.optionalKey || optionalSections[section.optionalKey]
+          !section.optionalKey || optionalSections[section.optionalKey],
       ),
-    [optionalSections]
-  )
+    [optionalSections],
+  );
 
   const handleFieldChange =
     (key: string) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const value = event.target.value
-      setFormData((prev) => ({ ...prev, [key]: value }))
-    }
+      const value = event.target.value;
+      setFormData((prev) => ({ ...prev, [key]: value }));
+    };
 
   const handleToggleOptional =
     (key: OptionalKey) => (event: ChangeEvent<HTMLInputElement>) => {
-      setOptionalSections((prev) => ({ ...prev, [key]: event.target.checked }))
-    }
+      setOptionalSections((prev) => ({ ...prev, [key]: event.target.checked }));
+    };
 
   const addDeepDive = () => {
     setRelationshipDeepDives((prev) => [
       ...prev,
       { id: createDeepDiveId(), ...EMPTY_DEEP_DIVE },
-    ])
-  }
+    ]);
+  };
 
   const updateDeepDive = (
     id: string,
     key: keyof Omit<RelationshipDeepDive, "id">,
-    value: string
+    value: string,
   ) => {
     setRelationshipDeepDives((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, [key]: value } : item))
-    )
-  }
+      prev.map((item) => (item.id === id ? { ...item, [key]: value } : item)),
+    );
+  };
 
   const removeDeepDive = (id: string) => {
-    setRelationshipDeepDives((prev) => prev.filter((item) => item.id !== id))
-  }
+    setRelationshipDeepDives((prev) => prev.filter((item) => item.id !== id));
+  };
 
-  const handleExport = () => {
-    window.print()
-  }
+  const buildMarkdown = () => {
+    const lines: string[] = [];
+    const today = new Date().toLocaleDateString();
+    lines.push("# Character Sheet");
+    lines.push(`Generated on ${today}`);
+    lines.push("");
+
+    visibleSections.forEach((section) => {
+      lines.push(`## ${section.title}`);
+      if (section.description) {
+        lines.push(section.description);
+      }
+      lines.push("");
+      section.fields.forEach((field) => {
+        const rawValue = (formData[field.key] ?? "").trim();
+        if (!rawValue) {
+          lines.push(`- **${field.label}:**`);
+          return;
+        }
+        const valueLines = rawValue.split(/\r?\n/);
+        if (valueLines.length === 1) {
+          lines.push(`- **${field.label}:** ${valueLines[0]}`);
+          return;
+        }
+        lines.push(`- **${field.label}:**`);
+        valueLines.forEach((line) => lines.push(`  ${line}`));
+      });
+      lines.push("");
+    });
+
+    if (relationshipDeepDives.length > 0) {
+      lines.push("## Relationship Deep Dives");
+      lines.push("");
+      relationshipDeepDives.forEach((entry, index) => {
+        const name = entry.relationshipName.trim();
+        lines.push(`### Relationship ${index + 1}${name ? `: ${name}` : ""}`);
+        RELATIONSHIP_DEEP_DIVE_FIELDS.forEach((field) => {
+          const rawValue = (entry[field.key] ?? "").trim();
+          if (!rawValue) {
+            lines.push(`- **${field.label}:**`);
+            return;
+          }
+          const valueLines = rawValue.split(/\r?\n/);
+          if (valueLines.length === 1) {
+            lines.push(`- **${field.label}:** ${valueLines[0]}`);
+            return;
+          }
+          lines.push(`- **${field.label}:**`);
+          valueLines.forEach((line) => lines.push(`  ${line}`));
+        });
+        lines.push("");
+      });
+    }
+
+    return lines.join("\n");
+  };
+
+  const handleExportPdf = () => {
+    window.print();
+  };
+
+  const handleExportMarkdown = () => {
+    const markdown = buildMarkdown();
+    downloadBlob(
+      new Blob([markdown], { type: "text/markdown" }),
+      "character-sheet.md",
+    );
+  };
+
+  const handleExportDocx = async () => {
+    const { Document, HeadingLevel, Packer, Paragraph, TextRun } =
+      await import("docx");
+    const paragraphs: InstanceType<typeof Paragraph>[] = [];
+    const today = new Date().toLocaleDateString();
+
+    paragraphs.push(
+      new Paragraph({
+        text: "Character Sheet",
+        heading: HeadingLevel.TITLE,
+      }),
+    );
+    paragraphs.push(new Paragraph(`Generated on ${today}`));
+    paragraphs.push(new Paragraph(""));
+
+    const addFieldParagraph = (label: string, value: string) => {
+      const children = [new TextRun({ text: `${label}: `, bold: true })];
+      if (value.trim()) {
+        const lines = value.split(/\r?\n/);
+        lines.forEach((line, index) => {
+          if (index === 0) {
+            children.push(new TextRun({ text: line }));
+            return;
+          }
+          children.push(new TextRun({ text: line, break: 1 }));
+        });
+      }
+      paragraphs.push(new Paragraph({ children }));
+    };
+
+    visibleSections.forEach((section) => {
+      paragraphs.push(
+        new Paragraph({
+          text: section.title,
+          heading: HeadingLevel.HEADING_1,
+        }),
+      );
+      if (section.description) {
+        paragraphs.push(
+          new Paragraph({
+            children: [
+              new TextRun({ text: section.description, italics: true }),
+            ],
+          }),
+        );
+      }
+      section.fields.forEach((field) => {
+        addFieldParagraph(field.label, formData[field.key] ?? "");
+      });
+      paragraphs.push(new Paragraph(""));
+    });
+
+    if (relationshipDeepDives.length > 0) {
+      paragraphs.push(
+        new Paragraph({
+          text: "Relationship Deep Dives",
+          heading: HeadingLevel.HEADING_1,
+        }),
+      );
+      relationshipDeepDives.forEach((entry, index) => {
+        const name = entry.relationshipName.trim();
+        paragraphs.push(
+          new Paragraph({
+            text: `Relationship ${index + 1}${name ? `: ${name}` : ""}`,
+            heading: HeadingLevel.HEADING_2,
+          }),
+        );
+        RELATIONSHIP_DEEP_DIVE_FIELDS.forEach((field) => {
+          addFieldParagraph(field.label, entry[field.key] ?? "");
+        });
+        paragraphs.push(new Paragraph(""));
+      });
+    }
+
+    const doc = new Document({
+      sections: [{ children: paragraphs }],
+    });
+    const blob = await Packer.toBlob(doc);
+    downloadBlob(blob, "character-sheet.docx");
+  };
 
   const handleClear = () => {
     const confirmed = window.confirm(
-      "Clear the entire character sheet? This will remove locally saved data."
-    )
+      "Clear the entire character sheet? This will remove locally saved data.",
+    );
     if (!confirmed) {
-      return
+      return;
     }
-    setFormData(DEFAULT_FORM_DATA)
-    setOptionalSections(DEFAULT_OPTIONAL)
-    setRelationshipDeepDives([])
-    localStorage.removeItem(STORAGE_KEY)
-    setLastSavedAt(null)
-  }
+    setFormData(DEFAULT_FORM_DATA);
+    setOptionalSections(DEFAULT_OPTIONAL);
+    setRelationshipDeepDives([]);
+    localStorage.removeItem(STORAGE_KEY);
+    setLastSavedAt(null);
+  };
 
   const savedLabel = !hydrated
     ? "Loading saved data..."
@@ -634,7 +789,7 @@ export default function CharacterSheetBuilder() {
           hour: "2-digit",
           minute: "2-digit",
         })}`
-      : "Not saved yet"
+      : "Not saved yet";
 
   return (
     <main className="character-sheet-builder">
@@ -642,22 +797,53 @@ export default function CharacterSheetBuilder() {
         <div>
           <h1>Character Sheet Builder</h1>
           <p>
+            This character sheet is a combination of multiple character sheets I
+            found on the internet. I consulted the following links:{" "}
+            <a target="_blank" href="https://abbieemmonsauthor.com/templates">
+              Abbie Emmons' templates
+            </a>
+            ,{" "}
+            <a href="https://www.reddit.com/r/writing/comments/1h6c2p8/character_sheet_template/">
+              This Reddit post by u/questionable_android
+            </a>
+            ,{" "}
+            <a href="https://shannonfallon.com/2022/07/02/my-character-sheet-template/">
+              Shannon Fallon's blog post
+            </a>
+            ,{" "}
+            <a href="https://www.dabblewriter.com/articles/character-template">
+              Dabble's blog post by Doug Landsborough
+            </a>
             Build a complete character sheet by combining multiple writer
             templates. Your progress is saved locally in your browser, and you
-            can export a PDF when ready.
+            can export a PDF, DOCX, or Markdown file when ready.
           </p>
           <p className="csb__helper">
-            Export uses the browser print dialog. Choose "Save as PDF" to
-            download.
+            PDF export uses the browser print dialog. DOCX and Markdown download
+            instantly. Markdown works well in Notion.
           </p>
         </div>
         <div className="csb__actions no-print">
           <button
             type="button"
             className="csb__button csb__button--primary"
-            onClick={handleExport}
+            onClick={handleExportPdf}
           >
             Export PDF
+          </button>
+          <button
+            type="button"
+            className="csb__button"
+            onClick={handleExportDocx}
+          >
+            Export DOCX
+          </button>
+          <button
+            type="button"
+            className="csb__button"
+            onClick={handleExportMarkdown}
+          >
+            Export Markdown (.md)
           </button>
           <button
             type="button"
@@ -718,8 +904,8 @@ export default function CharacterSheetBuilder() {
                 )}
                 <div className="csb__fields">
                   {section.fields.map((field) => {
-                    const value = formData[field.key] ?? ""
-                    const isWide = field.type === "textarea"
+                    const value = formData[field.key] ?? "";
+                    const isWide = field.type === "textarea";
                     return (
                       <div
                         key={field.key}
@@ -745,7 +931,7 @@ export default function CharacterSheetBuilder() {
                           />
                         )}
                       </div>
-                    )
+                    );
                   })}
                 </div>
               </fieldset>
@@ -786,9 +972,9 @@ export default function CharacterSheetBuilder() {
                     </div>
                     <div className="csb__fields">
                       {RELATIONSHIP_DEEP_DIVE_FIELDS.map((field) => {
-                        const value = entry[field.key] ?? ""
-                        const isWide = field.type === "textarea"
-                        const fieldId = `${entry.id}-${field.key}`
+                        const value = entry[field.key] ?? "";
+                        const isWide = field.type === "textarea";
+                        const fieldId = `${entry.id}-${field.key}`;
                         return (
                           <div
                             key={field.key}
@@ -805,7 +991,7 @@ export default function CharacterSheetBuilder() {
                                   updateDeepDive(
                                     entry.id,
                                     field.key,
-                                    event.target.value
+                                    event.target.value,
                                   )
                                 }
                               />
@@ -819,14 +1005,14 @@ export default function CharacterSheetBuilder() {
                                   updateDeepDive(
                                     entry.id,
                                     field.key,
-                                    event.target.value
+                                    event.target.value,
                                   )
                                 }
                                 autoComplete="off"
                               />
                             )}
                           </div>
-                        )
+                        );
                       })}
                     </div>
                   </div>
@@ -847,8 +1033,8 @@ export default function CharacterSheetBuilder() {
             <h2>{section.title}</h2>
             <div className="csb__print-grid">
               {section.fields.map((field) => {
-                const value = formData[field.key] ?? ""
-                const isEmpty = value.trim().length === 0
+                const value = formData[field.key] ?? "";
+                const isEmpty = value.trim().length === 0;
                 return (
                   <div key={field.key} className="csb__print-field">
                     <div className="csb__print-label">{field.label}</div>
@@ -860,7 +1046,7 @@ export default function CharacterSheetBuilder() {
                       {isEmpty ? " " : value}
                     </div>
                   </div>
-                )
+                );
               })}
             </div>
           </div>
@@ -873,8 +1059,8 @@ export default function CharacterSheetBuilder() {
                 <h3>Relationship {index + 1}</h3>
                 <div className="csb__print-grid">
                   {RELATIONSHIP_DEEP_DIVE_FIELDS.map((field) => {
-                    const value = entry[field.key] ?? ""
-                    const isEmpty = value.trim().length === 0
+                    const value = entry[field.key] ?? "";
+                    const isEmpty = value.trim().length === 0;
                     return (
                       <div key={field.key} className="csb__print-field">
                         <div className="csb__print-label">{field.label}</div>
@@ -886,7 +1072,7 @@ export default function CharacterSheetBuilder() {
                           {isEmpty ? " " : value}
                         </div>
                       </div>
-                    )
+                    );
                   })}
                 </div>
               </div>
@@ -895,5 +1081,5 @@ export default function CharacterSheetBuilder() {
         )}
       </div>
     </main>
-  )
+  );
 }
