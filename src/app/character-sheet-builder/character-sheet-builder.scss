@@ -4,6 +4,9 @@
   max-width: 1200px;
   margin: 0 auto;
   padding-block: 110px 80px;
+  a {
+    text-decoration: dashed underline;
+  }
 }
 
 .csb__header {
@@ -46,6 +49,7 @@
   }
   &:hover {
     transform: translate(-1px, -1px);
+    color: white;
   }
 }
 
