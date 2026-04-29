@@ -90,7 +90,7 @@ export default function useCharacterSheetBuilder() {
         lines.push(`### ${r.relationshipName || "Unnamed"}\n`)
         Object.keys(r).forEach((k) => {
           if (k === "id") return
-          // @ts-ignore
+          //@ts-expect-error it's correct
           lines.push(`- **${k}**: ${r[k]}`)
         })
         lines.push("\n")
@@ -134,8 +134,7 @@ export default function useCharacterSheetBuilder() {
     try {
       const { Document, Packer, Paragraph } = await import("docx")
       const doc = new Document({ sections: [{ children: [new Paragraph("Character Sheet") ] }] })
-      const packer = new Packer()
-      const blob = await packer.toBlob(doc)
+      const blob = await Packer.toBlob(doc)
       downloadBlob(blob, "character-sheet.docx")
     } catch (e) {
       console.error("Docx export failed", e)

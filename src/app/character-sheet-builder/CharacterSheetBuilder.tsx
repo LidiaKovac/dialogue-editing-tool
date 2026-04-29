@@ -146,9 +146,9 @@ export default function CharacterSheetBuilder() {
                           <div key={field.key} className={`csb__field${isWide ? " csb__field--wide" : ""}`}>
                             <label htmlFor={fieldId}>{field.label}</label>
                             {field.type === "textarea" ? (
-                              <textarea id={fieldId} name={fieldId} rows={field.rows ?? 3} value={value} onChange={(e) => updateDeepDive(entry.id, { [field.key]: e.target.value } as any)} />
+                              <textarea id={fieldId} name={fieldId} rows={field.rows ?? 3} value={value} onChange={(e) => updateDeepDive(entry.id, { [field.key]: e.target.value } )} />
                             ) : (
-                              <input id={fieldId} name={fieldId} type="text" value={value} onChange={(e) => updateDeepDive(entry.id, { [field.key]: e.target.value } as any)} autoComplete="off" />
+                              <input id={fieldId} name={fieldId} type="text" value={value} onChange={(e) => updateDeepDive(entry.id, { [field.key]: e.target.value } )} autoComplete="off" />
                             )}
                           </div>
                         )
