@@ -15,6 +15,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: "https://editingthing.com/character-sheet-builder",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: "https://editingthing.com/blog",
       lastModified: "2025-09-18",
       changeFrequency: "monthly",
