@@ -10,7 +10,7 @@ const metadata: Metadata = {
   },
   title: "Character Sheet Builder - Free Writer Template | The Dialogue Thing",
   description:
-    "Build a detailed character sheet in one place. Combine demographics, appearance, psychology, relationships, and a full character arc, then export a polished PDF.",
+    "Build a detailed character sheet in one place. Combine demographics, appearance, psychology, relationships, and a full character arc, then export to PDF, DOCX, or Markdown.",
   keywords: [
     "character sheet builder",
     "character profile template",
@@ -33,7 +33,7 @@ const metadata: Metadata = {
     siteName: "The Dialogue Thing",
     title: "Character Sheet Builder - Free Writer Template",
     description:
-      "Build a full character profile with guided prompts and a character arc builder. Optional magic and tech sections included.",
+      "Build a full character profile with guided prompts and a character arc builder. Export to PDF, DOCX, or Markdown.",
     images: [
       {
         url: `${siteUrl}/ogimage.jpg`,
@@ -49,7 +49,7 @@ const metadata: Metadata = {
     card: "summary_large_image",
     title: "Character Sheet Builder - The Dialogue Thing",
     description:
-      "Build a character sheet from multiple writer templates and export to PDF. Free and AI-free.",
+      "Build a character sheet from multiple writer templates and export to PDF, DOCX, or Markdown. Free and AI-free.",
     images: [`${siteUrl}/ogimage.jpg`],
   },
 

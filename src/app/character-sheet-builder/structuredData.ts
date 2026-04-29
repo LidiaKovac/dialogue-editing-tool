@@ -7,7 +7,7 @@ export default {
   operatingSystem: "Web",
   inLanguage: "en",
   description:
-    "A free character sheet builder for writers. Collect detailed demographics, appearance, psychology, relationships, and a full character arc, then export to PDF.",
+    "A free character sheet builder for writers. Collect detailed demographics, appearance, psychology, relationships, and a full character arc, then export to PDF, DOCX, or Markdown.",
   isAccessibleForFree: true,
   offers: {
     "@type": "Offer",
@@ -23,6 +23,6 @@ export default {
     "Optional magic and tech sections",
     "Relationship deep dive entries",
     "Character arc builder prompts",
-    "PDF export via browser print",
+    "PDF, DOCX, and Markdown exports",
   ],
 }
