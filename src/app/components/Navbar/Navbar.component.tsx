@@ -16,6 +16,9 @@ export const Navbar = () => {
           <Link href="/editor">Editor</Link>
         </div>
         <div className="nav__item">
+          <Link href="/character-sheet-builder">Character Sheet Builder</Link>
+        </div>
+        <div className="nav__item">
           <Link href="/blog">Blog</Link>
         </div>
       </div>
