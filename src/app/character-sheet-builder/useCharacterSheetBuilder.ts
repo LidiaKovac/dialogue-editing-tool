@@ -29,7 +29,9 @@ export default function useCharacterSheetBuilder() {
         if (parsed.optionalSections) setOptionalSections(parsed.optionalSections)
         if (parsed.relationshipDeepDives) setRelationshipDeepDives(parsed.relationshipDeepDives)
       }
-    } catch (e) {}
+    } catch (e) {
+        console.error(e)
+    }
     setHydrated(true)
   }, [])
 
@@ -53,7 +55,7 @@ export default function useCharacterSheetBuilder() {
   }
 
   const handleToggleOptional = (optKey: string) => {
-    setOptionalSections((prev) => ({ ...prev, [optKey]: !prev[optKey as keyof typeof prev] }))
+    setOptionalSections((prev) => ({ ...prev, [optKey]: !prev[optKey] }))
   }
 
   const addDeepDive = (data?: Partial<RelationshipDeepDive>) => {
@@ -108,7 +110,7 @@ export default function useCharacterSheetBuilder() {
   const handleCopyToNotion = async () => {
     const md = buildMarkdown()
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
+      if (navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(md)
       } else {
         const ta = document.createElement("textarea")
@@ -119,17 +121,18 @@ export default function useCharacterSheetBuilder() {
         ta.focus()
         ta.select()
         document.execCommand("copy")
-        document.body.removeChild(ta)
+       ta.remove()
       }
       window.alert("Markdown copied to clipboard. Paste into Notion.")
     } catch (e) {
+        console.error(e)
       window.alert("Failed to copy Markdown to clipboard.")
     }
   }
 
   const handleExportDocx = async () => {
     try {
-      const { Document, Packer, Paragraph, TextRun } = await import("docx")
+      const { Document, Packer, Paragraph } = await import("docx")
       const doc = new Document({ sections: [{ children: [new Paragraph("Character Sheet") ] }] })
       const packer = new Packer()
       const blob = await packer.toBlob(doc)

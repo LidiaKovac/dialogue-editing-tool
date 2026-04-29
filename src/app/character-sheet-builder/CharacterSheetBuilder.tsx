@@ -20,7 +20,6 @@ export default function CharacterSheetBuilder() {
     handleCopyToNotion,
     handleClear,
     savedLabel,
-    hydrated,
   } = useCharacterSheetBuilder()
 
   return (
