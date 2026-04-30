@@ -45,6 +45,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     {
+      url: "https://editingthing.com/blog/create-character-sheet",
+      lastModified: "2025-10-26",
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
       url: "https://editingthing.com/blog/dialogue-rules-for-books",
       lastModified: "2025-11-14",
       changeFrequency: "monthly",
@@ -68,5 +74,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
-  ]
+  ];
 }
