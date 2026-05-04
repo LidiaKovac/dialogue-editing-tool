@@ -10,6 +10,7 @@ const metadata = (categoryString: string, url: string, uniqueCategories: string[
   alternates: {
     canonical: url,
   },
+  
   openGraph: {
     title: "The Editing Blog - Latest Articles",
     description:
