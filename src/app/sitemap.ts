@@ -1,67 +1,78 @@
 import type { MetadataRoute } from 'next'
-import { SITE_URL as siteUrl } from '../../lib/site'
  
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: `${siteUrl}/`,
+      url: "https://editingthing.com/",
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: `${siteUrl}/editor`,
+      url: "https://editingthing.com/editor",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${siteUrl}/blog`,
+      url: "https://editingthing.com/character-sheet-builder",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: "https://editingthing.com/blog",
       lastModified: "2025-09-18",
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${siteUrl}/faq`,
+      url: "https://editingthing.com/faq",
       lastModified: "2025-09-18",
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${siteUrl}/blog/how-to-edit-a-fanfiction`,
+      url: "https://editingthing.com/blog/how-to-edit-a-fanfiction",
       lastModified: "2025-09-26",
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
-      url: `${siteUrl}/blog/dialogue-rules-for-fanfiction`,
+      url: "https://editingthing.com/blog/dialogue-rules-for-fanfiction",
       lastModified: "2025-10-26",
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
-      url: `${siteUrl}/blog/dialogue-rules-for-books`,
+      url: "https://editingthing.com/blog/create-character-sheet",
+      lastModified: "2025-10-26",
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: "https://editingthing.com/blog/dialogue-rules-for-books",
       lastModified: "2025-11-14",
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
-      url: `${siteUrl}/blog/how-to-edit-a-book-or-novel`,
+      url: "https://editingthing.com/blog/how-to-edit-a-book-or-novel",
       lastModified: "2025-12-22",
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
-      url: `${siteUrl}/blog/write-better-fanfiction-dialogue`,
+      url: "https://editingthing.com/blog/write-better-fanfiction-dialogue",
       lastModified: "2026-02-01",
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
-      url: `${siteUrl}/blog/how-to-punctuate-and-format-dialogue-in-your-novel`,
+      url: "https://editingthing.com/blog/how-to-punctuate-and-format-dialogue-in-your-novel",
       lastModified: "2026-03-01",
       changeFrequency: "monthly",
       priority: 0.6,
     },
-  ]
+  ];
 }
