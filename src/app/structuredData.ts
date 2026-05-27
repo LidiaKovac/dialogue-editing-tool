@@ -33,7 +33,7 @@ const softwareApplication = {
     "@id": `${siteUrl}/#organization`,
   },
   description:
-    "The Dialogue Thing is a free, AI-free dialogue editor that highlights dialogue tag issues, punctuation mistakes, and overused adverbs for fanfiction writers and novelists.",
+    "The Dialogue Thing is a privacy-first web app for writers that supports character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue without collecting user writing data.",
   datePublished: "2025-10-01",
   dateModified: "2026-03-19",
   offers: {
@@ -63,7 +63,7 @@ const softwareApplication = {
     "Flags action verbs incorrectly used as dialogue tags",
     "Detects adverbs in dialogue and narration",
     "Works entirely AI-free in the browser",
-    "No account, tracking, or word limit for typical chapters",
+    "Privacy-first with no collection of user writing data",
   ],
 }
 
@@ -73,7 +73,7 @@ const webSite = {
   name: SITE_NAME,
   url: siteUrl,
   description:
-    "A free, AI-free dialogue editing tool for fanfiction writers and novelists.",
+    "A privacy-first web app for writers focused on character sheets for writers, novel editing, and dialogue formatting without collecting user writing data.",
   publisher: {
     "@id": `${siteUrl}/#organization`,
   },

@@ -15,7 +15,7 @@ const metadata: Metadata = {
     template: "%s | The Dialogue Thing",
   },
   description:
-    "Edit your dialogue for free with The Dialogue Thing - an AI-free tool that spots dialogue tag issues, punctuation mistakes, and overused adverbs. Built for fanfiction writers and novelists.",
+    "The Dialogue Thing is a privacy-first web app for writers that helps with character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue without collecting user writing data.",
   keywords: [
     "dialogue editor",
     "fanfiction editing",
@@ -47,7 +47,7 @@ const metadata: Metadata = {
     siteName: "The Dialogue Thing",
     title: "The Dialogue Thing - Edit Your Dialogue for Free",
     description:
-      "A free, AI-free dialogue editor that highlights dialogue tag problems, formatting issues, and adverbs so you stay in control of your fanfiction or novel edits.",
+      "A privacy-first web app for writers that helps with character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue without collecting user writing data.",
     images: [
       {
         url: `${siteUrl}${DEFAULT_OG_IMAGE}`,
@@ -63,7 +63,7 @@ const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Dialogue Thing - Free AI-free Dialogue Editor",
     description:
-      "Clean up your dialogue tags, action beats, and adverbs with a free AI‑free editor made for fanfiction writers and novelists.",
+      "Clean up dialogue, build character sheets, and handle novel editing in a privacy-first web app made for writers.",
     images: [`${siteUrl}${DEFAULT_OG_IMAGE}`],
     creator: TWITTER_HANDLE, // set your Twitter handle in src/lib/site.ts
   },

@@ -12,7 +12,7 @@ const metadata: Metadata = {
   title:
     "Free Dialogue Editor - Fix Tags, Punctuation & Adverbs | The Dialogue Thing",
   description:
-    "Paste your chapter and instantly spot dialogue tag errors, punctuation mistakes, and overused adverbs. Free, AI-free, no sign-up required.",
+    "Paste your chapter and instantly spot dialogue tag errors, punctuation mistakes, and overused adverbs. Free, AI-free, privacy first, and it does not collect your writing data.",
   keywords: [
     "free dialogue editor online",
     "dialogue tag checker",
@@ -51,7 +51,7 @@ const metadata: Metadata = {
     card: "summary_large_image",
     title: "Free Dialogue Editor – The Dialogue Thing",
     description:
-      "Paste your chapter and fix dialogue tags, punctuation, and adverbs for free. No AI, no account needed.",
+      "Paste your chapter and fix dialogue tags, punctuation, and adverbs for free. No AI, privacy first, and it does not collect your writing data.",
     images: [`${siteUrl}${DEFAULT_OG_IMAGE}`],
   },
 
