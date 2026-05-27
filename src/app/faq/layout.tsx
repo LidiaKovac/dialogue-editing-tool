@@ -3,8 +3,6 @@ import type { Metadata } from "next"
 import Script from "next/script"
 import { SITE_URL as siteUrl, SITE_NAME } from "../../lib/site"
 
-const siteUrl = "https://editingthing.com"
-const faqUrl = `${siteUrl}/faq`
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
