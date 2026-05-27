@@ -42,12 +42,7 @@ export default function Landing() {
     >
       <section className="grid items-start gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
         <div className="relative">
-          <div className="badge absolute">
-            <div>beta</div>
-          </div>
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] opacity-80">
-            Web app for writers
-          </p>
+          
           <h1 className="max-w-3xl">
             Character sheets, dialogue editing, and novel revision in one place.
           </h1>
@@ -81,7 +76,7 @@ export default function Landing() {
               Dialogue tags
             </span>
             <span className="border-2 border-[var(--primary)] bg-[var(--bg)] px-3 py-2 shadow-[4px_4px_0_var(--primary)]">
-              Character notes
+              Privacy first
             </span>
           </div>
         </div>
@@ -92,12 +87,13 @@ export default function Landing() {
             What writers use it for
           </p>
           <h2 className="mt-3 text-2xl text-[var(--primary)]">
-            A tighter workflow for drafts, cast notes, and dialogue cleanup.
+            A tighter workflow for drafts, character sheets, and dialogue cleanup.
           </h2>
           <p className="mt-4 text-sm leading-6 opacity-85">
             Keep your writer character sheet, revision notes, and dialogue checks
             close together so you can move from drafting to novel editing without
-            bouncing between tools.
+            bouncing between tools. The app is privacy first and does not collect
+            your writing data.
           </p>
           <dl className="mt-8 grid gap-4 text-sm">
             <div className="border-2 border-[var(--primary)] bg-[var(--bg)] p-4 shadow-[4px_4px_0_var(--primary)]">
@@ -230,7 +226,8 @@ export default function Landing() {
             <p className="mt-4 max-w-2xl text-base leading-7 opacity-85">
               The homepage now speaks to the exact searches writers make when they
               need help with character sheets for writers, novel editing, how to
-              edit dialogue, and how to format dialogue.
+              edit dialogue, and how to format dialogue. It is privacy first and
+              does not collect your writing data.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
