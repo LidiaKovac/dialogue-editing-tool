@@ -33,7 +33,7 @@ const softwareApplication = {
     "@id": `${siteUrl}/#organization`,
   },
   description:
-    "The Dialogue Thing is a web app for writers that supports character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue.",
+    "The Dialogue Thing is a privacy-first web app for writers that supports character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue without collecting user writing data.",
   datePublished: "2025-10-01",
   dateModified: "2026-03-19",
   offers: {
@@ -79,7 +79,7 @@ const webSite = {
   name: SITE_NAME,
   url: siteUrl,
   description:
-    "A web app for writers focused on character sheets for writers, novel editing, and dialogue formatting.",
+    "A privacy-first web app for writers focused on character sheets for writers, novel editing, and dialogue formatting without collecting user writing data.",
   publisher: {
     "@id": `${siteUrl}/#organization`,
   },
