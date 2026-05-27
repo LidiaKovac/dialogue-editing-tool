@@ -1,5 +1,16 @@
 import { SITE_URL as siteUrl, SITE_NAME, DEFAULT_OG_IMAGE } from "../lib/site"
-
+const organization = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${siteUrl}/#organization`,
+  name: "The Dialogue Thing",
+  url: siteUrl,
+  logo: `${siteUrl}/favicon-32x32.png`,
+  founder: {
+    "@type": "Person",
+    name: "Lidia Kovac",
+  },
+}
 const softwareApplication = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",

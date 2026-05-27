@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import structuredData from "./structuredData"
-import { SITE_URL as siteUrl, SITE_NAME, TWITTER_HANDLE, DEFAULT_OG_IMAGE } from "../../lib/site"
+import { SITE_URL as siteUrl, SITE_NAME, TWITTER_HANDLE, DEFAULT_OG_IMAGE } from "./lib/site"
 
 const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -30,6 +30,8 @@ const metadata: Metadata = {
     "writing tool for authors",
     "AI-free writing tool",
     "edit fanfiction dialogue",
+    "character sheet for writers",
+    "character sheet maker for writers"
   ],
   authors: [{ name: "Lidia Kovac", url: siteUrl }],
   creator: "Lidia Kovac",
