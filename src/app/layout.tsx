@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import "./globals.scss"
 import "quill/dist/quill.snow.css"
 
-import { ContentsquareConsent } from "./components/ContentsquareConsent/ContentsquareConsent.component"
+import { CookieConsent } from "./components/CookieConsent/CookieConsent.component"
 import { Navbar } from "./components/Navbar/Navbar.component"
 import { Footer } from "./components/Footer/Footer"
 import metadataObj from "./metadata"
@@ -27,7 +27,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
-        <ContentsquareConsent />
+        <CookieConsent />
       </body>
     </html>
   )
