@@ -94,7 +94,7 @@ export const ContentsquareConsent = () => {
   const handleReject = () => {
     globalThis.window.localStorage.setItem(CONTENTSQUARE_CONSENT_STORAGE_KEY, "rejected")
 
-    if (globalThis.window._uxa) {
+    if (scriptLoaded && globalThis.window._uxa) {
       globalThis.window._uxa.push(["optout"])
     }
 
