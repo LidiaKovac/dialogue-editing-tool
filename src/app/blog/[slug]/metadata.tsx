@@ -1,6 +1,7 @@
 import Script from "next/script";
 import { SITE_URL as siteUrl, SITE_NAME } from "../../../lib/site"
 
+
 type Author = { name: string; image?: string }
 
 export const metadata = (
