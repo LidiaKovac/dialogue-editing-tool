@@ -24,6 +24,14 @@ const getCurrentPath = () => {
   return `${globalThis.window.location.pathname}${globalThis.window.location.hash.replace("#", "?__")}`
 }
 
+const setContentsquareOptOutCookie = () => {
+  globalThis.window.document.cookie = "_cs_optout=true; path=/; max-age=31536000; samesite=lax"
+}
+
+const clearContentsquareOptOutCookie = () => {
+  globalThis.window.document.cookie = "_cs_optout=; path=/; max-age=0; samesite=lax"
+}
+
 export const ContentsquareConsent = () => {
   const pathname = usePathname()
   const [consent, setConsent] = useState<ConsentStatus>(null)
@@ -38,9 +46,17 @@ export const ContentsquareConsent = () => {
     if (storedConsent === "accepted" || storedConsent === "rejected") {
       setConsent(storedConsent)
       setBannerVisible(false)
+
+      if (storedConsent === "accepted") {
+        clearContentsquareOptOutCookie()
+      } else {
+        setContentsquareOptOutCookie()
+      }
+
       return
     }
 
+    setContentsquareOptOutCookie()
     setConsent(null)
     setBannerVisible(true)
   }, [])
@@ -86,17 +102,15 @@ export const ContentsquareConsent = () => {
   }, [])
 
   const handleAccept = () => {
+    clearContentsquareOptOutCookie()
     globalThis.window.localStorage.setItem(CONTENTSQUARE_CONSENT_STORAGE_KEY, "accepted")
     setConsent("accepted")
     setBannerVisible(false)
   }
 
   const handleReject = () => {
+    setContentsquareOptOutCookie()
     globalThis.window.localStorage.setItem(CONTENTSQUARE_CONSENT_STORAGE_KEY, "rejected")
-
-    if (scriptLoaded && globalThis.window._uxa) {
-      globalThis.window._uxa.push(["optout"])
-    }
 
     setConsent("rejected")
     setBannerVisible(false)
