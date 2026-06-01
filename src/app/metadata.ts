@@ -11,12 +11,18 @@ const metadata: Metadata = {
   // Basic meta
   title: {
     default:
-      "The Dialogue Thing - Free AI-free Dialogue Editor for Fanfiction and Novels",
+      "The Dialogue Thing - Web App for Writers | Character Sheets, Dialogue Editing, Novel Editing",
     template: "%s | The Dialogue Thing",
   },
   description:
-    "The Dialogue Thing is a privacy-first web app for writers that helps with character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue without collecting user writing data.",
+    "The Dialogue Thing is a web app for writers that helps with character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue.",
   keywords: [
+    "character sheet for writers",
+    "character sheets for writers",
+    "writer character sheet",
+    "novel editing",
+    "how to edit dialogue",
+    "how to format dialogue",
     "dialogue editor",
     "fanfiction editing",
     "edit dialogue online",
@@ -30,7 +36,6 @@ const metadata: Metadata = {
     "writing tool for authors",
     "AI-free writing tool",
     "edit fanfiction dialogue",
-    "character sheet for writers",
     "character sheet maker for writers"
   ],
   authors: [{ name: "Lidia Kovac", url: siteUrl }],
@@ -45,9 +50,10 @@ const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "The Dialogue Thing",
-    title: "The Dialogue Thing - Edit Your Dialogue for Free",
+    title:
+      "The Dialogue Thing - Web App for Writers, Character Sheets, and Dialogue Editing",
     description:
-      "A privacy-first web app for writers that helps with character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue without collecting user writing data.",
+      "A web app for writers that helps with character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue.",
     images: [
       {
         url: `${siteUrl}${DEFAULT_OG_IMAGE}`,
@@ -61,9 +67,9 @@ const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "The Dialogue Thing - Free AI-free Dialogue Editor",
+    title: "The Dialogue Thing - Web App for Writers",
     description:
-      "Clean up dialogue, build character sheets, and handle novel editing in a privacy-first web app made for writers.",
+      "Clean up dialogue, build character sheets, and handle novel editing in a web app made for writers.",
     images: [`${siteUrl}${DEFAULT_OG_IMAGE}`],
     creator: TWITTER_HANDLE, // set your Twitter handle in src/lib/site.ts
   },

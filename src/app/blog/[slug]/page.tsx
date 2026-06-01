@@ -44,7 +44,7 @@ export default async function BlogPost({
       </div>
     )
   return (
-    <div className="blog">
+    <div className="blog blog-article-page">
       <JsonLD
         title={post.title}
         categories={post.categories}
@@ -53,12 +53,35 @@ export default async function BlogPost({
         url={`${siteUrl}/blog/${post.slug.current}`}
       />
 
-      {/* <h2>The Editing Blog</h2> */}
-      <h1>{post.title}</h1>
+      <div className="blog-article-layout">
+        <aside className="blog-article-meta">
+          <Link href="/blog" className="blog-back-link">
+            Back to the blog
+          </Link>
+          <h1>{post.title}</h1>
+          <p className="blog-meta-copy">
+            By {post.author.name}
+            <br />
+            {new Date(post.date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </p>
 
-      <article>
-        <PortableText value={post.blocks} />
-      </article>
+          <div className="blog-tags blog-tags--stacked">
+            {post.categories?.map((category: string) => (
+              <span key={category} className="blog-tag">
+                {category}
+              </span>
+            ))}
+          </div>
+        </aside>
+
+        <article className="blog-article ">
+          <PortableText value={post.blocks} />
+        </article>
+      </div>
     </div>
   )
 }

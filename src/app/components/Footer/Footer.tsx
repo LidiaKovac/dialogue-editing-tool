@@ -26,6 +26,16 @@ export const Footer = () => {
             </Link>
           </li>
           <li>
+            <Link href="/cookie-policy">
+              Cookie Policy
+            </Link>
+          </li>
+          <li>
+            <Link href="/privacy-policy">
+              Privacy Policy
+            </Link>
+          </li>
+          <li>
             <Link target="_blank" href="https://lidiakovac.it">
               Developed with 💖 by Lidia Kovac
             </Link>
