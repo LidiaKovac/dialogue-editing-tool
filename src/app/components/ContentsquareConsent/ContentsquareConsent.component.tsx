@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname, useSearchParams } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 import {
   CONTENTSQUARE_CONSENT_STORAGE_KEY,
@@ -17,22 +17,21 @@ declare global {
 }
 
 const getCurrentPath = () => {
-  if (typeof window === "undefined") {
+  if (globalThis.window === undefined) {
     return "/"
   }
 
-  return `${window.location.pathname}${window.location.hash.replace("#", "?__")}`
+  return `${globalThis.window.location.pathname}${globalThis.window.location.hash.replace("#", "?__")}`
 }
 
 export const ContentsquareConsent = () => {
   const pathname = usePathname()
-  const searchParams = useSearchParams()
   const [consent, setConsent] = useState<ConsentStatus>(null)
   const [bannerVisible, setBannerVisible] = useState(false)
   const [scriptLoaded, setScriptLoaded] = useState(false)
 
   useEffect(() => {
-    const storedConsent = window.localStorage.getItem(
+    const storedConsent = globalThis.window.localStorage.getItem(
       CONTENTSQUARE_CONSENT_STORAGE_KEY,
     )
 
@@ -56,7 +55,7 @@ export const ContentsquareConsent = () => {
       return
     }
 
-    window._uxa = window._uxa || []
+    globalThis.window._uxa = globalThis.window._uxa || []
 
     const script = document.createElement("script")
     script.id = "contentsquare-main-tag"
@@ -74,10 +73,9 @@ export const ContentsquareConsent = () => {
       return
     }
 
-    window._uxa = window._uxa || []
-    window._uxa.push(["setPath", getCurrentPath()])
-    window._uxa.push(["trackPageview"])
-  }, [consent, pathname, searchParams, scriptLoaded])
+    globalThis.window._uxa = globalThis.window._uxa || []
+    globalThis.window._uxa.push(["setPath", getCurrentPath()], ["trackPageview"])
+  }, [consent, pathname, scriptLoaded])
 
   const statusCopy = useMemo(() => {
     if (CONTENTSQUARE_TAG_ID) {
@@ -88,16 +86,16 @@ export const ContentsquareConsent = () => {
   }, [])
 
   const handleAccept = () => {
-    window.localStorage.setItem(CONTENTSQUARE_CONSENT_STORAGE_KEY, "accepted")
+    globalThis.window.localStorage.setItem(CONTENTSQUARE_CONSENT_STORAGE_KEY, "accepted")
     setConsent("accepted")
     setBannerVisible(false)
   }
 
   const handleReject = () => {
-    window.localStorage.setItem(CONTENTSQUARE_CONSENT_STORAGE_KEY, "rejected")
+    globalThis.window.localStorage.setItem(CONTENTSQUARE_CONSENT_STORAGE_KEY, "rejected")
 
-    if (window._uxa) {
-      window._uxa.push(["optout"])
+    if (globalThis.window._uxa) {
+      globalThis.window._uxa.push(["optout"])
     }
 
     setConsent("rejected")
