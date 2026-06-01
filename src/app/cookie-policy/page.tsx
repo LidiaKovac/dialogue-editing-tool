@@ -60,8 +60,10 @@ export default function CookiePolicyPage() {
         <h2 className="text-2xl font-bold uppercase">Consent flow</h2>
         <p className="leading-7 text-black/75">
           Before consent, the site should only use essential browser storage needed
-          for the consent banner itself. After consent is granted, the Contentsquare
-          tag can be loaded and its cookies may be created.
+          for the consent banner itself. The banner keeps Contentsquare opted out
+          by default until a visitor accepts analytics cookies. After consent is
+          granted, the Contentsquare tag can be loaded and its cookies may be
+          created.
         </p>
         <p className="leading-7 text-black/75">
           If consent is refused, The Dialogue Thing keeps Contentsquare disabled and
