@@ -69,7 +69,7 @@ const softwareApplication = {
     "Guides novel editing workflows in the browser",
     "Explains how to format dialogue consistently",
     "Works entirely AI-free in the browser",
-    "No account, tracking, or word limit for typical chapters",
+    "Privacy-first with no collection of user writing data",
   ],
 }
 
