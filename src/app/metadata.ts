@@ -15,7 +15,7 @@ const metadata: Metadata = {
     template: "%s | The Dialogue Thing",
   },
   description:
-    "The Dialogue Thing is a privacy-first web app for writers that helps with character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue without collecting user writing data.",
+    "The Dialogue Thing is a web app for writers that helps with character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue.",
   keywords: [
     "character sheet for writers",
     "character sheets for writers",
@@ -53,7 +53,7 @@ const metadata: Metadata = {
     title:
       "The Dialogue Thing - Web App for Writers, Character Sheets, and Dialogue Editing",
     description:
-      "A privacy-first web app for writers that helps with character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue without collecting user writing data.",
+      "A web app for writers that helps with character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue.",
     images: [
       {
         url: `${siteUrl}${DEFAULT_OG_IMAGE}`,
@@ -69,7 +69,7 @@ const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Dialogue Thing - Web App for Writers",
     description:
-      "Clean up dialogue, build character sheets, and handle novel editing in a privacy-first web app made for writers.",
+      "Clean up dialogue, build character sheets, and handle novel editing in a web app made for writers.",
     images: [`${siteUrl}${DEFAULT_OG_IMAGE}`],
     creator: TWITTER_HANDLE, // set your Twitter handle in src/lib/site.ts
   },
