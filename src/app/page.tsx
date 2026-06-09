@@ -150,7 +150,7 @@ export default function Landing() {
             Everything a writer needs to edit dialogue and manage character notes.
           </h2>
           <p className="mt-4 text-base leading-7 opacity-85">
-            If you're looking for a character sheet example, guidance on editing
+            If you&apos;re looking for a character sheet example, guidance on editing
             dialogue, or a cleaner way to handle novel editing, this page points
             to clear, useful sections—not filler.
           </p>
