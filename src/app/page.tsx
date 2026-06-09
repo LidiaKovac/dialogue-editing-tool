@@ -34,6 +34,29 @@ export default function Landing() {
     "Learn the rules behind dialogue formatting without leaving the app.",
   ]
 
+  const resourcePages = [ 
+    {
+      title: "Character sheet for writers",
+      text: "Examples, checklists, and a simple builder to help you plan characters.",
+      href: "/character-sheet-for-writers",
+    },
+    {
+      title: "Character sheet template",
+      text: "Downloadable templates and copyable sheets for tracking cast details.",
+      href: "/character-sheet-template",
+    },
+    {
+      title: "Dialogue editing",
+      text: "Practical tips for dialogue tags, punctuation, and tightening spoken lines.",
+      href: "/dialogue-editing",
+    },
+    {
+      title: "How to format dialogue",
+      text: "Clear formatting rules for dialogue across novels, scenes, and fanfiction.",
+      href: "/how-to-format-dialogue",
+    },
+  ]
+
   return (
     <main
       className="relative mx-auto flex w-full max-w-6xl flex-col gap-16 overflow-hidden px-6 pb-20 pt-24 text-[var(--primary)] md:pt-28"
@@ -121,16 +144,15 @@ export default function Landing() {
       <section aria-labelledby="feature-grid">
         <div className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.24em] opacity-75">
-            Built for search intent and real writing work
+            Built for writers and real editing work
           </p>
           <h2 id="feature-grid" className="mt-3 text-3xl text-[var(--primary)] md:text-4xl">
             Everything a writer needs to edit dialogue and manage character notes.
           </h2>
           <p className="mt-4 text-base leading-7 opacity-85">
-            If you are looking for a character sheet for writers, guidance on how
-            to edit dialogue, or a cleaner way to handle novel editing, the home
-            page should make that clear immediately. This landing page is built to
-            answer those searches with useful sections, not filler.
+            If you're looking for a character sheet example, guidance on editing
+            dialogue, or a cleaner way to handle novel editing, this page points
+            to clear, useful sections—not filler.
           </p>
         </div>
 
@@ -149,6 +171,38 @@ export default function Landing() {
                 href={feature.href}
               >
                 {feature.cta}
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="resources">
+        <div className="max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] opacity-75">
+            Resources and landing pages
+          </p>
+          <h2 id="resources" className="mt-3 text-3xl text-[var(--primary)] md:text-4xl">
+            Practical pages for writers
+          </h2>
+          <p className="mt-4 text-base leading-7 opacity-85">
+            These pages provide practical guidance and templates for character sheets, dialogue editing, and formatting.
+          </p>
+        </div>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {resourcePages.map((page) => (
+            <article
+              key={page.title}
+              className="flex h-full flex-col border-2 border-[var(--primary)] bg-[var(--bg)] p-5 shadow-[6px_6px_0_var(--primary)]"
+            >
+              <h3 className="text-xl text-[var(--primary)]">{page.title}</h3>
+              <p className="mt-3 flex-1 text-sm leading-6 opacity-85">{page.text}</p>
+              <Link
+                className="mt-5 inline-flex items-center text-sm font-semibold text-[var(--primary)] underline decoration-[var(--primary)] underline-offset-4 transition hover:bg-[var(--primary)] hover:text-[var(--bg)]"
+                href={page.href}
+              >
+                Open page
               </Link>
             </article>
           ))}
@@ -224,10 +278,9 @@ export default function Landing() {
               novel revision.
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-7 opacity-85">
-              The homepage now speaks to the exact searches writers make when they
-              need help with character sheets for writers, novel editing, how to
-              edit dialogue, and how to format dialogue. It is privacy first and
-              does not collect your writing data.
+              The homepage highlights character sheets, novel editing, and
+              dialogue guidance. It is privacy first and does not collect your
+              writing data.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
