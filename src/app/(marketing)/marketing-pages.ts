@@ -65,17 +65,8 @@ export const marketingPages: Record<string, MarketingPage> = {
     sidebarText:
       "Use the sheet to track the details that shape behavior, choices, and dialogue, especially when you are juggling a large cast or multiple arcs.",
     keywordSummary:
-      "This page speaks to people searching for a character sheet for writers, a writer character sheet, or a character sheet template they can use while drafting.",
-    keywords: [
-      "character sheet for writers",
-      "writer character sheet",
-      "character sheet example",
-      "character checklist for writers",
-      "character traits list for writers",
-      "character sheet ideas",
-      "character sheet template",
-      "character sheet for writing",
-    ],
+      "Practical examples and templates to help you build a character sheet while drafting.",
+    keywords: [],
     heroBadges: [
       "writer character sheet",
       "character sheet example",
@@ -170,18 +161,8 @@ export const marketingPages: Record<string, MarketingPage> = {
     sidebarText:
       "Some writers want a printable sheet. Others want a copy-and-paste version or a version that lives entirely online.",
     keywordSummary:
-      "This page matches searches for a character sheet template, character sheet for writers template, and printable or fillable versions for Google Docs and PDF.",
-    keywords: [
-      "character sheet template",
-      "character sheet for writers template",
-      "character sheet for writers google docs",
-      "character sheet for writers pdf",
-      "character sheet for writers free",
-      "printable character sheet for writers",
-      "fillable character sheet for writers",
-      "character sheets for writers copy and paste",
-      "character sheet online",
-    ],
+      "Templates and fillable formats for Google Docs and PDF that writers can copy or print.",
+    keywords: [],
     heroBadges: ["Google Docs", "PDF", "copy and paste", "fillable template"],
     primaryCta: {
       label: "Open the free builder",
@@ -273,18 +254,8 @@ export const marketingPages: Record<string, MarketingPage> = {
     sidebarText:
       "Use the editor to catch punctuation slips, tag clutter, and weak lines before they reach a beta reader or the final draft.",
     keywordSummary:
-      "This page is for writers searching for a dialogue editor, a dialogue tag checker, or a tool to edit dialogue online without handing the draft to AI.",
-    keywords: [
-      "dialogue editor",
-      "edit dialogue online",
-      "dialogue tag checker",
-      "punctuation checker for dialogue",
-      "adverb checker for writers",
-      "fanfiction dialogue editor",
-      "novel dialogue formatting",
-      "AI-free writing tool",
-      "dialogue tags and action beats",
-    ],
+      "Information about the editor and tools for checking dialogue tags, punctuation, and adverbs without sending your draft to AI.",
+    keywords: [],
     heroBadges: [
       "dialogue tag checker",
       "punctuation checker for dialogue",
@@ -306,9 +277,9 @@ export const marketingPages: Record<string, MarketingPage> = {
     sections: [
       {
         eyebrow: "What it checks",
-        title: "The editor focuses on the issues writers actually search for.",
+        title: "The editor focuses on the issues writers commonly face.",
         text:
-          "It is built around the common searches that map to real editing work, not generic rewriting.",
+          "It is built around common editing tasks that map to real revision work, not generic rewriting.",
         bullets: [
           "Check dialogue tag placement and repeated tags to get more from the dialogue editor.",
           "Catch quotation mark and punctuation issues with a dialogue tag checker mindset.",
@@ -329,15 +300,15 @@ export const marketingPages: Record<string, MarketingPage> = {
         ],
       },
       {
-        eyebrow: "Why it ranks",
-        title: "The page matches high-intent dialogue editing searches.",
+        eyebrow: "Why it helps",
+        title: "This page supports high-intent dialogue editing tasks.",
         text:
-          "The page language targets the exact phrases writers use when they want a dialogue checker, punctuation help, or an adverb checker.",
+          "The page language highlights phrases writers use when they want a dialogue checker, punctuation help, or an adverb check.",
         bullets: [
-          "Clear title and description for search intent.",
+          "Clear title and description that describe the page's purpose.",
           "Specific keywords tied to editing tasks.",
           "Direct links to the editor and supporting guides.",
-          "Schema that tells search engines what the page does.",
+          "Structured data that describes the page's purpose.",
         ],
       },
     ],
@@ -381,18 +352,8 @@ export const marketingPages: Record<string, MarketingPage> = {
     sidebarText:
       "This page is for writers who want a clear explanation they can apply right away, without losing the rhythm of the scene.",
     keywordSummary:
-      "This guide answers how to format dialogue, how to edit dialogue, and how to punctuate dialogue for novels and fanfiction.",
-    keywords: [
-      "how to format dialogue",
-      "how to edit dialogue",
-      "dialogue rules for books",
-      "how to punctuate dialogue",
-      "novel dialogue formatting",
-      "dialogue punctuation checker",
-      "dialogue tags and action beats",
-      "fanfiction dialogue rules",
-      "how to write dialogue",
-    ],
+      "A practical guide to formatting dialogue, punctuation, and dialogue tags for fiction writing.",
+    keywords: [],
     heroBadges: [
       "how to edit dialogue",
       "dialogue rules for books",
@@ -493,7 +454,7 @@ export const buildMarketingMetadata = (page: MarketingPage): Metadata => {
     },
     title: page.title,
     description: page.description,
-    keywords: page.keywords,
+    // omit page-level keyword metadata to avoid SEO-focused wording
     applicationName: SITE_NAME,
     category: "Writing Tools",
     openGraph: {

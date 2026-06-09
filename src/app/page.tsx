@@ -34,7 +34,7 @@ export default function Landing() {
     "Learn the rules behind dialogue formatting without leaving the app.",
   ]
 
-  const seoPages = [ 
+  const resourcePages = [ 
     {
       title: "Character sheet for writers",
       text: "Examples, checklists, and a simple builder to help you plan characters.",
@@ -144,16 +144,15 @@ export default function Landing() {
       <section aria-labelledby="feature-grid">
         <div className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.24em] opacity-75">
-            Built for search intent and real writing work
+            Built for writers and real editing work
           </p>
           <h2 id="feature-grid" className="mt-3 text-3xl text-[var(--primary)] md:text-4xl">
             Everything a writer needs to edit dialogue and manage character notes.
           </h2>
           <p className="mt-4 text-base leading-7 opacity-85">
-            If you are looking for a character sheet for writers, guidance on how
-            to edit dialogue, or a cleaner way to handle novel editing, the home
-            page should make that clear immediately. This landing page is built to
-            answer those searches with useful sections, not filler.
+            If you're looking for a character sheet example, guidance on editing
+            dialogue, or a cleaner way to handle novel editing, this page points
+            to clear, useful sections—not filler.
           </p>
         </div>
 
@@ -178,12 +177,12 @@ export default function Landing() {
         </div>
       </section>
 
-      <section aria-labelledby="seo-pages">
+      <section aria-labelledby="resources">
         <div className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.24em] opacity-75">
             Resources and landing pages
           </p>
-          <h2 id="seo-pages" className="mt-3 text-3xl text-[var(--primary)] md:text-4xl">
+          <h2 id="resources" className="mt-3 text-3xl text-[var(--primary)] md:text-4xl">
             Practical pages for writers
           </h2>
           <p className="mt-4 text-base leading-7 opacity-85">
@@ -192,7 +191,7 @@ export default function Landing() {
         </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {seoPages.map((page) => (
+          {resourcePages.map((page) => (
             <article
               key={page.title}
               className="flex h-full flex-col border-2 border-[var(--primary)] bg-[var(--bg)] p-5 shadow-[6px_6px_0_var(--primary)]"

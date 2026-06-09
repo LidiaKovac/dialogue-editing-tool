@@ -62,9 +62,7 @@ export default function MarketingLandingPage({ page }: Readonly<Props>) {
           <p className="mt-4 text-sm leading-6 opacity-85">
             {page.sidebarText}
           </p>
-          <p className="mt-6 text-sm leading-6 opacity-85">
-            {page.keywordSummary}
-          </p>
+          {/* keywordSummary intentionally omitted to avoid SEO-focused copy */}
         </aside>
       </section>
 
