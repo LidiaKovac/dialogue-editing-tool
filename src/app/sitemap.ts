@@ -21,6 +21,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: "https://editingthing.com/character-sheet-for-writers",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
+      url: "https://editingthing.com/character-sheet-template",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
+      url: "https://editingthing.com/dialogue-editing",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: "https://editingthing.com/how-to-format-dialogue",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
       url: "https://editingthing.com/blog",
       lastModified: "2025-09-18",
       changeFrequency: "monthly",
@@ -46,7 +70,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: "https://editingthing.com/blog/create-character-sheet",
-      lastModified: "2025-10-26",
+      lastModified: "2026-04-26",
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: "https://editingthing.com/blog/why-you-need-a-character-sheet-even-if-you-re-writing-fanfiction",
+      lastModified: "2026-05-27",
       changeFrequency: "monthly",
       priority: 0.6,
     },

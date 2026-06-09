@@ -1,9 +1,11 @@
+import { SITE_URL as siteUrl, SITE_NAME, DEFAULT_OG_IMAGE } from "../../lib/site"
+
 export default {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "The Dialogue Thing",
-  url: "https://editingthing.com",
-  logo: "https://editingthing.com/favicon-32x32.png",
+  name: SITE_NAME,
+  url: siteUrl,
+  logo: `${siteUrl}${DEFAULT_OG_IMAGE}`,
   applicationCategory: "WritingTool",
   operatingSystem: "Web",
   softwareVersion: "1.0",
@@ -17,7 +19,7 @@ export default {
     name: "Lidia Kovac",
   },
   description:
-    "The Dialogue Thing is a free, AI‑free dialogue editor that highlights dialogue tag issues, punctuation mistakes, and overused adverbs for fanfiction writers and novelists.",
+    "The Dialogue Thing is a free, AI-free, privacy-first dialogue editor that highlights dialogue tag issues, punctuation mistakes, and overused adverbs for fanfiction writers and novelists without collecting user writing data.",
   datePublished: "2025-10-01",
   offers: {
     "@type": "Offer",
@@ -42,6 +44,6 @@ export default {
     "Flags action verbs incorrectly used as dialogue tags",
     "Detects adverbs in dialogue and narration",
     "Works entirely AI-free in the browser",
-    "No account, tracking, or word limit for typical chapters",
+    "Privacy-first with no collection of user writing data",
   ],
 }

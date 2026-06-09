@@ -1,5 +1,4 @@
-const siteUrl = "https://editingthing.com"
-
+import { SITE_URL as siteUrl, SITE_NAME, DEFAULT_OG_IMAGE } from "../lib/site"
 const organization = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -12,13 +11,12 @@ const organization = {
     name: "Lidia Kovac",
   },
 }
-
 const softwareApplication = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "The Dialogue Thing",
+  name: SITE_NAME,
   url: siteUrl,
-  logo: `${siteUrl}/favicon-32x32.png`,
+  logo: `${siteUrl}${DEFAULT_OG_IMAGE}`,
   applicationCategory: "WritingTool",
   operatingSystem: "Web",
   softwareVersion: "1.0",
@@ -35,7 +33,7 @@ const softwareApplication = {
     "@id": `${siteUrl}/#organization`,
   },
   description:
-    "The Dialogue Thing is a free, AI-free dialogue editor that highlights dialogue tag issues, punctuation mistakes, and overused adverbs for fanfiction writers and novelists.",
+    "The Dialogue Thing is a privacy-first web app for writers that supports character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue without collecting user writing data.",
   datePublished: "2025-10-01",
   dateModified: "2026-03-19",
   offers: {
@@ -50,6 +48,12 @@ const softwareApplication = {
     audienceType: "Writers",
   },
   keywords: [
+    "character sheets for writers",
+    "character sheet for writers",
+    "writer character sheet",
+    "novel editing",
+    "how to edit dialogue",
+    "how to format dialogue",
     "dialogue editor",
     "fanfiction editing",
     "edit dialogue online",
@@ -60,29 +64,28 @@ const softwareApplication = {
     "AI-free writing tool",
   ],
   featureList: [
-    "Highlights incorrect dialogue patterns and tags",
-    "Checks punctuation around dialogue and quotation marks",
-    "Flags action verbs incorrectly used as dialogue tags",
-    "Detects adverbs in dialogue and narration",
+    "Helps writers edit dialogue and spot punctuation issues",
+    "Supports character sheets for writers and cast notes",
+    "Guides novel editing workflows in the browser",
+    "Explains how to format dialogue consistently",
     "Works entirely AI-free in the browser",
-    "No account, tracking, or word limit for typical chapters",
+    "Privacy-first with no collection of user writing data",
   ],
 }
 
 const webSite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": `${siteUrl}/#website`,
-  name: "The Dialogue Thing",
+  name: SITE_NAME,
   url: siteUrl,
   description:
-    "A free, AI-free dialogue editing tool for fanfiction writers and novelists.",
+    "A privacy-first web app for writers focused on character sheets for writers, novel editing, and dialogue formatting without collecting user writing data.",
   publisher: {
     "@id": `${siteUrl}/#organization`,
   },
   potentialAction: {
     "@type": "SearchAction",
-    target: "https://editingthing.com/blog?q={search_term_string}",
+    target: `${siteUrl}/blog?q={search_term_string}`,
     "query-input": "required name=search_term_string",
   },
 }

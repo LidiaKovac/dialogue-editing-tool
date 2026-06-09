@@ -1,9 +1,10 @@
-import Link from "next/link"
 import { Metadata } from "next"
+import { SITE_URL as siteUrl } from "../../lib/site"
 import "./blog.scss"
 import { fontBlog } from "../lib/fonts"
 import metadata from "./metadata"
 import { getAllBlogPosts, getBlogMetadata } from "../lib/sanity/sanity.fn"
+import BlogIndex from "./BlogIndex.client"
 
 export async function generateMetadata(): Promise<Metadata> {
   const posts = await getBlogMetadata()
@@ -19,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
       ? uniqueCategories.join(", ")
       : "editing, dialogue, and fanfiction writing"
 
-  const url = "https://editingthing.com/blog"
+  const url = `${siteUrl}/blog`
 
   return metadata(categoryString, url, uniqueCategories)
 }
@@ -27,35 +28,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function BlogLanding() {
   const posts = await getAllBlogPosts()
 
-  /* 
-    La fetch da indietro .result, ma la variabile e' SOLO i risultati, 
-    non quello che si vede in network tab
-    */
   return (
     <div className={`blog ${fontBlog.variable}`}>
-      <h1>The Editing Blog</h1> {/* Use h1 for main page title */}
-      <p>
-        Explore the latest articles on editing, fanfiction tips, and writing
-        advice.
-      </p>{" "}
-      {/* Add a descriptive intro paragraph */}
-      <section aria-label="Blog posts" className="flex gap-2">
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        {posts.map((post: Record<string, any>) => (
-          <article key={post._id} className="card">
-            <h2>{post.title}</h2>{" "}
-            {/* Change to h2 for individual post titles */}
-            <p>By {post.author.name}</p> {/* More natural text */}
-            <Link
-              href={"/blog/" + post.slug.current}
-              aria-label={`Read full article: ${post.title}`}
-            >
-              <span>Read</span>
-              <div className="decoration"></div>
-            </Link>
-          </article>
-        ))}
-      </section>
+      <BlogIndex posts={posts} />
     </div>
   )
 }

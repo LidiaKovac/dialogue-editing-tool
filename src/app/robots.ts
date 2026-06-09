@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { SITE_URL as siteUrl } from './lib/site'
  
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -7,6 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: ['/', '/blog/*'],
       disallow: '/api',
     },
-    sitemap: 'https://editingthing.com/sitemap.xml',
+    host: siteUrl,
+    sitemap: `${siteUrl}/sitemap.xml`,
   }
 }

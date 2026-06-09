@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import structuredData from "./structuredData"
-
-const siteUrl = "https://editingthing.com"
+import { SITE_URL as siteUrl, SITE_NAME, TWITTER_HANDLE, DEFAULT_OG_IMAGE } from "./lib/site"
 
 const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -12,12 +11,18 @@ const metadata: Metadata = {
   // Basic meta
   title: {
     default:
-      "The Dialogue Thing - Free AI-free Dialogue Editor for Fanfiction and Novels",
+      "The Dialogue Thing - Web App for Writers | Character Sheets, Dialogue Editing, Novel Editing",
     template: "%s | The Dialogue Thing",
   },
   description:
-    "Edit your dialogue for free with The Dialogue Thing - an AI-free tool that spots dialogue tag issues, punctuation mistakes, and overused adverbs. Built for fanfiction writers and novelists.",
+    "The Dialogue Thing is a privacy-first web app for writers that helps with character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue without collecting user writing data.",
   keywords: [
+    "character sheet for writers",
+    "character sheets for writers",
+    "writer character sheet",
+    "novel editing",
+    "how to edit dialogue",
+    "how to format dialogue",
     "dialogue editor",
     "fanfiction editing",
     "edit dialogue online",
@@ -31,6 +36,7 @@ const metadata: Metadata = {
     "writing tool for authors",
     "AI-free writing tool",
     "edit fanfiction dialogue",
+    "character sheet maker for writers"
   ],
   authors: [{ name: "Lidia Kovac", url: siteUrl }],
   creator: "Lidia Kovac",
@@ -44,27 +50,28 @@ const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "The Dialogue Thing",
-    title: "The Dialogue Thing - Edit Your Dialogue for Free",
+    title:
+      "The Dialogue Thing - Web App for Writers, Character Sheets, and Dialogue Editing",
     description:
-      "A free, AI-free dialogue editor that highlights dialogue tag problems, formatting issues, and adverbs so you stay in control of your fanfiction or novel edits.",
+      "A privacy-first web app for writers that helps with character sheets for writers, novel editing, how to edit dialogue, and how to format dialogue without collecting user writing data.",
     images: [
       {
-        url: `${siteUrl}/ogimage.jpg`,
+        url: `${siteUrl}${DEFAULT_OG_IMAGE}`,
         width: 1200,
         height: 630,
-        alt: "The Dialogue Thing - Smart dialogue editing tool",
-        type: "image/jpeg",
+        alt: `${SITE_NAME} – Smart dialogue editing tool`,
+        type: "image/png",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "The Dialogue Thing - Free AI-free Dialogue Editor",
+    title: "The Dialogue Thing - Web App for Writers",
     description:
-      "Clean up your dialogue tags, action beats, and adverbs with a free AI-free editor made for fanfiction writers and novelists.",
-    images: [`${siteUrl}/ogimage.jpg`],
-    creator: "@", // add handle if you have one
+      "Clean up dialogue, build character sheets, and handle novel editing in a privacy-first web app made for writers.",
+    images: [`${siteUrl}${DEFAULT_OG_IMAGE}`],
+    creator: TWITTER_HANDLE, // set your Twitter handle in src/lib/site.ts
   },
 
   robots: {
