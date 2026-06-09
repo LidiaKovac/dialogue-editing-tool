@@ -34,6 +34,29 @@ export default function Landing() {
     "Learn the rules behind dialogue formatting without leaving the app.",
   ]
 
+  const seoPages = [ 
+    {
+      title: "Character sheet for writers",
+      text: "Examples, checklists, and a simple builder to help you plan characters.",
+      href: "/character-sheet-for-writers",
+    },
+    {
+      title: "Character sheet template",
+      text: "Downloadable templates and copyable sheets for tracking cast details.",
+      href: "/character-sheet-template",
+    },
+    {
+      title: "Dialogue editing",
+      text: "Practical tips for dialogue tags, punctuation, and tightening spoken lines.",
+      href: "/dialogue-editing",
+    },
+    {
+      title: "How to format dialogue",
+      text: "Clear formatting rules for dialogue across novels, scenes, and fanfiction.",
+      href: "/how-to-format-dialogue",
+    },
+  ]
+
   return (
     <main
       className="relative mx-auto flex w-full max-w-6xl flex-col gap-16 overflow-hidden px-6 pb-20 pt-24 text-[var(--primary)] md:pt-28"
@@ -155,6 +178,38 @@ export default function Landing() {
         </div>
       </section>
 
+      <section aria-labelledby="seo-pages">
+        <div className="max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] opacity-75">
+            Resources and landing pages
+          </p>
+          <h2 id="seo-pages" className="mt-3 text-3xl text-[var(--primary)] md:text-4xl">
+            Practical pages for writers
+          </h2>
+          <p className="mt-4 text-base leading-7 opacity-85">
+            These pages provide practical guidance and templates for character sheets, dialogue editing, and formatting.
+          </p>
+        </div>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {seoPages.map((page) => (
+            <article
+              key={page.title}
+              className="flex h-full flex-col border-2 border-[var(--primary)] bg-[var(--bg)] p-5 shadow-[6px_6px_0_var(--primary)]"
+            >
+              <h3 className="text-xl text-[var(--primary)]">{page.title}</h3>
+              <p className="mt-3 flex-1 text-sm leading-6 opacity-85">{page.text}</p>
+              <Link
+                className="mt-5 inline-flex items-center text-sm font-semibold text-[var(--primary)] underline decoration-[var(--primary)] underline-offset-4 transition hover:bg-[var(--primary)] hover:text-[var(--bg)]"
+                href={page.href}
+              >
+                Open page
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="border-2 border-[var(--primary)] bg-[var(--primary)] p-6 text-[var(--bg)] shadow-[8px_8px_0_var(--primary)] md:p-8">
           <p className="text-sm font-semibold uppercase tracking-[0.22em] opacity-80">
@@ -224,10 +279,9 @@ export default function Landing() {
               novel revision.
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-7 opacity-85">
-              The homepage now speaks to the exact searches writers make when they
-              need help with character sheets for writers, novel editing, how to
-              edit dialogue, and how to format dialogue. It is privacy first and
-              does not collect your writing data.
+              The homepage highlights character sheets, novel editing, and
+              dialogue guidance. It is privacy first and does not collect your
+              writing data.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">

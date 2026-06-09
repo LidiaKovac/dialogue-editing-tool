@@ -1,11 +1,18 @@
 .blog {
   min-height: 90vh;
   padding-block: 120px 100px;
-  padding-inline: 24px;
+  padding-inline: 20%;
   font-family: var(--roboto-font);
   color: var(--primary);
   h2 {
     padding-block: 20px;
+  }
+  p,blockquote,ul {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  blockquote {
+    margin-block: 30px;
   }
   .blog-shell {
     width: min(1180px, calc(100% - 1rem));
@@ -38,7 +45,7 @@
   h1 {
     margin-block: 0 12px;
     // line-height: 0.95;
-    font-size: clamp(2.4rem, 5vw, 4.6rem);
+    font-size: clamp(2.4rem, 3vw, 4.6rem);
     // max-width: 12ch;
   }
 
@@ -264,7 +271,10 @@
       line-height: 1.95;
       font-size: 1.06rem;
 
-      h1, h2, h3, h4 {
+      h1,
+      h2,
+      h3,
+      h4 {
         margin-top: 1.6em;
         margin-bottom: 0.6em;
       }
