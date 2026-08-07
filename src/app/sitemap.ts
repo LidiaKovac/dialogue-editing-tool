@@ -45,6 +45,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     },
     {
+      url: "https://editingthing.com/blog/mistakes-i-did-as-a-beginner-self-taught-writer",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
       url: "https://editingthing.com/blog",
       lastModified: "2025-09-18",
       changeFrequency: "monthly",
