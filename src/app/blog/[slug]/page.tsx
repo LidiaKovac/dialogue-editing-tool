@@ -53,6 +53,7 @@ export default async function BlogPost({
         url={`${siteUrl}/blog/${post.slug.current}`}
       />
 
+
       <div className="blog-article-layout">
         <aside className="blog-article-meta">
           <Link href="/blog" className="blog-back-link">
