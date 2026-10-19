@@ -16,6 +16,11 @@ export const Footer = () => {
             </Link>
           </li>
           <li>
+            <Link href="/scene-organizer">
+              Scene Organizer (coming soon)
+            </Link>
+          </li>
+          <li>
             <Link href="/blog">
               Blog
             </Link>

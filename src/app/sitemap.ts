@@ -21,6 +21,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: "https://editingthing.com/scene-organizer",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: "https://editingthing.com/character-sheet-for-writers",
       lastModified: new Date(),
       changeFrequency: "monthly",
