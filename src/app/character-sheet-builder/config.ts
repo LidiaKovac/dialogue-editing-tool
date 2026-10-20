@@ -13,7 +13,7 @@ export const SECTION_DEFINITIONS: SectionDefinition[] = [
       { label: "Nickname / alias / code name" },
       { label: "Reason for nickname" },
       { label: "Age" },
-      { label: "Sex / gender" },
+      { label: "Pronouns" },
       { label: "Orientation" },
       { label: "Ethnicity" },
       { label: "Religion / moral philosophy" },

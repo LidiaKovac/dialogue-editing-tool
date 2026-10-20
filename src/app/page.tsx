@@ -70,7 +70,7 @@ export default function Landing() {
             Character sheets, dialogue editing, and novel revision in one place.
           </h1>
           <p className="max-w-2xl text-base leading-7 opacity-85 md:text-lg">
-            The Dialogue Thing is a web app for writers who want to work faster
+            The Dialogue Thing is a toolbox for writers who want to work faster
             on character sheets for writers, novel editing, how to edit dialogue,
             and how to format dialogue without handing the draft to AI.
           </p>

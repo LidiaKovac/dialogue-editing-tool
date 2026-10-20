@@ -3,19 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "tsx ./src/lib/runner.ts && next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "test": "jest --config jest.config.ts"
+    "test": "jest --config jest.config.ts",
+    "contract:emit": "prisma contract emit"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^15.5.6",
     "@portabletext/react": "^5.0.0",
+    "@prisma/orm-postgres": "^8.0.0-rc.18",
     "@sanity/client": "^7.12.1",
+    "@xyflow/react": "^12.12.0",
     "compromise": "^14.14.5",
-    "docx": "^9.2.0",
     "date-fns": "^4.1.0",
+    "docx": "^9.2.0",
+    "dotenv": "^18.0.8",
     "lru-cache": "^11.2.2",
     "natural": "^8.1.0",
     "next": "^15.5.7",
@@ -38,9 +42,11 @@
     "eslint-config-next": "15.5.3",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "prisma": "^8.0.0-rc.23",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
-    "typescript": "^5"
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
   }
 }

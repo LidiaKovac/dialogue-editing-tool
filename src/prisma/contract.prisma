@@ -1,0 +1,102 @@
+// use prisma-8
+model User {
+  id        Uuid                       @id @default(uuid())
+  email     String                     @unique
+
+  name      String?
+  last_name String?
+  google_id String                     @unique
+
+  proejctss Project[]
+
+  createdAt TimestamptzString          @default(now())
+  updatedAt temporal.updatedAtString()
+}
+
+model Project {
+  id        Uuid                       @id @default(uuid())
+  title     String
+
+  user      User                       @relation(fields: [user_id], references: [id])
+  user_id   Uuid
+  createdAt TimestamptzString          @default(now())
+  updatedAt temporal.updatedAtString()
+}
+
+model Scene {
+  id             Uuid       @id @default(uuid())
+  title          String
+  summary        String
+  image_url      String
+  project        Project    @relation(fields: [project_id], references: [id])
+  project_id     Uuid
+  scene_group    SceneGroup @relation(fields: [scene_group_id], references: [id])
+
+  scene_group_id Uuid
+}
+
+model SceneGroup {
+  id     Uuid       @id @default(uuid())
+  label  String
+  color  VarChar(6)
+  arc    Arc        @relation(fields: [arc_id], references: [id])
+  arc_id Uuid
+}
+
+model Arc {
+  id          Uuid       @id @default(uuid())
+  name        String
+  struct_type StructType
+  act_id      Uuid?
+  act         Arc?       @relation(fields: [act_id], references: [id])
+}
+
+enum StructType {
+  ThreeAct = "three_act_story_structure"
+  Beat = "beat"
+}
+
+model Highlight {
+  id            Uuid            @id @default(uuid())
+  scene_id      Uuid?
+  scene         Scene?          @relation(fields: [scene_id], references: [id])
+  trait_id      Uuid?
+  trait         CharacterTrait? @relation(fields: [trait_id], references: [id])
+  color         VarChar(6)
+  positionStart Int
+  positionEnd   Int
+}
+
+model CharacterTrait {
+  id                   Uuid             @id @default(uuid())
+  name                 String
+  type                 String
+  enum_values          String[]?
+  character_section_id Uuid
+  character_section    CharacterSection @relation(fields: [character_section_id], references: [id])
+
+  @@unique([character_section_id, name])
+}
+
+model CharacterSection {
+  id   Uuid   @id @default(uuid())
+  name String @unique
+  description String 
+}
+
+model CharacterSheetLine {
+  trait_id     Uuid
+  character_id Uuid
+  value         String 
+  trait        CharacterTrait @relation(fields: [trait_id], references: [id])
+  character    Character      @relation(fields: [character_id], references: [id])
+
+  @@id([trait_id, character_id])
+}
+
+model Character {
+  id      Uuid                 @id @default(uuid())
+  lines   CharacterSheetLine[]
+  user_id Uuid
+  user    User                 @relation(fields: [user_id], references: [id])
+}
