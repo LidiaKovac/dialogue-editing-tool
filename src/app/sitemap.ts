@@ -116,5 +116,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
+    {
+      url: "https://editingthing.com/blog/how-to-organize-your-novel-a-scene-by-scene-method-that-actually-helps",
+      lastModified: "2026-11-04",
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
   ];
 }
+
