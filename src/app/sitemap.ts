@@ -122,6 +122,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
+
+    {
+      url: "https://editingthing.com/blog/how-to-organize-your-fanfiction-library",
+      lastModified: "2026-11-15",
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    ,
   ];
 }
 
