@@ -7,16 +7,18 @@ export const Navbar = () => {
   const { theme, toggleTheme, mounted } = useDarkMode()
   return (
     <nav className="z-5 backdrop-filter backdrop-blur-lg bg-opacity-20 flex justify-between items-center fixed w-full top-0">
-        
       <div className="flex gap-5">
         <Link href="/">
-        <h1 className="nav__item">The Dialogue Thing</h1>
-      </Link>
+          <h1 className="nav__item">The Dialogue Thing</h1>
+        </Link>
         <div className="nav__item">
           <Link href="/editor">Editor</Link>
         </div>
         <div className="nav__item">
           <Link href="/character-sheet-builder">Character Sheet Builder</Link>
+        </div>
+        <div className="nav__item">
+          <Link href="/scene-organizer">Scene organizer</Link>
         </div>
         <div className="nav__item">
           <Link href="/blog">Blog</Link>
@@ -32,5 +34,5 @@ export const Navbar = () => {
         )}
       </div>
     </nav>
-  )
+  );
 }

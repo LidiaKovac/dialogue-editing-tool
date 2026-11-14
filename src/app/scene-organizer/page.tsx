@@ -23,6 +23,12 @@ import { useRef, useState, type SubmitEventHandler } from "react";
 type ArcFlowNode = Node<{ label: string }, "arc">;
 type OrganizerNode = SceneFlowNode | ArcFlowNode;
 
+interface SceneHighlight {
+  field: SceneTextField;
+  start: number;
+  end: number;
+}
+
 function ArcNode({ data }: NodeProps<ArcFlowNode>) {
   return (
     <div className="h-full w-full border-2 border-dashed border-slate-500 bg-slate-100/80 p-4">
@@ -64,11 +70,11 @@ export default function SceneOrganizer() {
   ) => {
     setNodes((currentNodes) =>
       currentNodes.map((node) => {
-        if (node.id !== nodeId) return node;
+        if (node.id !== nodeId || node.type !== "scene") return node;
 
         const highlights = node.data.highlights ?? [];
         const overlaps = highlights.some(
-          (highlight) =>
+          (highlight: SceneHighlight) =>
             highlight.field === field &&
             start < highlight.end &&
             end > highlight.start,
