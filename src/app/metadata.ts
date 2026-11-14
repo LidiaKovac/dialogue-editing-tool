@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import structuredData from "./structuredData"
 import { SITE_URL as siteUrl, SITE_NAME, TWITTER_HANDLE, DEFAULT_OG_IMAGE } from "./lib/site"
 
 const metadata: Metadata = {
@@ -86,9 +85,8 @@ const metadata: Metadata = {
     },
   },
 
-  // extra meta / structured data
+  // extra meta
   other: {
-    "application/ld+json": JSON.stringify(structuredData),
     "application-name": "The Dialogue Thing",
     "mobile-web-app-capable": "yes",
     "apple-mobile-web-app-capable": "yes",

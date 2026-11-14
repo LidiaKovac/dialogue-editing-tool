@@ -1,4 +1,17 @@
 import { SITE_URL as siteUrl, SITE_NAME, DEFAULT_OG_IMAGE } from "../lib/site"
+const personId = `${siteUrl}/#lidia-kovac`
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": personId,
+  name: "Lidia Kovac",
+  url: "https://lidiakovac.it/",
+  jobTitle: "Web developer and teacher",
+  sameAs: [
+    "https://medium.com/@lidiacodes",
+    "https://www.youtube.com/@lidiacodes",
+  ],
+}
 const organization = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -8,6 +21,7 @@ const organization = {
   logo: `${siteUrl}/favicon-32x32.png`,
   founder: {
     "@type": "Person",
+    "@id": personId,
     name: "Lidia Kovac",
   },
 }
@@ -23,10 +37,12 @@ const softwareApplication = {
   inLanguage: "en-US",
   author: {
     "@type": "Person",
+    "@id": personId,
     name: "Lidia Kovac",
   },
   creator: {
     "@type": "Person",
+    "@id": personId,
     name: "Lidia Kovac",
   },
   publisher: {
@@ -90,4 +106,6 @@ const webSite = {
   },
 }
 
-export default [organization, softwareApplication, webSite]
+const structuredData = [person, organization, softwareApplication, webSite]
+
+export default structuredData

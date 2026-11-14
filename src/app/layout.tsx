@@ -7,6 +7,7 @@ import { Navbar } from "./components/Navbar/Navbar.component"
 import { Footer } from "./components/Footer/Footer"
 import metadataObj from "./metadata"
 import { font } from "./lib/fonts"
+import { StructuredData } from "./components/StructuredData/StructuredData"
 
 export const metadata: Metadata = metadataObj
 
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <StructuredData />
         <meta
           name="google-site-verification"
           content="rE38Kd_bfIAsyV3_C-Bb5HVD75iG09H12kCa2Olwkfg"
