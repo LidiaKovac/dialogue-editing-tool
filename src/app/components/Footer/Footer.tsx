@@ -3,42 +3,39 @@ import Link from "next/link"
 export const Footer = () => {
   return (
     <footer>
-      <nav aria-label="Footer navigation">
+      <nav aria-label="Footer navigation" className="flex gap-3">
         <ul>
           <li>
-            <Link href="/editor">
-              Editor
+            <Link href="/editor">Editor</Link>
+          </li>
+          <li>
+            <Link href="/character-sheet-builder">Character Sheet Builder</Link>
+          </li>
+          <li>
+            <Link href="/scene-organizer">Scene Organizer (coming soon)</Link>
+          </li>
+          <li>
+            <Link href="/blog">Blog</Link>
+          </li>
+          <li>
+            <Link href="/faq">FAQ</Link>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <Link
+              href="https://archivolto.hahahahahangst.com/"
+              target="_blank"
+              rel="noopener"
+            >
+              Archivolto - Fanfiction library and reading tracker
             </Link>
           </li>
           <li>
-            <Link href="/character-sheet-builder">
-              Character Sheet Builder
-            </Link>
+            <Link href="/cookie-policy">Cookie Policy</Link>
           </li>
           <li>
-            <Link href="/scene-organizer">
-              Scene Organizer (coming soon)
-            </Link>
-          </li>
-          <li>
-            <Link href="/blog">
-              Blog
-            </Link>
-          </li>
-          <li>
-            <Link href="/faq">
-              FAQ
-            </Link>
-          </li>
-          <li>
-            <Link href="/cookie-policy">
-              Cookie Policy
-            </Link>
-          </li>
-          <li>
-            <Link href="/privacy-policy">
-              Privacy Policy
-            </Link>
+            <Link href="/privacy-policy">Privacy Policy</Link>
           </li>
           <li>
             <Link target="_blank" href="https://lidiakovac.it">
@@ -52,5 +49,5 @@ export const Footer = () => {
         reserved.
       </small>
     </footer>
-  )
+  );
 }
