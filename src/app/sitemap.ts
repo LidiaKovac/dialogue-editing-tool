@@ -100,7 +100,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: "https://editingthing.com/blog/how-to-edit-a-book-or-novel",
-      lastModified: "026-11-25",
+      lastModified: "2026-11-25",
       changeFrequency: "monthly",
       priority: 0.6,
     },
