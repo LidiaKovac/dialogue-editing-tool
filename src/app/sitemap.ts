@@ -70,19 +70,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: "https://editingthing.com/blog/how-to-edit-a-fanfiction",
-      lastModified: "2025-09-26",
+      lastModified: "2026-11-25",
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
       url: "https://editingthing.com/blog/dialogue-rules-for-fanfiction",
-      lastModified: "2025-10-26",
+      lastModified: "2026-11-25",
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
       url: "https://editingthing.com/blog/create-character-sheet",
-      lastModified: "2026-04-26",
+      lastModified: "2026-11-25",
       changeFrequency: "monthly",
       priority: 0.6,
     },
@@ -100,7 +100,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: "https://editingthing.com/blog/how-to-edit-a-book-or-novel",
-      lastModified: "2025-12-22",
+      lastModified: "026-11-25",
       changeFrequency: "monthly",
       priority: 0.6,
     },
@@ -112,7 +112,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: "https://editingthing.com/blog/how-to-punctuate-and-format-dialogue-in-your-novel",
-      lastModified: "2026-03-01",
+      lastModified: "2026-11-25",
       changeFrequency: "monthly",
       priority: 0.6,
     },
@@ -126,6 +126,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: "https://editingthing.com/blog/how-to-organize-your-fanfiction-library",
       lastModified: "2026-11-15",
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: "https://editingthing.com/blog/fanfiction-organized-library",
+      lastModified: "2026-11-25",
       changeFrequency: "monthly",
       priority: 0.6,
     },
